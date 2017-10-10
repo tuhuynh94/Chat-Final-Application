@@ -17,15 +17,15 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 public class uService  {
-    public static String m_host = "http://192.168.0.105/";
-    public static String m_sign_in_link = "chat/login.php";
+    public static String m_host = "http://192.168.0.105/"; //host ip address
+    public static String m_sign_in_link = "chat/login.php"; //link sign in
     public static class request extends AsyncTask<Object, Void, String>{
 
         @Override
         protected String doInBackground(Object...params) {
-            String link = params[1].toString();
+            String link = params[1].toString(); //address php
             try {
-                String query = ((Uri.Builder)params[0]).build().getEncodedQuery();
+                String query = ((Uri.Builder)params[0]).build().getEncodedQuery(); //url query
                 URL url = new URL(link);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -55,7 +55,7 @@ public class uService  {
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String result) { // after execute
             String test = result;
         }
     }
