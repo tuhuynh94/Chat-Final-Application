@@ -1,5 +1,6 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.login;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int k = 0;
-                new uService.SignIn().execute(phone.getText().toString(), password.getText().toString());
+                Uri.Builder builder = new Uri.Builder();
+                builder.appendQueryParameter("phone", phone.getText().toString());
+                builder.appendQueryParameter("pw", password.getText().toString());
+                String url = uService.m_host + uService.m_sign_in_link;
+                new uService.request().execute(builder, url);
             }
         });
     }
