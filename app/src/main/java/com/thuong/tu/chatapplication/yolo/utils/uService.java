@@ -1,20 +1,12 @@
 package com.thuong.tu.chatapplication.yolo.utils;
 
-
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.widget.Toast;
-
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 
 public class uService  {
     public static String m_host = "http://192.168.0.105/"; //host ip address
