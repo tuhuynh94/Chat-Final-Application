@@ -4,13 +4,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class Converter {
 
     public static Date stringToDate(String dateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss Z", Locale.US);
-        DateFormat targetFormat = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date convertedDate = new Date();
         try {
             convertedDate = dateFormat.parse(dateString);
@@ -21,7 +19,7 @@ public class Converter {
     }
 
     public static String dateToString(Date dateString) {
-        DateFormat targetFormat = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault());
+        DateFormat targetFormat = new SimpleDateFormat("dd MMM yyyy HH:mm");
         String formattedDate = targetFormat.format(dateString);
         return formattedDate;
     }

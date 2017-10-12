@@ -32,15 +32,15 @@ public class Conversations {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 conversation.setConversation_id(jsonObject.getString("conversation_id"));
-                conversation.setConversation_name(jsonObject.getString("add_at"));
+                conversation.setConversation_name(jsonObject.getString("conversation_name"));
                 conversation.setCreator(jsonObject.getString("creator"));
-                conversation.setCreator(jsonObject.getString("creator"));
-                conversation.setCreated_at(Converter.stringToDate(jsonObject.getString("creator")));
+                conversation.setCreated_at(Converter.stringToDate(jsonObject.getString("created_at")));
+                conversation.setUpdated_at(Converter.stringToDate(jsonObject.getString("updated_at")));
+                conversation.setMember(jsonObject.getString("member"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             Server.owner.setM_conversation(conversation);
-            //Server.owner.creatConversation(conversation.getConversation_id());
         }
     }
 }

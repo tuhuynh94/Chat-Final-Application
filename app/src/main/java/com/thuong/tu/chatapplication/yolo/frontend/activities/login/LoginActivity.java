@@ -8,8 +8,6 @@ import android.widget.EditText;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.API.Login;
-import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
-import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 
 public class LoginActivity extends AppCompatActivity {
     Button login;
@@ -30,7 +28,5 @@ public class LoginActivity extends AppCompatActivity {
                 Login.signIn(phone.getText().toString(), password.getText().toString());
             }
         });
-        ClientModel a = Server.owner;
-
     }
 }

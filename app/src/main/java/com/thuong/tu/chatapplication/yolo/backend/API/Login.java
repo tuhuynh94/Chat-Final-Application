@@ -32,6 +32,7 @@ public class Login {
                 Server.owner.setEmail(jsonObject.getString("email"));
                 Server.owner.setAllConversation(jsonObject.getString("conversations"));
                 PHPServer.LoadInfo();
+                Server.getSocket().emit("connection");
 
             } else {
 //                LoginError
