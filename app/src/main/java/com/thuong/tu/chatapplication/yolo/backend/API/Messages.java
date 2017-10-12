@@ -32,7 +32,7 @@ public class Messages {
             String id = "";
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                ms.setCreate_at(Converter.stringToDate(jsonObject.getString("created_at")));
+                ms.setCreate_at(Converter.stringToDateTime(jsonObject.getString("created_at")));
                 ms.setMessage_id(jsonObject.getString("message_id"));
                 ms.setMessage(jsonObject.getString("message"));
                 ms.setIs_send(jsonObject.getInt("is_send"));

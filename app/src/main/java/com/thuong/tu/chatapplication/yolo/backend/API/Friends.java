@@ -31,7 +31,7 @@ public class Friends {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 friend.setBirthday(Converter.stringToDate(jsonObject.getString("birthday")));
-                friend.setAdd_at(Converter.stringToDate(jsonObject.getString("add_at")));
+                friend.setAdd_at(Converter.stringToDateTime(jsonObject.getString("add_at")));
                 friend.setFriend_phone(jsonObject.getString("friend_phone"));
                 friend.setFriend_username(jsonObject.getString("username"));
             } catch (JSONException e) {

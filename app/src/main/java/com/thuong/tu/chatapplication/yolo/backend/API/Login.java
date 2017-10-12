@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.thuong.tu.chatapplication.yolo.backend.server.PHPServer;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.utils.Converter;
 import com.thuong.tu.chatapplication.yolo.utils.uService;
 
 import org.json.JSONException;
@@ -28,12 +29,10 @@ public class Login {
                 jsonObject = new JSONObject(a);
                 Server.owner.setUsername(jsonObject.getString("username"));
                 Server.owner.setPhone(jsonObject.getString("phone"));
-                Server.owner.setBirthday(jsonObject.getString("birthday"));
+                Server.owner.setBirthday(Converter.stringToDate(jsonObject.getString("birthday")));
                 Server.owner.setEmail(jsonObject.getString("email"));
                 Server.owner.setAllConversation(jsonObject.getString("conversations"));
                 PHPServer.LoadInfo();
-                Server.getSocket().emit("connection");
-
             } else {
 //                LoginError
 //                Toast.makeText(MainActivity.this,"Error",Toast.LENGTH_LONG);

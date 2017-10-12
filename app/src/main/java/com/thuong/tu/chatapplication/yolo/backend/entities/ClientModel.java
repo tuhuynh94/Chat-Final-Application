@@ -1,13 +1,14 @@
 package com.thuong.tu.chatapplication.yolo.backend.entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class ClientModel {
 
     private String m_phone;
     private String m_username;
-    private String m_birthday;
+    private Date m_birthday;
     private String m_email;
     private String m_allConversation = "";//split by ;
 
@@ -47,11 +48,11 @@ public class ClientModel {
         this.m_username = username;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return this.m_birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.m_birthday = birthday;
     }
 
