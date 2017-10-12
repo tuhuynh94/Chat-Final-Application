@@ -14,7 +14,7 @@ public class Server {
 
         {
             try {
-                mSocket = IO.socket("http://" + Constant.ip_address + ":" + Constant.server_port);
+                mSocket = IO.socket(Constant.ip_address + ":" + Constant.server_port);
             } catch (URISyntaxException e) {}
         }
 
