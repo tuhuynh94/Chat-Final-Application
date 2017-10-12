@@ -2,16 +2,27 @@ package com.thuong.tu.chatapplication.yolo.backend.server;
 
 import android.net.Uri;
 
-import com.thuong.tu.chatapplication.yolo.backend.entities.Client;
-import com.thuong.tu.chatapplication.yolo.utils.uService;
+import com.thuong.tu.chatapplication.yolo.backend.API.Conversations;
+import com.thuong.tu.chatapplication.yolo.backend.API.Friends;
+import com.thuong.tu.chatapplication.yolo.backend.API.Invite_Friend;
+import com.thuong.tu.chatapplication.yolo.backend.API.Messages;
+import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 
-/**
- * Created by Thuong on 10/10/2017.
- */
+import org.json.JSONArray;
 
 public class PHPServer {
-    Uri.Builder builder = new Uri.Builder();
+    private static JSONArray jsonArray = null;
+    private static Uri.Builder builder = null;
 
-//    String url = uService.m_host + uService.m_sign_in_link;
-//                new uService.request().execute(builder, url);
+    public static void LoadInfo() {
+        ClientModel a = Server.owner;
+        builder = new Uri.Builder();
+        builder.appendQueryParameter("phone", Server.owner.getPhone());
+
+        Friends.loadFriend(builder);
+        Invite_Friend.loadInviteFriend(builder);
+        Conversations.loadConversation(builder);
+        Messages.loadMessage(builder);
+        a = Server.owner;
+    }
 }

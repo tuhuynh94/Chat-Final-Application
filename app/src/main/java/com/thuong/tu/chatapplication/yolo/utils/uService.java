@@ -2,20 +2,74 @@ package com.thuong.tu.chatapplication.yolo.utils;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class uService  {
-    public static String m_host = "http://192.168.0.105/"; //host ip address
-    public static String m_sign_in_link = "chat/login.php"; //link sign in
-    public static class request extends AsyncTask<Object, Void, String>{
+    public static String m_host = Constant.ip_address; //host ip address
+    public static String m_sign_in_link = "/chat/login.php"; //link sign in
+    public static String m_friend = "/chat/friends.php"; //link sign in
+    public static String m_conversation = "/chat/conversations.php"; //link sign in
+    public static String m_message = "/chat/messages.php"; //link sign in
+    public static String m_invite_friend = "/chat/invite_friend.php"; //link sign in
+
+    public static String execute(Uri.Builder builder, String url) {
+        String result = "";
+        try {
+            result = new uService.request().execute(builder, url).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace(); //handle it the way you like
+        } catch (ExecutionException e) {
+            e.printStackTrace();//handle it the way you like
+        }
+        return result;
+//region other
+        /*
+         uService.request() request = new uService.request()
+         request.setOnTaskFinishedEvent(new uService.request.OnTaskExecutionFinished() {
+                    @Override
+                    public void OnTaskFihishedEvent(String Result) {
+                        String r = Result;
+                        String a = "";
+                    }
+                });
+          request.execute(builder, url);*/
+//endregion other
+    }
+
+    private static class request extends AsyncTask<Object, Void, String> {
+//region other
+/*        private OnTaskExecutionFinished _task_finished_event;
+
+        public interface OnTaskExecutionFinished
+        {
+            public void OnTaskFihishedEvent(String result);
+        }
+
+        public void setOnTaskFinishedEvent(OnTaskExecutionFinished _event)
+        {
+            if(_event != null)
+            {
+                this._task_finished_event = _event;
+            }
+        }*/
+//endregion other
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
         @Override
         protected String doInBackground(Object...params) {
             String link = params[1].toString(); //address php
+            StringBuilder sb = new StringBuilder();
             try {
                 String query = ((Uri.Builder)params[0]).build().getEncodedQuery(); //url query
                 URL url = new URL(link);
@@ -30,8 +84,6 @@ public class uService  {
 
                 BufferedReader reader = new BufferedReader(new
                         InputStreamReader(conn.getInputStream()));
-
-                StringBuilder sb = new StringBuilder();
                 String line = null;
 
                 // Read Server Response
@@ -39,16 +91,28 @@ public class uService  {
                     sb.append(line);
                     break;
                 }
-
                 return sb.toString();
             } catch (Exception e) {
-                return new String("Exception: " + e.getMessage());
+                Log.d("test", "Exception: " + e.getMessage());
+                return "Exception: " + e.getMessage();
             }
         }
 
         @Override
         protected void onPostExecute(String result) { // after execute
-            String test = result;
+//region other
+
+/*            if(this._task_finished_event != null)
+            {
+                this._task_finished_event.OnTaskFihishedEvent(result);
+            }
+            else
+            {
+                Log.d("SomeClass", "task_finished even is null");
+            }*/
+//endregion other
         }
     }
 }
+
+

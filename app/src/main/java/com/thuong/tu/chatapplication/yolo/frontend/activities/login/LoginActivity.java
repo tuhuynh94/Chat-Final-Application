@@ -1,15 +1,15 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.login;
 
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.thuong.tu.chatapplication.R;
-import com.thuong.tu.chatapplication.yolo.utils.uService;
+import com.thuong.tu.chatapplication.yolo.backend.API.Login;
+import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
+import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 
 public class LoginActivity extends AppCompatActivity {
     Button login;
@@ -27,13 +27,10 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int k = 0;
-                Uri.Builder builder = new Uri.Builder();
-                builder.appendQueryParameter("phone", phone.getText().toString());
-                builder.appendQueryParameter("pw", password.getText().toString());
-                String url = uService.m_host + uService.m_sign_in_link;
-                new uService.request().execute(builder, url);
+                Login.signIn(phone.getText().toString(), password.getText().toString());
             }
         });
+        ClientModel a = Server.owner;
+
     }
 }
