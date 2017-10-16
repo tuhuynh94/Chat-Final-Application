@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.thuong.tu.chatapplication.yolo.backend.entities.MessageModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.utils.Constant;
 import com.thuong.tu.chatapplication.yolo.utils.Converter;
 import com.thuong.tu.chatapplication.yolo.utils.uService;
 
@@ -16,7 +17,7 @@ public class Messages {
 
     public static void loadMessage(Uri.Builder builder) {
         builder.appendQueryParameter("conversations", Server.owner.getAllConversation());
-        String url = uService.m_host + uService.m_message;
+        String url = Constant.M_HOST + Constant.M_MESSAGE;
         String result = uService.execute(builder, url);
         loadMessage(result);
     }

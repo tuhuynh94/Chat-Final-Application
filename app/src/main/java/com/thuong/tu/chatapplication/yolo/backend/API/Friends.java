@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.thuong.tu.chatapplication.yolo.backend.entities.FriendModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.utils.Constant;
 import com.thuong.tu.chatapplication.yolo.utils.Converter;
 import com.thuong.tu.chatapplication.yolo.utils.uService;
 
@@ -15,7 +16,7 @@ public class Friends {
     private static JSONArray jsonArray = null;
 
     public static void loadFriend(Uri.Builder builder) {
-        String url = uService.m_host + uService.m_friend;
+        String url = Constant.M_HOST + Constant.M_FRIEND;
         String result = uService.execute(builder, url);
         loadFriend(result);
     }

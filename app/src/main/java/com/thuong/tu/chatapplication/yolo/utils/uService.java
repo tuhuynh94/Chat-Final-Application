@@ -12,12 +12,6 @@ import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 public class uService  {
-    public static String m_host = Constant.ip_address; //host ip address
-    public static String m_sign_in_link = "/chat/login.php"; //link sign in
-    public static String m_friend = "/chat/friends.php"; //link sign in
-    public static String m_conversation = "/chat/conversations.php"; //link sign in
-    public static String m_message = "/chat/messages.php"; //link sign in
-    public static String m_invite_friend = "/chat/invite_friend.php"; //link sign in
 
     public static String execute(Uri.Builder builder, String url) {
         String result = "";
@@ -44,7 +38,7 @@ public class uService  {
     }
 
     private static class request extends AsyncTask<Object, Void, String> {
-//region other
+        //region other
 /*        private OnTaskExecutionFinished _task_finished_event;
 
         public interface OnTaskExecutionFinished
@@ -59,8 +53,7 @@ public class uService  {
                 this._task_finished_event = _event;
             }
         }*/
-//endregion other
-
+        //endregion other
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -100,7 +93,7 @@ public class uService  {
 
         @Override
         protected void onPostExecute(String result) { // after execute
-//region other
+            //region other
 
 /*            if(this._task_finished_event != null)
             {
@@ -110,7 +103,7 @@ public class uService  {
             {
                 Log.d("SomeClass", "task_finished even is null");
             }*/
-//endregion other
+            //endregion other
         }
     }
 }

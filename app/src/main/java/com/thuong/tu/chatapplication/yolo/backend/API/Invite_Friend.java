@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.thuong.tu.chatapplication.yolo.backend.entities.InvitationModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.utils.Constant;
 import com.thuong.tu.chatapplication.yolo.utils.uService;
 
 import org.json.JSONArray;
@@ -14,7 +15,7 @@ public class Invite_Friend {
     private static JSONArray jsonArray = null;
 
     public static void loadInviteFriend(Uri.Builder builder) {
-        String url = uService.m_host + uService.m_invite_friend;
+        String url = Constant.M_HOST + Constant.M_INVITE_FRIEND;
         loadInviteFriend(uService.execute(builder, url));
     }
 

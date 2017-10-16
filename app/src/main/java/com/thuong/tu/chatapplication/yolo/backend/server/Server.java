@@ -11,10 +11,9 @@ public class Server {
     private static final Server ourInstance = new Server();
     public static ClientModel owner = new ClientModel();
     private static Socket mSocket;
-
         {
             try {
-                mSocket = IO.socket(Constant.ip_address + ":" + Constant.server_port);
+                mSocket = IO.socket(Constant.M_HOST + ":" + Constant.M_SERVER_PORT);
             } catch (URISyntaxException e) {}
         }
 
@@ -25,4 +24,6 @@ public class Server {
     public static Socket getSocket(){
         return mSocket;
     }
+
+
 }

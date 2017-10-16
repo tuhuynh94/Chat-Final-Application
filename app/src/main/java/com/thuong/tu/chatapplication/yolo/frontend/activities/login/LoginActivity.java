@@ -25,7 +25,11 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Login.signIn(phone.getText().toString(), password.getText().toString());
+                if (Login.signIn(phone.getText().toString(), password.getText().toString())) {
+                    //TODO change activity
+                } else {
+                    //TODO incurrent activity
+                }
             }
         });
     }
