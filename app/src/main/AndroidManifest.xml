@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thuong.tu.chatapplication">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +20,8 @@
         </activity>
         <activity android:name=".yolo.frontend.activities.login.LoginActivity" />
         <activity android:name=".yolo.frontend.activities.login.CodeVerificationActivity" />
-        <activity android:name=".yolo.frontend.activities.login.PhoneNumberActivity"></activity>
+        <activity android:name=".yolo.frontend.activities.login.PhoneNumberActivity" />
+        <activity android:name=".yolo.frontend.activities.login.RegisterActivity"></activity>
     </application>
 
 </manifest>

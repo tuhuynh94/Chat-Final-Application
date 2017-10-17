@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.thuong.tu.chatapplication.R;
-import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Login;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
 
 public class PhoneNumberActivity extends AppCompatActivity {
     EditText number_phone;
@@ -18,7 +18,6 @@ public class PhoneNumberActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_number);
-        C_Login.onCreate();
 
         next = (Button) findViewById(R.id.btn_next);
         number_phone = (EditText) findViewById(R.id.edit_phone_number);
@@ -26,10 +25,9 @@ public class PhoneNumberActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!number_phone.getText().equals("")){
-                    C_Login.getVerifyCode(number_phone.getText().toString());
 
-
+                if (!number_phone.getText().equals("")) {
+                    C_Register.getVerifyCode(number_phone.getText().toString());
                     Intent i = new Intent(PhoneNumberActivity.this, CodeVerificationActivity.class);
                     startActivity(i);
                 }

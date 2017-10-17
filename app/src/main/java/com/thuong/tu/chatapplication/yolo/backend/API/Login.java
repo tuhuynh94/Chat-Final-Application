@@ -1,7 +1,6 @@
 package com.thuong.tu.chatapplication.yolo.backend.API;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.thuong.tu.chatapplication.yolo.backend.server.PHPServer;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
@@ -33,8 +32,7 @@ public class Login {
                 Server.owner.setEmail(jsonObject.getString("email"));
                 Server.owner.setAllConversation(jsonObject.getString("conversations"));
                 PHPServer.LoadInfo();
-                Server.getSocket().connect();
-                Server.getSocket().emit("connect_to_server");
+                Server.connectNode();
                 result = true;
             }
 
@@ -42,7 +40,7 @@ public class Login {
             e.printStackTrace();
         }
 
-        Log.d("owner", Server.owner.getUsername());
+        //Log.d("owner", Server.owner.getUsername());
         return result;
     }
 

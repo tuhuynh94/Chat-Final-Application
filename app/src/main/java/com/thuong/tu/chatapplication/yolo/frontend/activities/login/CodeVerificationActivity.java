@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.thuong.tu.chatapplication.R;
-import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Login;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
 
 public class CodeVerificationActivity extends AppCompatActivity {
     EditText verify_code;
@@ -25,7 +25,8 @@ public class CodeVerificationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!verify_code.getText().equals("")){
-                    C_Login.sendVerifyCode(verify_code.getText().toString());
+                    C_Register.sendVerifyCode(verify_code.getText().toString());
+                    C_Register.onCreate();
                     Intent i = new Intent(CodeVerificationActivity.this, LoginActivity.class);
                     startActivity(i);
                 }
@@ -33,3 +34,4 @@ public class CodeVerificationActivity extends AppCompatActivity {
         });
     }
 }
+

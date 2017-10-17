@@ -3,6 +3,7 @@ package com.thuong.tu.chatapplication.yolo.backend.entities;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class ClientModel {
 
@@ -12,9 +13,9 @@ public class ClientModel {
     private String m_email;
     private String m_allConversation = "";//split by ;
 
-    private ArrayList<FriendModel> m_friends = new ArrayList<>();
-    private ArrayList<ConversationModel> m_conversation = new ArrayList<>();
-    private ArrayList<InvitationModel> m_invite_friends = new ArrayList<>();
+    private List<FriendModel> m_friends = new ArrayList<>();
+    private List<ConversationModel> m_conversation = new ArrayList<>();
+    private List<InvitationModel> m_invite_friends = new ArrayList<>();
 
     private HashMap<String, ArrayList<MessageModel>> m_messages = new HashMap<>();
 
@@ -68,19 +69,19 @@ public class ClientModel {
         return this.m_messages.get(conversation_id);
     }
 
-    public ArrayList<FriendModel> getFriendModels() {
+    public List<FriendModel> getFriends() {
         return this.m_friends;
     }
 
-    public void setFriendModels(FriendModel friendModel) {
+    public void setFriend(FriendModel friendModel) {
         this.m_friends.add(friendModel);
     }
 
-    public ArrayList<ConversationModel> getConversation() {
+    public List<ConversationModel> getConversation() {
         return this.m_conversation;
     }
 
-    public ArrayList<InvitationModel> getInvite_friends() {
+    public List<InvitationModel> getInvite_friends() {
         return this.m_invite_friends;
     }
 
@@ -103,6 +104,10 @@ public class ClientModel {
 
     public void setM_conversation(ConversationModel m_conversation) {
         this.m_conversation.add(m_conversation);
+    }
+
+    public void removeFriend(String other_phone) {
+
     }
 //endregion
 

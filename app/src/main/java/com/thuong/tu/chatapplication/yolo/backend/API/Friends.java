@@ -15,12 +15,20 @@ import org.json.JSONObject;
 public class Friends {
     private static JSONArray jsonArray = null;
 
+    public static void addFriend(Uri.Builder builder) {
+        String url = Constant.M_HOST + Constant.M_ADD_FRIEND;
+        uService.execute(builder, url);
+    }
+
+    public static void unFriend(Uri.Builder builder) {
+        String url = Constant.M_HOST + Constant.M_UNFRIEND;
+        uService.execute(builder, url);
+    }
     public static void loadFriend(Uri.Builder builder) {
         String url = Constant.M_HOST + Constant.M_FRIEND;
         String result = uService.execute(builder, url);
         loadFriend(result);
     }
-
     private static void loadFriend(String execute) {
         try {
             jsonArray = new JSONArray(execute);
@@ -38,7 +46,7 @@ public class Friends {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Server.owner.setFriendModels(friend);
+            Server.owner.setFriend(friend);
         }
     }
 }
