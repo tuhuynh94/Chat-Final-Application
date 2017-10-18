@@ -38,6 +38,7 @@ public class Server {
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("phone", Server.owner.getPhone());
         data.put("username", Server.owner.getUsername());
+        data.put("birthday", Server.owner.getBirthday().toString());
         JSONObject json = new JSONObject(data);
         getSocket().emit("connect_to_server", json);
         loadInfo();//in node

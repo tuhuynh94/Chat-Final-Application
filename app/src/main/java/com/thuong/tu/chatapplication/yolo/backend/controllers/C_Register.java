@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class C_Register {
     public static void onCreate() {
-        Server.getSocket().on("return_verfication_code", new Emitter.Listener() {
+        Server.getSocket().on("return_verification_code", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
@@ -27,7 +27,7 @@ public class C_Register {
                 }
             }
         });
-        Server.getSocket().on("return_verfication", new Emitter.Listener() {
+        Server.getSocket().on("return_verification", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
@@ -54,8 +54,8 @@ public class C_Register {
     }
 
     public static void OnDestroy() {
-        Server.getSocket().off("return_verfication_code");
-        Server.getSocket().off("return_verfication");
+        Server.getSocket().off("return_verification_code");
+        Server.getSocket().off("return_verification");
         Server.getSocket().off("return_register");
     }
 
@@ -63,7 +63,7 @@ public class C_Register {
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("code", code);
         JSONObject json = new JSONObject(data);
-        Server.getSocket().emit("respose", json);
+        Server.getSocket().emit("response", json);
     }
 
     public static void getVerifyCode(String phone) {

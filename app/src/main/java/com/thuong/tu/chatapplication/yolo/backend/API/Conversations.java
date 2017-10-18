@@ -13,15 +13,36 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Conversations {
-    private static JSONArray jsonArray = null;
 
+    private static JSONArray jsonArray = null;
+    private static Uri.Builder builder = null;
+
+    //TODO REVVIEW
+    public static void createConversation(String name, String mem) {
+        builder = new Uri.Builder();
+        builder.appendQueryParameter("conversation_name", name);
+        builder.appendQueryParameter("mem", mem);
+        builder.appendQueryParameter("creator", Server.owner.getPhone());
+        String url = Constant.M_HOST + Constant.M_ADD_CONVERSATION;
+        String result = uService.execute(builder, url);
+        loadConversation(result);
+    }
+
+    //TODO REVVIEW
+    public static void addNewMember(String conversation_id, String members) {
+        builder = new Uri.Builder();
+        builder.appendQueryParameter("conversation_id", conversation_id);
+        builder.appendQueryParameter("mem", members);
+        String url = Constant.M_HOST + Constant.M_UPDATE_CONVERSATION;
+        String result = uService.execute(builder, url);
+        loadConversation(result);
+    }
     public static void loadConversation(Uri.Builder builder) {
         builder.appendQueryParameter("conversations", Server.owner.getAllConversation());
         String url = Constant.M_HOST + Constant.M_CONVERSATION;
         String result = uService.execute(builder, url);
         loadConversation(result);
     }
-
     private static void loadConversation(String execute) {
         try {
             jsonArray = new JSONArray(execute);
@@ -41,7 +62,9 @@ public class Conversations {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Server.owner.setM_conversation(conversation);
+            Server.owner.add_conversations(conversation);
         }
     }
+
+
 }

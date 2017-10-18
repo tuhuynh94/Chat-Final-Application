@@ -14,23 +14,21 @@ public class ClientModel {
     private String m_allConversation = "";//split by ;
 
     private List<FriendModel> m_friends = new ArrayList<>();
-    private List<ConversationModel> m_conversation = new ArrayList<>();
+    private List<ConversationModel> m_conversations = new ArrayList<>();
     private List<InvitationModel> m_invite_friends = new ArrayList<>();
 
     private HashMap<String, ArrayList<MessageModel>> m_messages = new HashMap<>();
 
-    //region other
-
-    //endregion
-    //region getter
     public String getAllConversation() {
         return m_allConversation;
     }
 
-    //endregion
-    // region setter
     public void setAllConversation(String m_allConversation) {
         this.m_allConversation = m_allConversation;
+    }
+
+    public void addAllConversation(String m_allConversation) {
+        this.m_allConversation += this.m_allConversation != null ? "," : "" + m_allConversation;
     }
 
     public String getPhone() {
@@ -73,12 +71,12 @@ public class ClientModel {
         return this.m_friends;
     }
 
-    public void setFriend(FriendModel friendModel) {
+    public void addFriend(FriendModel friendModel) {
         this.m_friends.add(friendModel);
     }
 
     public List<ConversationModel> getConversation() {
-        return this.m_conversation;
+        return this.m_conversations;
     }
 
     public List<InvitationModel> getInvite_friends() {
@@ -102,12 +100,12 @@ public class ClientModel {
         }
     }
 
-    public void setM_conversation(ConversationModel m_conversation) {
-        this.m_conversation.add(m_conversation);
+    public void add_conversations(ConversationModel m_conversations) {
+        this.m_conversations.add(m_conversations);
     }
 
     public void removeFriend(String other_phone) {
-
+        this.m_friends.removeIf(k -> k.getFriend_phone().equals(other_phone));
     }
 //endregion
 

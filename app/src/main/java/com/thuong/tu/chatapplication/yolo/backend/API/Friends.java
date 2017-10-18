@@ -19,9 +19,8 @@ public class Friends {
         String url = Constant.M_HOST + Constant.M_ADD_FRIEND;
         uService.execute(builder, url);
     }
-
     public static void unFriend(Uri.Builder builder) {
-        String url = Constant.M_HOST + Constant.M_UNFRIEND;
+        String url = Constant.M_HOST + Constant.M_UN_FRIEND;
         uService.execute(builder, url);
     }
     public static void loadFriend(Uri.Builder builder) {
@@ -46,7 +45,7 @@ public class Friends {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Server.owner.setFriend(friend);
+            Server.owner.addFriend(friend);
         }
     }
 }
