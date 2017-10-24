@@ -26,6 +26,17 @@ android {
             enabled true
         }
     }
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res/layout/chat_layout',
+                    'src/main/res/layout/login',
+                    'src/main/res/layout/register',
+                    'src/main/res/layout',
+                    'src/main/res'
+            ]
+        }
+    }
 }
 
 dependencies {
@@ -37,6 +48,9 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.nkzawa:socket.io-client:0.3.0'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.github.lguipeng:BubbleView:1.0.1'
     testCompile 'junit:junit:4.12'
 
 

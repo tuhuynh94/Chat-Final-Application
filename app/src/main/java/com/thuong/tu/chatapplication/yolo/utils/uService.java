@@ -1,5 +1,6 @@
 package com.thuong.tu.chatapplication.yolo.utils;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;

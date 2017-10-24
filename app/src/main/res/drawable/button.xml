@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android" >
-    <!--<item android:state_pressed="true" >-->
-        <!--<shape android:shape="rectangle"  >-->
-            <!--<corners android:radius="3dip" />-->
-            <!--<stroke android:width="1dip" android:color="#5e7974" />-->
-            <!--<gradient android:angle="-90" android:startColor="#345953" android:endColor="#689a92"  />-->
-        <!--</shape>-->
-    <!--</item>-->
-    <!--<item android:state_focused="true">-->
-        <!--<shape android:shape="rectangle"  >-->
-            <!--<corners android:radius="3dip" />-->
-            <!--<stroke android:width="1dip" android:color="#5e7974" />-->
-            <!--<solid android:color="@color/primaryLightColor"/>-->
-        <!--</shape>-->
-    <!--</item>-->
-    <item >
-        <shape android:shape="rectangle"  >
-            <corners android:radius="3dip" />
-            <stroke android:width="1dip" android:color="@color/primaryColor" />
-            <gradient android:angle="-90" android:startColor="@color/primaryLightColor" android:endColor="@color/primaryLightColor" />
-        </shape>
-    </item>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/button_small" />
+    <item android:state_focused="true" android:state_pressed="true" android:drawable="@drawable/gradient" />
+    <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/gradient" />
+    <item android:drawable="@drawable/button_small" />
 </selector>

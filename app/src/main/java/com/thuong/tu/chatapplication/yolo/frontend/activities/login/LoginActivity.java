@@ -1,5 +1,6 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.EditText;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.API.Login;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.chat.MainChatActivity;
 
 public class LoginActivity extends AppCompatActivity {
     Button login;
@@ -25,7 +28,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (Login.signIn(phone.getText().toString(), password.getText().toString())) {
-                    //TODO change activity
+                    Intent i = new Intent(LoginActivity.this, MainChatActivity.class);
+                    startActivity(i);
                 } else {
                     //TODO incurrent activity
                 }

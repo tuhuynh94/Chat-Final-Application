@@ -4,91 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryColor"
+    android:background="#FFFFFF"
     tools:context="com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity">
 
     <Button
         android:id="@+id/btn_sign_in"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="103dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="SIGN IN"
-        android:background="@drawable/button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_small"
+        android:fontFamily="sans-serif"
+        android:text="LOGIN"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.385"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_register"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.867" />
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="144dp"
-        android:layout_height="39dp"
+        android:layout_width="103dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1.5"
+        android:background="@drawable/button_small"
+        android:text="SIGN UP"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.867"
+        android:layout_marginEnd="40dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="500dp"
+        android:layout_height="400dp"
+        app:srcCompat="@drawable/pattern"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="300dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageSwitcher
+        android:id="@+id/imageSwitcher"
+        android:layout_width="366dp"
+        android:layout_height="287dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:layout_weight="1.5"
-        android:background="#00000000"
+        android:background="@drawable/loading_01"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.781"
-        tools:layout_editor_absoluteX="120dp" />
-
-    <LinearLayout
-        android:id="@+id/register_layout"
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_sign_in"
-        app:layout_constraintVertical_bias="0.25">
-
-        <TextView
-            android:id="@+id/text_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1.5"
-            android:clickable="true"
-            android:text="@string/register_text"
-            android:textAlignment="center"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="18sp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_sign_in"
-            app:layout_constraintVertical_bias="0.254" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/next_icon" />
-    </LinearLayout>
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

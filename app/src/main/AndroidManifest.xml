@@ -22,6 +22,8 @@
         <activity android:name=".yolo.frontend.activities.login.CodeVerificationActivity" />
         <activity android:name=".yolo.frontend.activities.login.PhoneNumberActivity" />
         <activity android:name=".yolo.frontend.activities.login.RegisterActivity"></activity>
+        <activity android:name=".yolo.frontend.activities.chat.MainChatActivity" />
+        <activity android:name=".yolo.frontend.activities.chat.ChatActivity"></activity>
     </application>
 
 </manifest>
