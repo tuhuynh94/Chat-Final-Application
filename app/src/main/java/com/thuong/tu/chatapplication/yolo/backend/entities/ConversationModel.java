@@ -60,4 +60,9 @@ public class ConversationModel {
     public void setUpdated_at(Date updated_at) {
         this.m_updated_at = updated_at;
     }
+
+    public void addNewMem(String phone) {
+        String tmp = "," + phone;
+        this.m_member += tmp;
+    }
 }

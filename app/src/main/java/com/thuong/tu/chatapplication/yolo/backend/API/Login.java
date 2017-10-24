@@ -31,6 +31,8 @@ public class Login {
                 Server.owner.setBirthday(Converter.stringToDate(jsonObject.getString("birthday")));
                 Server.owner.setEmail(jsonObject.getString("email"));
                 Server.owner.setAllConversation(jsonObject.getString("conversations"));
+                Server.owner.setImageSource(jsonObject.getString("image_source"));
+                Server.owner.setStatus(jsonObject.getString("status"));
                 PHPServer.LoadInfo();
                 Server.connectNode();
                 result = true;

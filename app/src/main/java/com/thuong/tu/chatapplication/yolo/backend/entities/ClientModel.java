@@ -12,12 +12,30 @@ public class ClientModel {
     private Date m_birthday;
     private String m_email;
     private String m_allConversation = "";//split by ;
+    private String m_imageSource = "";
+    private String m_status;
 
-    private List<FriendModel> m_friends = new ArrayList<>();
-    private List<ConversationModel> m_conversations = new ArrayList<>();
+    private List<FriendModel> m_list_friends = new ArrayList<>();
+    private List<ConversationModel> m_list_conversations = new ArrayList<>();
     private List<InvitationModel> m_invite_friends = new ArrayList<>();
 
-    private HashMap<String, ArrayList<MessageModel>> m_messages = new HashMap<>();
+    private HashMap<String, ArrayList<MessageModel>> m_hash_messages = new HashMap<>();
+
+    public String getM_imageSource() {
+        return m_imageSource;
+    }
+
+    public void setImageSource(String m_imageSource) {
+        this.m_imageSource = m_imageSource;
+    }
+
+    public String getM_status() {
+        return m_status;
+    }
+
+    public void setStatus(String m_status) {
+        this.m_status = m_status;
+    }
 
     public String getAllConversation() {
         return m_allConversation;
@@ -63,20 +81,20 @@ public class ClientModel {
         this.m_email = email;
     }
 
-    public ArrayList<MessageModel> getMessage(String conversation_id) {
-        return this.m_messages.get(conversation_id);
+    public ArrayList<MessageModel> getAllMessageInConversation(String conversation_id) {
+        return this.m_hash_messages.get(conversation_id);
     }
 
-    public List<FriendModel> getFriends() {
-        return this.m_friends;
+    public List<FriendModel> getListFriends() {
+        return this.m_list_friends;
     }
 
     public void addFriend(FriendModel friendModel) {
-        this.m_friends.add(friendModel);
+        this.m_list_friends.add(friendModel);
     }
 
-    public List<ConversationModel> getConversation() {
-        return this.m_conversations;
+    public List<ConversationModel> getListConversation() {
+        return this.m_list_conversations;
     }
 
     public List<InvitationModel> getInvite_friends() {
@@ -88,26 +106,47 @@ public class ClientModel {
     }
 
     public void setMessage(String id, MessageModel messageModel) {
-        if (this.m_messages.containsKey(id)) {
+        if (this.m_hash_messages.containsKey(id)) {
             ArrayList<MessageModel> ms = new ArrayList<>();
-            ms = this.m_messages.get(id);
+            ms = this.m_hash_messages.get(id);
             ms.add(messageModel);
-            this.m_messages.put(id, ms);
+            this.m_hash_messages.put(id, ms);
         } else {
             ArrayList<MessageModel> ms = new ArrayList<>();
             ms.add(messageModel);
-            this.m_messages.put(id, ms);
+            this.m_hash_messages.put(id, ms);
         }
     }
 
     public void add_conversations(ConversationModel m_conversations) {
-        this.m_conversations.add(m_conversations);
+        this.m_list_conversations.add(m_conversations);
     }
 
     public void removeFriend(String other_phone) {
-        this.m_friends.removeIf(k -> k.getFriend_phone().equals(other_phone));
+        this.m_list_friends.removeIf(k -> k.getFriend_phone().equals(other_phone));
     }
-//endregion
 
+    //kick user in a conversation by id
+    public void kickMemberInConversation(String conversation_id, String phone) {
+        ConversationModel a = this.getConversationByID(conversation_id);
+        String[] arr = a.getMember().split(",");
+        for (String item : arr) {
+            if (item.trim().equals(phone)) {
+                item = "";
+            }
+        }
+        a.setMember(arr.toString());
+    }
+
+    // get obj conversation in list conversations
+    public ConversationModel getConversationByID(String conversation_id) {
+        return (ConversationModel) this.m_list_conversations.stream().filter(i -> i.getConversation_id() == conversation_id);
+    }
+
+    //add new mem in list conversation
+    public void addMemberInConversation(String conversation_id, String phone) {
+        ConversationModel a = this.getConversationByID(conversation_id);
+        a.addNewMem(phone);
+    }
 }
 

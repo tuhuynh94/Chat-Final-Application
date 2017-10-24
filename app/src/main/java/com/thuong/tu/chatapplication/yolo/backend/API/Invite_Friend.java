@@ -13,8 +13,10 @@ import org.json.JSONObject;
 
 public class Invite_Friend {
     private static JSONArray jsonArray = null;
+    private static Uri.Builder builder = null;
 
-    public static void loadInviteFriend(Uri.Builder builder) {
+    public static void loadInviteFriend() {
+        builder = new Uri.Builder();
         String url = Constant.M_HOST + Constant.M_INVITE_FRIEND;
         loadInviteFriend(uService.execute(builder, url));
     }

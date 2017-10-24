@@ -14,16 +14,27 @@ import org.json.JSONObject;
 
 public class Friends {
     private static JSONArray jsonArray = null;
+    private static Uri.Builder builder = null;
 
-    public static void addFriend(Uri.Builder builder) {
-        String url = Constant.M_HOST + Constant.M_ADD_FRIEND;
+    public static void addFriend(String from) {
+        builder = new Uri.Builder();
+        builder.appendQueryParameter("phone", Server.owner.getPhone());
+        builder.appendQueryParameter("other_phone", from);
+        String url = Constant.M_HOST + Constant.M_FRIEND_ADD;
         uService.execute(builder, url);
     }
-    public static void unFriend(Uri.Builder builder) {
-        String url = Constant.M_HOST + Constant.M_UN_FRIEND;
+
+    public static void unFriend(String other_phone) {
+        builder = new Uri.Builder();
+        builder.appendQueryParameter("phone", Server.owner.getPhone());
+        builder.appendQueryParameter("other_phone", other_phone);
+        String url = Constant.M_HOST + Constant.M_FRIEND_REMOVE;
         uService.execute(builder, url);
     }
-    public static void loadFriend(Uri.Builder builder) {
+
+    public static void loadFriend() {
+        builder = new Uri.Builder();
+        builder.appendQueryParameter("phone", Server.owner.getPhone());
         String url = Constant.M_HOST + Constant.M_FRIEND;
         String result = uService.execute(builder, url);
         loadFriend(result);

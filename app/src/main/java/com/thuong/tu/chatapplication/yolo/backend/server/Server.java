@@ -41,7 +41,12 @@ public class Server {
         data.put("birthday", Server.owner.getBirthday().toString());
         JSONObject json = new JSONObject(data);
         getSocket().emit("connect_to_server", json);
+
         loadInfo();//in node
+        listEvent();// su kien can nghe to node
+    }
+
+    private static void listEvent() {
         C_Register.onCreate();
         C_Friend.onCreate();
     }

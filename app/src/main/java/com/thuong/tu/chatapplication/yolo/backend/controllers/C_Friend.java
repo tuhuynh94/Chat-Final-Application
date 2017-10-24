@@ -49,13 +49,8 @@ public class C_Friend {
                         friend.setBirthday(birthday);
                         friend.setAdd_at(Calendar.getInstance().getTime());
                         Server.owner.addFriend(friend);
-
-                        builder = new Uri.Builder();
-                        builder.appendQueryParameter("phone", Server.owner.getPhone());
-                        builder.appendQueryParameter("other_phone", from);
-                        Friends.addFriend(builder);
+                        Friends.addFriend(from);
                     }
-
                     //TODO chua co su kien nhan duoc tra loi cua invitation
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -90,7 +85,6 @@ public class C_Friend {
     public static void sendUpdateFriend() {
         Server.getSocket().emit("request_load_friend");
     }
-
     /**
      * send request to add friend
      *
@@ -102,7 +96,6 @@ public class C_Friend {
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("request_add_friend", json);
     }
-
     /**
      * response invitation add friend
      *
@@ -117,16 +110,11 @@ public class C_Friend {
         Server.getSocket().emit("response_add_friend", json);
         if (is_accept) {
             Server.owner.addFriend(friend);
-            builder = new Uri.Builder();
-            builder.appendQueryParameter("phone", Server.owner.getPhone());
-            builder.appendQueryParameter("other_phone", friend.getFriend_phone());
-            Friends.addFriend(builder);
+            Friends.addFriend(friend.getFriend_phone());
         }
     }
-
     /**
      * unfriend
-     *
      * @param other_phone
      * @param flat        defautl true
      */
@@ -137,11 +125,6 @@ public class C_Friend {
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("un_friend", json);
         Server.owner.removeFriend(other_phone);
-
-        builder = new Uri.Builder();
-        builder.appendQueryParameter("phone", Server.owner.getPhone());
-        builder.appendQueryParameter("other_phone", other_phone);
-
-        Friends.unFriend(builder);
+        Friends.unFriend(other_phone);
     }
 }

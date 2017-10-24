@@ -7,24 +7,21 @@ public class Constant {
 
     //region link PHP
 
-    ///Load data
-    public static final String M_SIGN_IN = "/chat/login.php"; //link sign in
+    public static final String M_SIGN_IN = "/chat/login.php";
 
-    public static final String M_FRIEND = "/chat/friends.php"; //load friend
-    public static final String M_ADD_FRIEND = "/chat/friends_add.php"; //add friend
-    public static final String M_UN_FRIEND = "/chat/friends_remove.php"; //link sign in
+    public static final String M_FRIEND = "/chat/friends.php";
+    public static final String M_FRIEND_ADD = "/chat/friends_add.php";
+    public static final String M_FRIEND_REMOVE = "/chat/friends_remove.php";
 
-    public static final String M_CONVERSATION = "/chat/conversations.php"; //load conversation
-    //TODO PHP
-    public static final String M_ADD_CONVERSATION = "/chat/conversation_add.php"; //add invitation ;
-    //TODO PHP
-    public static final String M_UPDATE_CONVERSATION = "/chat/conversation_update.php"; //add new member in conversation;
+    public static final String M_CONVERSATION = "/chat/conversations.php";
+    public static final String M_CONVERSATION_ADD = "/chat/conversation_add.php";
+    public static final String M_CONVERSATION_EDIT = "/chat/conversation_update.php";
 
-    public static final String M_MESSAGE = "/chat/messages.php"; //load message
-    public static final String M_INVITE_FRIEND = "/chat/invite_friend.php"; //load invitation
+    public static final String M_MESSAGE = "/chat/messages.php";
+    public static final String M_MESSAGE_ADD = "/chat/messages_add.php";
+    public static final String M_MESSAGE_REMOVE = "/chat/messages_remove.php";
 
+    public static final String M_INVITE_FRIEND = "/chat/invite_friend.php";
 
-
-
-    //endregion
+    //endregion link PHP
 }
