@@ -16,12 +16,37 @@ public class Friends {
     private static JSONArray jsonArray = null;
     private static Uri.Builder builder = null;
 
-    public static void addFriend(String from) {
+    public static FriendModel addFriend(String from) {
         builder = new Uri.Builder();
         builder.appendQueryParameter("phone", Server.owner.get_Phone());
         builder.appendQueryParameter("other_phone", from);
         String url = Constant.M_HOST + Constant.M_FRIEND_ADD;
-        uService.execute(builder, url);
+        String result = uService.execute(builder, url);
+        return loadFriend_R(result);
+    }
+
+    private static FriendModel loadFriend_R(String execute) {
+        FriendModel friend = null;
+        try {
+            jsonArray = new JSONArray(execute);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < jsonArray.length(); i++) {
+            friend = new FriendModel();
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                friend.setBirthday(Converter.stringToDate(jsonObject.getString("birthday")));
+                friend.setAdd_at(Converter.stringToDateTime(jsonObject.getString("add_at")));
+                friend.setFriend_phone(jsonObject.getString("friend_phone"));
+                friend.setFriend_username(jsonObject.getString("username"));
+                friend.set_email(jsonObject.getString("email"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Server.owner.add_Friend(friend);
+        }
+        return friend;
     }
 
     public static void unFriend(String other_phone) {
@@ -53,6 +78,7 @@ public class Friends {
                 friend.setAdd_at(Converter.stringToDateTime(jsonObject.getString("add_at")));
                 friend.setFriend_phone(jsonObject.getString("friend_phone"));
                 friend.setFriend_username(jsonObject.getString("username"));
+                friend.set_email(jsonObject.getString("email"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

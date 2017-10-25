@@ -27,7 +27,7 @@ public class C_Friend {
                     String from = data.getString("from");
                     String from_user = data.getString("from_username");
                     Date birthday = Converter.stringToDate(data.getString("birthday"));
-                    //TODO chua co su kien nhan invitation
+                    //TODO event have invitation
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -49,9 +49,13 @@ public class C_Friend {
                         friend.setBirthday(birthday);
                         friend.setAdd_at(Calendar.getInstance().getTime());
                         Server.owner.add_Friend(friend);
-                        Friends.addFriend(from);
+                        FriendModel _friend = Friends.addFriend(from);
+                        n_add_friend(friend);
+                        //TODO event accept friend
+                    } else {
+                        //TODO  event denny friend
                     }
-                    //TODO chua co su kien nhan duoc tra loi cua invitation
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -65,7 +69,7 @@ public class C_Friend {
                     String friend_phone = data.getString("friend_phone");
                     String friend_name = data.getString("friend_name");
                     un_friend(friend_phone, "false");
-                    //TODO chua co su kien unfriend
+                    //TODO event un friend
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -73,12 +77,25 @@ public class C_Friend {
         });
     }
 
+    //notify to node inform accept add friend -- add new friend to socket friends list
+    private static void n_add_friend(FriendModel _friend) {
+        HashMap<String, String> data = new HashMap<String, String>();
+
+        data.put("other_phone", _friend.getFriend_phone());
+        FriendModel friend = Friends.addFriend(_friend.getFriend_phone());
+        data.put("email", _friend.get_email());
+        data.put("birthday", _friend.get_birthday().toString());
+        data.put("username", _friend.get_username());
+        data.put("add_at", _friend.get_add_at().toString());
+
+        JSONObject json = new JSONObject(data);
+        Server.getSocket().emit("update_add_friend", json);
+    }
     public static void OnDestroy() {
         Server.getSocket().off("return_invite_friend");
         Server.getSocket().off("return_response_invite_friend");
         Server.getSocket().off("inform_un_friend");
     }
-
     /**
      * send mes to server to load all friend
      */
@@ -100,18 +117,26 @@ public class C_Friend {
      * response invitation add friend
      *
      * @param is_accept
-     * @param friend
+     * @param _friend
      */
-    public static void response_add_friend(boolean is_accept, FriendModel friend) {
+    public static void response_add_friend(boolean is_accept, FriendModel _friend) {
+        FriendModel friend = null;
         HashMap<String, String> data = new HashMap<String, String>();
-        data.put("other_phone", friend.getFriend_phone());
+        data.put("other_phone", _friend.getFriend_phone());
         data.put("is_accept", is_accept ? "True":"Fasle");
+
+        if (is_accept) {
+            Server.owner.add_Friend(_friend);
+            friend = Friends.addFriend(friend.getFriend_phone());
+            data.put("email", friend.get_email());
+            data.put("birthday", friend.get_birthday().toString());
+            data.put("username", friend.get_username());
+            data.put("add_at", friend.get_add_at().toString());
+        }
+
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("response_add_friend", json);
-        if (is_accept) {
-            Server.owner.add_Friend(friend);
-            Friends.addFriend(friend.getFriend_phone());
-        }
+
     }
     /**
      * unfriend

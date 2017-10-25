@@ -74,6 +74,7 @@ public class Messages {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            Server.owner.add_Message(id, ms);
         }
         return ms;
     }

@@ -13,9 +13,10 @@ import android.widget.TextView;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.entities.FriendModel;
-import  de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ListContactAdapter extends ArrayAdapter<FriendModel>{
     Activity context;
@@ -36,7 +37,7 @@ public class ListContactAdapter extends ArrayAdapter<FriendModel>{
         convertView = inflater.inflate(resource, null);
         FriendModel friend = friends.get(position);
         Holder holder = initHolder(convertView);
-        holder.name.setText(friend.getFriend_username());
+        holder.name.setText(friend.get_username());
         holder.status.setText("Online");
         return convertView;
     }

@@ -46,6 +46,7 @@ public class Conversations {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            Server.owner.add_conversations(conversation);
         }
         return conversation;
     }
@@ -60,6 +61,7 @@ public class Conversations {
         String result = uService.execute(builder, url);
         loadConversation(result);
     }
+
     public static void addNewMember(String conversation_id, String members) {
         builder = new Uri.Builder();
         builder.appendQueryParameter("conversation_id", conversation_id);
@@ -77,6 +79,7 @@ public class Conversations {
         String result = uService.execute(builder, url);
         loadConversation(result);
     }
+
     private static void loadConversation(String execute) {
         try {
             jsonArray = new JSONArray(execute);
@@ -99,6 +102,5 @@ public class Conversations {
             Server.owner.add_conversations(conversation);
         }
     }
-
 
 }

@@ -8,18 +8,26 @@ public class FriendModel {
     private Date m_birthday;
     private Date m_add_at;
     private String m_friend_phone;
+    private String m_email;
 
     //getter
     public String getFriend_phone() {
         return m_friend_phone;
     }
-
     public void setFriend_phone(String friend_phone) {
         this.m_friend_phone = friend_phone;
     }
 
-    public String getFriend_username() {
+    public String get_username() {
         return m_friend_username;
+    }
+
+    public String get_email() {
+        return m_email;
+    }
+
+    public void set_email(String _email) {
+        this.m_email = _email;
     }
 
     //Setter
@@ -27,7 +35,7 @@ public class FriendModel {
         this.m_friend_username = friend_username;
     }
 
-    public Date getBirthday() {
+    public Date get_birthday() {
         return m_birthday;
     }
 
@@ -35,12 +43,11 @@ public class FriendModel {
         this.m_birthday = birthday;
     }
 
-    public Date getAdd_at() {
+    public Date get_add_at() {
         return m_add_at;
     }
 
     public void setAdd_at(Date add_at) {
         this.m_add_at = add_at;
     }
-
 }

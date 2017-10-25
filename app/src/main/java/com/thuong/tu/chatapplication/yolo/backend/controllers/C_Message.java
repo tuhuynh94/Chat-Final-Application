@@ -17,6 +17,8 @@ public class C_Message {
         Server.owner.get_AllMessageByConversationID(conversation_id)
                 .removeIf(i -> i.get_conversation_id().equals(conversation_id));
         Messages.removeMessage(message_id, conversation_id);
+
+
         //TODO send to sever -- update node server
     }
 

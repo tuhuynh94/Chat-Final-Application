@@ -46,12 +46,14 @@ public class C_Conversation {
 
     public static void kickMember(String conversation_id, String phone) {
         ConversationModel a = Server.owner.get_ConversationByID(conversation_id);
+
         String[] arr = a.getMember().split(",");
         for (String item : arr) {
             if (item.trim().equals(phone)) {
                 item = "";
             }
         }
+
         a.setMember(arr.toString());
         Conversations.kickMember(conversation_id);
 
