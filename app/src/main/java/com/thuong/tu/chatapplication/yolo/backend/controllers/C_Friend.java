@@ -48,7 +48,7 @@ public class C_Friend {
                         friend.setFriend_username(from_user);
                         friend.setBirthday(birthday);
                         friend.setAdd_at(Calendar.getInstance().getTime());
-                        Server.owner.addFriend(friend);
+                        Server.owner.add_Friend(friend);
                         Friends.addFriend(from);
                     }
                     //TODO chua co su kien nhan duoc tra loi cua invitation
@@ -109,7 +109,7 @@ public class C_Friend {
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("response_add_friend", json);
         if (is_accept) {
-            Server.owner.addFriend(friend);
+            Server.owner.add_Friend(friend);
             Friends.addFriend(friend.getFriend_phone());
         }
     }
@@ -124,7 +124,7 @@ public class C_Friend {
         data.put("flat", flat);
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("un_friend", json);
-        Server.owner.removeFriend(other_phone);
+        Server.owner.get_ListFriends().removeIf(k -> k.getFriend_phone().equals(other_phone));
         Friends.unFriend(other_phone);
     }
 }

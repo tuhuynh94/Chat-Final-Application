@@ -26,13 +26,13 @@ public class Login {
         try {
             if (!a.equals(r)) {
                 jsonObject = new JSONObject(a);
-                Server.owner.setUsername(jsonObject.getString("username"));
-                Server.owner.setPhone(jsonObject.getString("phone"));
-                Server.owner.setBirthday(Converter.stringToDate(jsonObject.getString("birthday")));
-                Server.owner.setEmail(jsonObject.getString("email"));
-                Server.owner.setAllConversation(jsonObject.getString("conversations"));
-                Server.owner.setImageSource(jsonObject.getString("image_source"));
-                Server.owner.setStatus(jsonObject.getString("status"));
+                Server.owner.set_Username(jsonObject.getString("username"));
+                Server.owner.set_Phone(jsonObject.getString("phone"));
+                Server.owner.set_Birthday(Converter.stringToDate(jsonObject.getString("birthday")));
+                Server.owner.set_Email(jsonObject.getString("email"));
+                Server.owner.set_AllConversation(jsonObject.getString("conversations"));
+                Server.owner.set_ImageSource(jsonObject.getString("image_source"));
+                Server.owner.set_Status(jsonObject.getString("status"));
                 PHPServer.LoadInfo();
                 Server.connectNode();
                 result = true;
@@ -42,7 +42,7 @@ public class Login {
             e.printStackTrace();
         }
 
-        //Log.d("owner", Server.owner.getUsername());
+        //Log.d("owner", Server.owner.get_username());
         return result;
     }
 

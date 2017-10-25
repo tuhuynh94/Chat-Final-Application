@@ -10,6 +10,7 @@ public class ConversationModel {
     private String m_conversation_id;
     private String m_conversation_name;
     private String m_member; //cách nhau bởi;
+    private MessageModel m_last_message;
 
     //Getter
     public String getConversation_id() {
@@ -19,14 +20,6 @@ public class ConversationModel {
     //Setter
     public void setConversation_id(String conversation_id) {
         this.m_conversation_id = conversation_id;
-    }
-
-    public String getConversation_name() {
-        return m_conversation_name;
-    }
-
-    public void setConversation_name(String conversation_name) {
-        this.m_conversation_name = conversation_name;
     }
 
     public String getMember() {
@@ -59,6 +52,22 @@ public class ConversationModel {
 
     public void setUpdated_at(Date updated_at) {
         this.m_updated_at = updated_at;
+    }
+
+    public String getConversation_name() {
+        return m_conversation_name;
+    }
+
+    public void setConversation_name(String conversation_name) {
+        this.m_conversation_name = conversation_name;
+    }
+
+    public MessageModel get_last_message() {
+        return m_last_message;
+    }
+
+    public void set_last_message(MessageModel m_last_message) {
+        this.m_last_message = m_last_message;
     }
 
     public void addNewMem(String phone) {

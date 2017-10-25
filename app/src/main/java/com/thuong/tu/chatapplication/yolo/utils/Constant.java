@@ -20,6 +20,7 @@ public class Constant {
     public static final String M_MESSAGE = "/chat/messages.php";
     public static final String M_MESSAGE_ADD = "/chat/messages_add.php";
     public static final String M_MESSAGE_REMOVE = "/chat/messages_remove.php";
+    public static final String M_MESSAGE_EDIT = "/chat/messages_update.php";
 
     public static final String M_INVITE_FRIEND = "/chat/invite_friend.php";
 

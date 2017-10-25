@@ -21,7 +21,7 @@ public class Conversations {
         builder = new Uri.Builder();
         builder.appendQueryParameter("conversation_name", name);
         builder.appendQueryParameter("mem", mem);
-        builder.appendQueryParameter("creator", Server.owner.getPhone());
+        builder.appendQueryParameter("creator", Server.owner.get_Phone());
         String url = Constant.M_HOST + Constant.M_CONVERSATION_ADD;
         String result = uService.execute(builder, url);
         return loadConversation_R(result);
@@ -53,8 +53,8 @@ public class Conversations {
     public static void kickMember(String conversation_id) {
         builder = new Uri.Builder();
         builder.appendQueryParameter("conversation_id", conversation_id);
-        builder.appendQueryParameter("name", Server.owner.getConversationByID(conversation_id).getMember());
-        builder.appendQueryParameter("mem", Server.owner.getConversationByID(conversation_id).getConversation_name());
+        builder.appendQueryParameter("name", Server.owner.get_ConversationByID(conversation_id).getMember());
+        builder.appendQueryParameter("mem", Server.owner.get_ConversationByID(conversation_id).getConversation_name());
 
         String url = Constant.M_HOST + Constant.M_CONVERSATION_EDIT;
         String result = uService.execute(builder, url);
@@ -63,8 +63,8 @@ public class Conversations {
     public static void addNewMember(String conversation_id, String members) {
         builder = new Uri.Builder();
         builder.appendQueryParameter("conversation_id", conversation_id);
-        builder.appendQueryParameter("name", Server.owner.getConversationByID(conversation_id).getMember());
-        builder.appendQueryParameter("mem", Server.owner.getConversationByID(conversation_id).getConversation_name());
+        builder.appendQueryParameter("name", Server.owner.get_ConversationByID(conversation_id).getMember());
+        builder.appendQueryParameter("mem", Server.owner.get_ConversationByID(conversation_id).getConversation_name());
 
         String url = Constant.M_HOST + Constant.M_CONVERSATION_EDIT;
         String result = uService.execute(builder, url);
@@ -72,7 +72,7 @@ public class Conversations {
     }
 
     public static void loadConversation() {
-        builder.appendQueryParameter("conversations", Server.owner.getAllConversation());
+        builder.appendQueryParameter("conversations", Server.owner.get_AllConversation());
         String url = Constant.M_HOST + Constant.M_CONVERSATION;
         String result = uService.execute(builder, url);
         loadConversation(result);

@@ -21,7 +21,7 @@ public class C_Conversation {
     }
     public static void sendUpdateConversation() {
         HashMap<String, String> data = new HashMap<String, String>();
-        data.put("conversation_id", Server.owner.getAllConversation());
+        data.put("conversation_id", Server.owner.get_AllConversation());
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("request_load_conversation", json);
     }
@@ -32,18 +32,27 @@ public class C_Conversation {
      */
     public static void createConversation(String name, String mem) {
         ConversationModel conversation = Conversations.createConversation(name, mem);
+        Server.owner.add_AllConversation(conversation.getConversation_id());
 
         //TODO send to sever -- update node server
     }
     public static void addNewMember(String conversation_id, String phone) {
-        Server.owner.addMemberInConversation(conversation_id, phone);
+        ConversationModel conversation = Server.owner.get_ConversationByID(conversation_id);
+        conversation.addNewMem(phone);
         Conversations.addNewMember(conversation_id, phone);
 
         //TODO send to sever -- update node server
     }
 
     public static void kickMember(String conversation_id, String phone) {
-        Server.owner.kickMemberInConversation(conversation_id, phone);
+        ConversationModel a = Server.owner.get_ConversationByID(conversation_id);
+        String[] arr = a.getMember().split(",");
+        for (String item : arr) {
+            if (item.trim().equals(phone)) {
+                item = "";
+            }
+        }
+        a.setMember(arr.toString());
         Conversations.kickMember(conversation_id);
 
         //TODO send to sever -- update node server

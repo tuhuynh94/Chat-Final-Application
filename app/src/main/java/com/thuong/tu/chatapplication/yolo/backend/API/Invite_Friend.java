@@ -36,7 +36,7 @@ public class Invite_Friend {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Server.owner.setInvite_friends(invitation);
+            Server.owner.set_Invite_friends(invitation);
         }
     }
 }

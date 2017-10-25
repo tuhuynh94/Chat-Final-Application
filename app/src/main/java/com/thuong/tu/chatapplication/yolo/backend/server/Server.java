@@ -36,9 +36,9 @@ public class Server {
             Server.getSocket().connect();
         }
         HashMap<String, String> data = new HashMap<String, String>();
-        data.put("phone", Server.owner.getPhone());
-        data.put("username", Server.owner.getUsername());
-        data.put("birthday", Server.owner.getBirthday().toString());
+        data.put("phone", Server.owner.get_Phone());
+        data.put("username", Server.owner.get_username());
+        data.put("birthday", Server.owner.get_Birthday().toString());
         JSONObject json = new JSONObject(data);
         getSocket().emit("connect_to_server", json);
 
