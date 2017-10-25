@@ -149,7 +149,7 @@ public class C_Friend {
         data.put("flat", flat);
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("un_friend", json);
-        Server.owner.get_ListFriends().removeIf(k -> k.getFriend_phone().equals(other_phone));
+        Server.owner.get_listFriends().removeIf(k -> k.getFriend_phone().equals(other_phone));
         Friends.unFriend(other_phone);
     }
 }

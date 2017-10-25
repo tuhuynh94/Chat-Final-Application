@@ -77,12 +77,8 @@ public class ClientModel {
         this.m_invite_friends.add(invite_friends);
     }
 
-    public List<FriendModel> get_ListFriends() {
+    public List<FriendModel> get_listFriends() {
         return this.m_list_friends;
-    }
-
-    public void add_Friend(FriendModel friendModel) {
-        this.m_list_friends.add(friendModel);
     }
 
     public String get_AllConversation() {
@@ -130,11 +126,6 @@ public class ClientModel {
         return (MessageModel) this.m_hash_messages.get(conversation_id).stream()
                 .filter(i -> i.get_message_id().equals(message_id));
     }
-
-    public void add_conversations(ConversationModel m_conversations) {
-        this.m_list_conversations.add(m_conversations);
-    }
-
     /**
      * get obj conversation in list conversations by conversation id
      */

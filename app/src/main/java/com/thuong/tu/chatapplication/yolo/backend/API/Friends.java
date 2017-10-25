@@ -44,7 +44,7 @@ public class Friends {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Server.owner.add_Friend(friend);
+            Server.owner.get_listFriends().add(friend);
         }
         return friend;
     }
@@ -82,7 +82,7 @@ public class Friends {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Server.owner.add_Friend(friend);
+            Server.owner.get_listFriends().add(friend);
         }
     }
 }

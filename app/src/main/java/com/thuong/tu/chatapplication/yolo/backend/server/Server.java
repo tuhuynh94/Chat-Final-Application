@@ -42,8 +42,8 @@ public class Server {
         JSONObject json = new JSONObject(data);
         getSocket().emit("connect_to_server", json);
 
-        loadInfo();//in node
-        listEvent();// su kien can nghe to node
+        loadInfo();//send message to node to init data of this user
+        listEvent();//list of message need to list in node
     }
 
     private static void listEvent() {

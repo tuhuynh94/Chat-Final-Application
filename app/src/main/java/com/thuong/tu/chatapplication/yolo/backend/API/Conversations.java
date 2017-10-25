@@ -46,7 +46,7 @@ public class Conversations {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Server.owner.add_conversations(conversation);
+            Server.owner.getListConversation().add(conversation);
         }
         return conversation;
     }
@@ -99,7 +99,7 @@ public class Conversations {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Server.owner.add_conversations(conversation);
+            Server.owner.getListConversation().add(conversation);
         }
     }
 
