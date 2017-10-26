@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
         });
 
         Server server = Server.getInstance();
-        server.addObserver(this);
-        server.getData();
+//        server.addObserver(this);
+//        server.getData();
 
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override

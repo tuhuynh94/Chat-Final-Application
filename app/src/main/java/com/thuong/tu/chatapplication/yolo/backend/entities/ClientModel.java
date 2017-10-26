@@ -15,9 +15,9 @@ public class ClientModel {
     private String m_imageSource = "";
     private String m_status;
 
-    private List<FriendModel> m_list_friends = new ArrayList<>();
-    private List<ConversationModel> m_list_conversations = new ArrayList<>();
-    private List<InvitationModel> m_invite_friends = new ArrayList<>();
+    private ArrayList<FriendModel> m_list_friends = new ArrayList<>();
+    private ArrayList<ConversationModel> m_list_conversations = new ArrayList<>();
+    private ArrayList<InvitationModel> m_invite_friends = new ArrayList<>();
 
     private HashMap<String, ArrayList<MessageModel>> m_hash_messages = new HashMap<>();
 
@@ -69,7 +69,7 @@ public class ClientModel {
         this.m_email = email;
     }
 
-    public List<InvitationModel> get_Invite_friends() {
+    public ArrayList<InvitationModel> get_Invite_friends() {
         return this.m_invite_friends;
     }
 
@@ -77,7 +77,7 @@ public class ClientModel {
         this.m_invite_friends.add(invite_friends);
     }
 
-    public List<FriendModel> get_listFriends() {
+    public ArrayList<FriendModel> get_listFriends() {
         return this.m_list_friends;
     }
 
@@ -92,7 +92,7 @@ public class ClientModel {
     public void add_AllConversation(String m_allConversation) {
         this.m_allConversation += this.m_allConversation != null ? "," : "" + m_allConversation;
     }
-    public List<ConversationModel> getListConversation() {
+    public ArrayList<ConversationModel> getListConversation() {
         return this.m_list_conversations;
     }
 

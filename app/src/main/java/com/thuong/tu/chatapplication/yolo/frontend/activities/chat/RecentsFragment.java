@@ -6,8 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
+import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.login.CodeVerificationActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.entities.ListRecentsAdapter;
+
+import java.util.ArrayList;
 
 public class RecentsFragment extends Fragment {
     private static RecentsFragment fragment;
@@ -33,7 +40,12 @@ public class RecentsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__recents, container, false);
+        View view = inflater.inflate(R.layout.fragment__recents, container, false);
+        ListView list = (ListView) view.findViewById(R.id.list_recents);
+        ArrayList<ConversationModel> conversations = Server.owner.getListConversation();
+        ListRecentsAdapter adapter = new ListRecentsAdapter(getActivity(), R.layout.recents_layout, conversations);
+        list.setAdapter(adapter);
+        return view;
     }
 
     @Override

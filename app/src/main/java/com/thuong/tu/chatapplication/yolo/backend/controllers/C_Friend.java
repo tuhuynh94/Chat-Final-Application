@@ -48,7 +48,7 @@ public class C_Friend {
                         friend.setFriend_username(from_user);
                         friend.setBirthday(birthday);
                         friend.setAdd_at(Calendar.getInstance().getTime());
-                        Server.owner.add_Friend(friend);
+                        Server.owner.get_listFriends().add(friend);
                         FriendModel _friend = Friends.addFriend(from);
                         n_add_friend(friend);
                         //TODO event accept friend
@@ -126,7 +126,7 @@ public class C_Friend {
         data.put("is_accept", is_accept ? "True":"Fasle");
 
         if (is_accept) {
-            Server.owner.add_Friend(_friend);
+            Server.owner.get_listFriends().add(_friend);
             friend = Friends.addFriend(friend.getFriend_phone());
             data.put("email", friend.get_email());
             data.put("birthday", friend.get_birthday().toString());

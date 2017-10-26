@@ -9,7 +9,7 @@ public class PHPServer {
 
     public static void LoadInfo() {
         Friends.loadFriend();
-        Invite_Friend.loadInviteFriend();
+//        Invite_Friend.loadInviteFriend();
         Conversations.loadConversation();
         Messages.loadMessage();
     }

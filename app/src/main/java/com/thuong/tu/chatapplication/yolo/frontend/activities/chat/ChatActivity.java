@@ -36,8 +36,8 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MessageModel message = new MessageModel();
-                message.setMessage(edit.getText().toString());
-                message.setIs_send(1);
+                message.set_message(edit.getText().toString());
+                message.set_is_send(1);
                 c_Chat.creteaMessages(messages, adapter, message);
             }
         });
@@ -45,8 +45,8 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MessageModel message = new MessageModel();
-                message.setMessage(edit.getText().toString());
-                message.setIs_send(0);
+                message.set_message(edit.getText().toString());
+                message.set_is_send(0);
                 c_Chat.creteaMessages(messages, adapter, message);
             }
         });
