@@ -17,8 +17,10 @@ public class Invite_Friend {
 
     public static void loadInviteFriend() {
         builder = new Uri.Builder();
+        builder.appendQueryParameter("phone", Server.owner.get_Phone());
         String url = Constant.M_HOST + Constant.M_INVITE_FRIEND;
-        loadInviteFriend(uService.execute(builder, url));
+        String result = uService.execute(builder, url);
+        loadInviteFriend(result);
     }
 
     private static void loadInviteFriend(String execute) {

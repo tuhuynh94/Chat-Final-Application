@@ -74,7 +74,9 @@ public class Conversations {
     }
 
     public static void loadConversation() {
+        builder = new Uri.Builder();
         builder.appendQueryParameter("conversations", Server.owner.get_AllConversation());
+        String a = Server.owner.get_AllConversation();
         String url = Constant.M_HOST + Constant.M_CONVERSATION;
         String result = uService.execute(builder, url);
         loadConversation(result);

@@ -69,8 +69,8 @@ public class Messages {
                 ms.set_creator(jsonObject.getString("creator"));
                 id = jsonObject.getString("conversation_id");
                 ms.set_conversation_id(id);
+                ms.set_create_at(Converter.stringToDateTime(jsonObject.getString("created_at")));
                 ms.set_is_creator(ms.get_creator().equals(Server.owner.get_Phone()));
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -97,7 +97,6 @@ public class Messages {
                 id = jsonObject.getString("conversation_id");
                 ms.set_conversation_id(id);
                 ms.set_is_creator(ms.get_creator().equals(Server.owner.get_Phone()));
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
