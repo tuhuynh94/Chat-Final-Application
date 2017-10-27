@@ -1,6 +1,5 @@
 package com.thuong.tu.chatapplication.yolo.utils;
 
-import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -24,37 +23,9 @@ public class uService  {
             e.printStackTrace();//handle it the way you like
         }
         return result;
-//region other
-        /*
-         uService.request() request = new uService.request()
-         request.setOnTaskFinishedEvent(new uService.request.OnTaskExecutionFinished() {
-                    @Override
-                    public void OnTaskFihishedEvent(String Result) {
-                        String r = Result;
-                        String a = "";
-                    }
-                });
-          request.execute(builder, url);*/
-//endregion other
     }
 
     private static class request extends AsyncTask<Object, Void, String> {
-        //region other
-/*        private OnTaskExecutionFinished _task_finished_event;
-
-        public interface OnTaskExecutionFinished
-        {
-            public void OnTaskFihishedEvent(String result);
-        }
-
-        public void setOnTaskFinishedEvent(OnTaskExecutionFinished _event)
-        {
-            if(_event != null)
-            {
-                this._task_finished_event = _event;
-            }
-        }*/
-        //endregion other
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

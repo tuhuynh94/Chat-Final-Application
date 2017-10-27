@@ -3,7 +3,6 @@ package com.thuong.tu.chatapplication.yolo.backend.entities;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class ClientModel {
 
@@ -82,11 +81,11 @@ public class ClientModel {
     }
 
     public String get_AllConversation() {
-        return m_allConversation;
+        return m_allConversation.trim();
     }
 
     public void set_AllConversation(String m_allConversation) {
-        this.m_allConversation = m_allConversation;
+        this.m_allConversation = m_allConversation.trim();
     }
 
     public void add_AllConversation(String m_allConversation) {
@@ -111,15 +110,11 @@ public class ClientModel {
     }
 
     private void set_last_message(String conversation_id, MessageModel messageModel) {
-        if(messageModel.get_conversation_id() == null){
-            messageModel.set_conversation_id("1");
-        }
-        final String id = "1";
-//        ConversationModel conversation = (ConversationModel) this.getListConversation().stream()
-//                .filter(i -> i.getConversation_id()
-//                        .equals(id));
-//        conversation.set_last_message(messageModel);
+        ConversationModel conversation = this.getListConversation().stream()
+                .filter(i -> i.getConversation_id()
+                        .equals(conversation_id)).findFirst().get();
 
+        conversation.set_last_message(messageModel);
     }
 
     public ArrayList<MessageModel> get_AllMessageByConversationID(String conversation_id) {
