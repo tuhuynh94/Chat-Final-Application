@@ -11,7 +11,6 @@ import android.widget.ListView;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
-import com.thuong.tu.chatapplication.yolo.frontend.activities.login.CodeVerificationActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.entities.ListRecentsAdapter;
 
 import java.util.ArrayList;

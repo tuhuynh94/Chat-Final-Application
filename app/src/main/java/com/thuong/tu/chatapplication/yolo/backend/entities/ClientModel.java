@@ -111,10 +111,14 @@ public class ClientModel {
     }
 
     private void set_last_message(String conversation_id, MessageModel messageModel) {
-        ConversationModel conversation = (ConversationModel) this.getListConversation().stream()
-                .filter(i -> i.getConversation_id()
-                        .equals(conversation_id));
-        conversation.set_last_message(messageModel);
+        if(messageModel.get_conversation_id() == null){
+            messageModel.set_conversation_id("1");
+        }
+        final String id = "1";
+//        ConversationModel conversation = (ConversationModel) this.getListConversation().stream()
+//                .filter(i -> i.getConversation_id()
+//                        .equals(id));
+//        conversation.set_last_message(messageModel);
 
     }
 

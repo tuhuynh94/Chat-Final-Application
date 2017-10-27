@@ -42,24 +42,24 @@ public class ListMessageAdapter extends ArrayAdapter<MessageModel>{
             LayoutInflater inflater = context.getLayoutInflater();
             convertView = inflater.inflate(R.layout.messages_receive_template, null);
         }
-        Holder holder = Holder.init(convertView);
+        Holder holder = init(convertView);
         holder.text.setText(message.get_message());
         return convertView;
     }
 
     public static class Holder {
-        static de.hdodenhof.circleimageview.CircleImageView avatar;
-        static  com.github.library.bubbleview.BubbleTextView text;
+        de.hdodenhof.circleimageview.CircleImageView avatar;
+        com.github.library.bubbleview.BubbleTextView text;
         public Holder(de.hdodenhof.circleimageview.CircleImageView avatar, com.github.library.bubbleview.BubbleTextView text) {
             this.text = text;
             this.avatar = avatar;
         }
-        private static Holder init(View convertView) {
-            de.hdodenhof.circleimageview.CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatar);
-            com.github.library.bubbleview.BubbleTextView text = (BubbleTextView) convertView.findViewById(R.id.message_text);
-            Holder holder = new Holder(avatar, text);
-            return holder;
-        }
+    }
+    public Holder init(View convertView) {
+        de.hdodenhof.circleimageview.CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatar);
+        com.github.library.bubbleview.BubbleTextView text = (BubbleTextView) convertView.findViewById(R.id.message_text);
+        Holder holder = new Holder(avatar, text);
+        return holder;
     }
 }
 
