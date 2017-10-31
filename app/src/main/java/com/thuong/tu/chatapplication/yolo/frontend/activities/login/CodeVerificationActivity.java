@@ -9,8 +9,9 @@ import android.widget.EditText;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
+import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
 
-public class CodeVerificationActivity extends AppCompatActivity {
+public class CodeVerificationActivity extends UltisActivity {
     EditText verify_code;
     Button next;
 

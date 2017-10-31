@@ -9,10 +9,11 @@ import android.widget.EditText;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.API.Login;
+import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.chat.MainChatActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends UltisActivity {
     Button login;
     EditText phone, password;
 

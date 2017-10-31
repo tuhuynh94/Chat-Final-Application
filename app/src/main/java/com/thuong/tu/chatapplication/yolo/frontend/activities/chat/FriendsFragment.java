@@ -9,16 +9,16 @@ import android.view.ViewGroup;
 
 import com.thuong.tu.chatapplication.R;
 
-public class GroupsFragment extends Fragment {
-    private static GroupsFragment fragment;
+public class FriendsFragment extends Fragment {
+    private static FriendsFragment fragment;
 
-    public GroupsFragment() {
+    public FriendsFragment() {
         // Required empty public constructor
     }
 
-    public static GroupsFragment getInstance() {
+    public static FriendsFragment getInstance() {
         if(fragment == null){
-            fragment = new GroupsFragment();
+            fragment = new FriendsFragment();
         }
         return fragment;
     }
@@ -33,7 +33,7 @@ public class GroupsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_groups, container, false);
+        return inflater.inflate(R.layout.fragment_friends, container, false);
     }
 
     @Override

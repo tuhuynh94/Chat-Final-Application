@@ -5,37 +5,64 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#FF8E80">
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="230dp"
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_more_horiz_black_24dp" />
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:layout_centerHorizontal="true"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="65dp"
-            android:layout_height="50dp"
-            android:text="SEND"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/button1" />
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="65dp"
-            android:layout_height="50dp"
-            android:text="RECEIVE"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/ic_keyboard_arrow_left_black_24dp" />
     </RelativeLayout>
 
     <ListView
         android:id="@+id/list_messages"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="481dp"
         android:divider="@null"
-        android:dividerHeight="0dp"/>
+        android:dividerHeight="0dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/input_field"
+            android:background="@drawable/input_message"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_gravity="center"
+            android:textColor="#c6cccc"
+            android:text="Input message..." />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/send_button"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 </LinearLayout>

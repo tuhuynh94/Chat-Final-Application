@@ -10,13 +10,14 @@ import android.widget.Button;
 import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.login.LoginActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.login.PhoneNumberActivity;
 
 import java.util.Observable;
 import java.util.Observer;
 
-public class MainActivity extends AppCompatActivity implements Observer {
+public class MainActivity extends UltisActivity implements Observer {
     Button sign_in, register;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
 

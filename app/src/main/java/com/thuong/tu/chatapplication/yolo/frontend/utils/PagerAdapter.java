@@ -4,46 +4,34 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.thuong.tu.chatapplication.yolo.frontend.activities.chat.RecentsFragment;
-import com.thuong.tu.chatapplication.yolo.frontend.activities.chat.ContactsFragment;
-import com.thuong.tu.chatapplication.yolo.frontend.activities.chat.GroupsFragment;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PagerAdapter extends FragmentStatePagerAdapter{
+    private static List<Fragment> listFragment = new ArrayList<>();
+    private static List<String> listFragmentTitle = new ArrayList<>();
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
+    public static void addFragment(Fragment fragment, String title){
+        listFragment.add(fragment);
+        listFragmentTitle.add(title);
+    }
+
     @Override
     public Fragment getItem(int position) {
-        Fragment frag = null;
-        switch (position){
-            case 0 : frag = RecentsFragment.getInstance();
-                break;
-            case 1: frag = GroupsFragment.getInstance();
-                break;
-            case 2: frag = ContactsFragment.getInstance();
-                break;
-        }
-        return frag;
+        return listFragment.get(position);
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return listFragment.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        String title = "";
-        switch (position){
-            case 0 : title = "Chats";
-                break;
-            case 1: title = "Groups";
-                break;
-            case 2: title = "Contacts";
-                break;
-        }
-        return  title;
+        return  listFragmentTitle.get(position);
     }
 }

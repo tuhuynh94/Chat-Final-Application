@@ -21,9 +21,11 @@
         <activity android:name=".yolo.frontend.activities.login.LoginActivity" />
         <activity android:name=".yolo.frontend.activities.login.CodeVerificationActivity" />
         <activity android:name=".yolo.frontend.activities.login.PhoneNumberActivity" />
-        <!--<activity android:name=".yolo.frontend.activities.login.RegisterActivity"></activity>-->
-        <activity android:name=".yolo.frontend.activities.chat.MainChatActivity" />
-        <activity android:name=".yolo.frontend.activities.chat.ChatActivity"></activity>
+        <!-- <activity android:name=".yolo.frontend.activities.login.RegisterActivity"></activity> -->
+        <activity android:name=".yolo.frontend.activities.chat.MainChatActivity" android:label=""/>
+        <activity android:name=".yolo.frontend.activities.chat.ChatActivity" />
+        <activity android:name=".yolo.frontend.UltisActivity" />
+        <activity android:name=".yolo.frontend.activities.login.RegisterActivity" />
     </application>
 
 </manifest>

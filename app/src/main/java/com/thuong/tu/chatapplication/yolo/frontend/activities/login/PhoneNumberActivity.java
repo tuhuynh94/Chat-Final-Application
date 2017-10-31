@@ -9,8 +9,9 @@ import android.widget.EditText;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
+import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
 
-public class PhoneNumberActivity extends AppCompatActivity {
+public class PhoneNumberActivity extends UltisActivity {
     EditText number_phone;
     Button next;
 

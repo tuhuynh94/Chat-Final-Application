@@ -4,7 +4,6 @@ public class InvitationModel {
 
     private String m_fromUser;
     private String m_fromPhone;
-    private String m_to;
 
     //Getter
     public String getFromPhone() {
@@ -15,13 +14,8 @@ public class InvitationModel {
         this.m_fromPhone = from;
     }
 
-    public String getTo() {
+    public String getFromUser() {
         return m_fromUser;
-    }
-
-    //Setter
-    public void setTo(String to) {
-        this.m_fromUser = to;
     }
 
     public void setFromUser(String fromUser) {

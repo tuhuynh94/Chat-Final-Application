@@ -6,6 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.thuong.tu.chatapplication.yolo.frontend.activities.chat.MainChatActivity">
+    <android.support.v7.widget.ActionBarContainer
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.ActionBarContainer>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
@@ -20,8 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.75"
-        android:background="#A8E490"
-        app:tabIndicatorColor="@android:color/holo_red_dark">
+        android:background="#e38690"
+        app:tabGravity="fill"
+        app:tabMode="fixed">
 
     </android.support.design.widget.TabLayout>
 
