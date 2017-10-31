@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.frontend.utils.ChildPagerAdapter;
 import com.thuong.tu.chatapplication.yolo.frontend.utils.PagerAdapter;
 
 public class MainFriendsFragment extends Fragment {
@@ -48,14 +49,14 @@ public class MainFriendsFragment extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
-        FragmentManager manager = getActivity().getSupportFragmentManager();
-        PagerAdapter adapter = new PagerAdapter(manager);
+        FragmentManager manager = getChildFragmentManager();
+        ChildPagerAdapter adapter = new ChildPagerAdapter(manager);
         adapter.addFragment(ContactsFragment.getInstance(), "");
+        adapter.addFragment(FriendsFragment.getInstance(), "");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//        tabLayout.setTabsFromPagerAdapter(adapter);
         tabLayout.getTabAt(0).setIcon(R.drawable.contact);
+        tabLayout.getTabAt(1).setIcon(R.drawable.friends);
     }
     @Override
     public void onAttach(Context context) {
