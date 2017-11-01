@@ -8,6 +8,7 @@ import com.thuong.tu.chatapplication.yolo.utils.Constant;
 import com.thuong.tu.chatapplication.yolo.utils.Converter;
 import com.thuong.tu.chatapplication.yolo.utils.uService;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +23,7 @@ public class Login {
         JSONObject jsonObject = null;
         String r = "error";
         boolean result = false;
-
+        OnLoginResult event = new OnLoginResult(true);
         try {
             if (!a.equals(r)) {
                 jsonObject = new JSONObject(a);
@@ -36,16 +37,46 @@ public class Login {
                 PHPServer.LoadInfo();
                 Server.connectNode();
                 result = true;
+                EventBus.getDefault().post(event);
             }
-
+            else{
+                event.setCheck(false);
+                event.setText("Login Fail");
+                EventBus.getDefault().post(event);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
+            event.setCheck(false);
+            event.setText(e.getMessage());
+            EventBus.getDefault().post(event);
         }
 
         //Log.d("owner", Server.owner.get_username());
         return result;
     }
 
+    public static class OnLoginResult {
+        String text;
+        Boolean check;
+        public OnLoginResult(Boolean check){
+            this.check = check;
+        }
 
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public Boolean getCheck() {
+            return check;
+        }
+
+        public void setCheck(Boolean check) {
+            this.check = check;
+        }
+    }
 
 }

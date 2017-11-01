@@ -24,6 +24,7 @@ public class C_Message {
 
     public static void addMessage(String content, String conversation_id) {
         MessageModel ms = Messages.addMessage(content, conversation_id);
+
         //TODO send to sever -- update node server
     }
 
