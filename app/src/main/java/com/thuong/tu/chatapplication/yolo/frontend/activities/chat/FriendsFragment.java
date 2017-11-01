@@ -6,8 +6,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.entities.FriendModel;
+import com.thuong.tu.chatapplication.yolo.backend.entities.InvitationModel;
+import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.frontend.entities.ListContactAdapter;
+import com.thuong.tu.chatapplication.yolo.frontend.entities.ListInviteFriendAdapter;
+
+import java.util.ArrayList;
 
 public class FriendsFragment extends Fragment {
     private static FriendsFragment fragment;
@@ -33,7 +41,12 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        View view = inflater.inflate(R.layout.fragment_friends, container, false);
+        ListView list = (ListView) view.findViewById(R.id.list);
+        ArrayList<InvitationModel> invatations = Server.owner.get_Invite_friends();
+        ListInviteFriendAdapter adapter = new ListInviteFriendAdapter(getActivity(), R.layout.invite_friend_layout, invatations);
+        list.setAdapter(adapter);
+        return view;
     }
 
     @Override
