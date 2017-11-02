@@ -26,6 +26,16 @@ public class Messages {
         MessageModel mess =  loadMessage_R(result);
         return mess;
     }
+    public static MessageModel addReceiMessage(String content, String conversation_id, String creator) {
+        builder = new Uri.Builder();
+        builder.appendQueryParameter("conversation_id", conversation_id);
+        builder.appendQueryParameter("creator", creator);
+        builder.appendQueryParameter("message", content);
+        String url = Constant.M_HOST + Constant.M_MESSAGE_ADD;
+        String result = uService.execute(builder, url);
+        MessageModel mess =  loadMessage_R(result);
+        return mess;
+    }
 
     public static void editMessage(String conversation_id, String message_id, String content) {
         builder = new Uri.Builder();
@@ -45,7 +55,7 @@ public class Messages {
     }
     public static void loadMessage() {
         builder = new Uri.Builder();
-        builder.appendQueryParameter("conversations", Server.owner.get_AllConversation());
+        builder.appendQueryParameter("conversations", Server.owner.get_AllConversation() + ",");
         String url = Constant.M_HOST + Constant.M_MESSAGE;
         String result = uService.execute(builder, url);
         loadMessage(result);

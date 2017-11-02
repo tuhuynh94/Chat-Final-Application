@@ -18,8 +18,12 @@ public class C_Message {
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 try {
+                    String creator = data.getString("creator");
                     String content = data.getString("content");
-                    EventBus.getDefault().post(new OnMess());
+                    if(!creator.equals(Server.owner.get_Phone())){
+                        MessageModel mes = new MessageModel();
+                        EventBus.getDefault().post(new OnMess());
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -29,10 +33,6 @@ public class C_Message {
 
     public static void onDestroy() {
         Server.getSocket().off("chat_message");
-    }
-
-    public static void  Test(){
-        EventBus.getDefault().post(new OnMess());
     }
 
     public static void removeMessage(String message_id, String conversation_id) {
