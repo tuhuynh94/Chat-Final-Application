@@ -20,8 +20,13 @@ public class C_Message {
                 try {
                     String creator = data.getString("creator");
                     String content = data.getString("content");
+                    String conversation_id = data.getString("conversation_id");
                     if(!creator.equals(Server.owner.get_Phone())){
                         MessageModel mes = new MessageModel();
+                        mes.set_is_creator(false);
+                        mes.set_message(content);
+                        mes.set_conversation_id(conversation_id);
+                        Server.owner.add_Message(conversation_id, mes);
                         EventBus.getDefault().post(new OnMess());
                     }
                 } catch (JSONException e) {
