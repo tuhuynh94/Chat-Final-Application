@@ -4,6 +4,7 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.utils.Constant;
@@ -49,6 +50,7 @@ public class Server {
     private static void listEvent() {
         C_Register.onCreate();
         C_Friend.onCreate();
+        C_Message.onCreate();
     }
 
     private static void loadInfo() {

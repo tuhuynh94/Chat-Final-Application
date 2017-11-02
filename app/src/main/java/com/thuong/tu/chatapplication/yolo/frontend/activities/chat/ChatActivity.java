@@ -1,32 +1,87 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.chat;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
+import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.MessageModel;
+import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
-import com.thuong.tu.chatapplication.yolo.frontend.controllers.c_Chat;
 import com.thuong.tu.chatapplication.yolo.frontend.entities.ListMessageAdapter;
 
-import java.lang.reflect.Array;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 
 public class ChatActivity extends UltisActivity {
+    ArrayList<MessageModel> messages;
+    Button back,send, option;
+    EditText input_message;
+    TextView name;
+    ConversationModel conversationModel;
+    ListMessageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
         ListView list = (ListView) findViewById(R.id.list_messages);
-        final ArrayList<MessageModel> messages = new ArrayList<>();
-        final ListMessageAdapter adapter = new ListMessageAdapter(this, R.layout.messages_receive_template, messages);
+        Intent intent = getIntent();
+        conversationModel = (ConversationModel) intent.getSerializableExtra("conversation");
+        if(conversationModel != null){
+            messages = Server.owner.get_AllMessageByConversationID(conversationModel.getConversation_id());
+        }
+        else{
+            messages = new ArrayList<>();
+        }
+        adapter = new ListMessageAdapter(this, R.layout.messages_receive_template, messages);
         list.setAdapter(adapter);
+        initElements();
+        name.setText(conversationModel.getConversation_name());
+        assignButton();
+    }
+
+    private void assignButton() {
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());
+            }
+        });
+    }
+
+    private void initElements() {
+        back = (Button) findViewById(R.id.back);
+        send = (Button) findViewById(R.id.send);
+        option = (Button) findViewById(R.id.option);
+        input_message = (EditText) findViewById(R.id.input_mess);
+        name = (TextView) findViewById(R.id.txt_name);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    public  void OnMess(C_Message.OnMess onMess){
+        messages = Server.owner.get_AllMessageByConversationID(conversationModel.getConversation_id());
+        adapter.notifyDataSetChanged();
     }
 }

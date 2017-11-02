@@ -1,9 +1,10 @@
 package com.thuong.tu.chatapplication.yolo.backend.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class ConversationModel {
+public class ConversationModel implements Serializable{
     private String m_creator;
     private Date m_created_at;
     private Date m_updated_at;

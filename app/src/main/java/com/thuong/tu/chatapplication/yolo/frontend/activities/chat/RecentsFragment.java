@@ -1,11 +1,13 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.chat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.thuong.tu.chatapplication.R;
@@ -44,6 +46,15 @@ public class RecentsFragment extends Fragment {
         ArrayList<ConversationModel> conversations = Server.owner.getListConversation();
         ListRecentsAdapter adapter = new ListRecentsAdapter(getActivity(), R.layout.recents_layout, conversations);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ConversationModel conversationModel = (ConversationModel) adapterView.getAdapter().getItem(i);
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                intent.putExtra("conversation", conversationModel);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 

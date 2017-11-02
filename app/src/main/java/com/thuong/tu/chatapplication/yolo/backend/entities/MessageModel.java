@@ -1,8 +1,9 @@
 package com.thuong.tu.chatapplication.yolo.backend.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MessageModel {
+public class MessageModel implements Serializable{
 
     private String m_creator;
     private String m_message;

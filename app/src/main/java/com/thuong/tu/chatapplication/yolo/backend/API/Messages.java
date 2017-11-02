@@ -23,7 +23,8 @@ public class Messages {
         builder.appendQueryParameter("message", content);
         String url = Constant.M_HOST + Constant.M_MESSAGE_ADD;
         String result = uService.execute(builder, url);
-        return loadMessage_R(result);
+        MessageModel mess =  loadMessage_R(result);
+        return mess;
     }
 
     public static void editMessage(String conversation_id, String message_id, String content) {

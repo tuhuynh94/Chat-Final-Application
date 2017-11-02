@@ -5,6 +5,7 @@ import com.thuong.tu.chatapplication.yolo.backend.API.Messages;
 import com.thuong.tu.chatapplication.yolo.backend.entities.MessageModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,7 +21,7 @@ public class C_Message {
                     String friend_phone = data.getString("content");
                     String friend_name = data.getString("creator");
                     String created_at = data.getString("created_at");
-
+                    EventBus.getDefault().post(new OnMess());
                     //TODO event recieve chat msg
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -31,6 +32,10 @@ public class C_Message {
 
     public static void onDestroy() {
 
+    }
+
+    public static void  Test(){
+        EventBus.getDefault().post(new OnMess());
     }
 
     public static void removeMessage(String message_id, String conversation_id) {
@@ -44,7 +49,7 @@ public class C_Message {
 
     public static void addMessage(String content, String conversation_id) {
         MessageModel ms = Messages.addMessage(content, conversation_id);
-
+        EventBus.getDefault().post(new OnMess());
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("conversation_id", conversation_id);
         data.put("msg", content);
@@ -59,6 +64,11 @@ public class C_Message {
         messages.set_message(content);
         Messages.editMessage(conversation_id, message_id, content);
         //TODO send to sever -- update node server
+    }
+    public static class OnMess{
+        public OnMess(){
+
+        }
     }
 }
 

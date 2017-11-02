@@ -9,7 +9,7 @@
         android:background="#FF8E80">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/option"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
@@ -26,7 +26,7 @@
             android:textSize="24sp" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/back"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="@drawable/ic_keyboard_arrow_left_black_24dp" />
@@ -45,24 +45,25 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/input_mess"
+            style="@style/input_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/input_field"
-            android:background="@drawable/input_message"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName"
             android:layout_gravity="center"
-            android:textColor="#c6cccc"
-            android:text="Input message..." />
+            android:layout_weight="1"
+            android:background="@drawable/input_mess"
+            android:ems="10"
+            android:hint="Input message..."
+            android:textColorHint="@android:color/black"
+            android:inputType="textPersonName"
+            android:textColor="@android:color/black" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/send"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_gravity="center"
             android:layout_marginRight="10dp"
-            android:background="@drawable/send_button"
-            android:layout_gravity="center"/>
+            android:background="@drawable/send_button" />
     </LinearLayout>
 </LinearLayout>

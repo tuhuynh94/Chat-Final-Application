@@ -34,7 +34,7 @@ public class ListMessageAdapter extends ArrayAdapter<MessageModel>{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         MessageModel message = messages.get(position);
-        if(message.is_send() == 1){
+        if(message.get_is_creator()){
             LayoutInflater inflater = context.getLayoutInflater();
             convertView = inflater.inflate(R.layout.messages_send_template, null);
         }
