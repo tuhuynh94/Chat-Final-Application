@@ -18,11 +18,8 @@ public class C_Message {
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 try {
-                    String friend_phone = data.getString("content");
-                    String friend_name = data.getString("creator");
-                    String created_at = data.getString("created_at");
+                    String content = data.getString("content");
                     EventBus.getDefault().post(new OnMess());
-                    //TODO event recieve chat msg
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -31,7 +28,7 @@ public class C_Message {
     }
 
     public static void onDestroy() {
-
+        Server.getSocket().off("chat_message");
     }
 
     public static void  Test(){
