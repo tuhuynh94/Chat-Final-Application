@@ -2,7 +2,6 @@ package com.thuong.tu.chatapplication.yolo.frontend.activities.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +27,11 @@ public class PhoneNumberActivity extends UltisActivity {
             public void onClick(View v) {
 
                 if (!number_phone.getText().equals("")) {
-                    C_Register.getVerifyCode(number_phone.getText().toString());
+                    String phone = number_phone.getText().toString();
+                    if(phone.charAt(0) == '0'){
+                        phone = phone.substring(1);
+                    }
+                    C_Register.getVerifyCode(phone);
                     Intent i = new Intent(PhoneNumberActivity.this, CodeVerificationActivity.class);
                     startActivity(i);
                 }

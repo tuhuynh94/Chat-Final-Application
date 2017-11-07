@@ -25,19 +25,9 @@ public class MainActivity extends UltisActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Server.getSocket().connect();
+//        Server.getSocket().connect();
         sign_in = (Button) findViewById(R.id.btn_sign_in);
         register = (Button) findViewById(R.id.btn_register);
-        Server.getSocket().on("abc", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                int k = 0;
-            }
-        });
-
-        Server server = Server.getInstance();
-//        server.addObserver(this);
-//        server.getData();
 
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
