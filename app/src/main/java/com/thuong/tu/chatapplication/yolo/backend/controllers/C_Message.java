@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class C_Message {
     public static void onCreate() {
-        Server.getSocket().on("chat_message", new Emitter.Listener() {
+        Server.getSocket().on("receive_message", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];

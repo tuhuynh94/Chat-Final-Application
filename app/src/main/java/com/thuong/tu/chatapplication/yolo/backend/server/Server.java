@@ -51,6 +51,7 @@ public class Server {
         C_Register.onCreate();
         C_Friend.onCreate();
         C_Message.onCreate();
+        C_Conversation.onCreate();
     }
 
     private static void loadInfo() {

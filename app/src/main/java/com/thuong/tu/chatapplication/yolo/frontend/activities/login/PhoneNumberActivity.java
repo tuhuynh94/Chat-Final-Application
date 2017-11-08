@@ -25,7 +25,6 @@ public class PhoneNumberActivity extends UltisActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!number_phone.getText().equals("")) {
                     String phone = number_phone.getText().toString();
                     if(phone.charAt(0) == '0'){

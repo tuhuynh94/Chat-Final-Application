@@ -11,24 +11,22 @@ import java.util.HashMap;
 
 public class C_Register {
     public static void onCreate() {
-        Server.getSocket().on("return_verfication_code", new Emitter.Listener() {
+        Server.getSocket().on("return_verification_code", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 boolean result;
                 try {
                     result = data.getBoolean("success");
-                    if (result) {
-
-                    } else {
-
-                    }
+                    EventBus.getDefault().post(new OnResultRegister(result, OnResultRegister.Type.registered));
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    result = false;
+                    OnResultRegister event = new OnResultRegister(result, OnResultRegister.Type.registered);
                 }
             }
         });
-        Server.getSocket().on("return_verfication", new Emitter.Listener() {
+        Server.getSocket().on("return_verification", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
@@ -73,7 +71,7 @@ public class C_Register {
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("code", code);
         JSONObject json = new JSONObject(data);
-        Server.getSocket().emit("respose", json);
+        Server.getSocket().emit("response", json);
     }
 
     public static void getVerifyCode(String phone) {
@@ -94,10 +92,6 @@ public class C_Register {
     public static class OnResultRegister {
         boolean result;
         String text;
-       public enum Type{
-            code,
-            register
-        }
         Type type;
         public OnResultRegister(boolean result, Type type){
             this.result = result;
@@ -126,6 +120,12 @@ public class C_Register {
 
         public void setType(Type type) {
             this.type = type;
+        }
+
+        public enum Type {
+            code,
+            register,
+            registered
         }
     }
 }
