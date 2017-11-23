@@ -18,11 +18,15 @@ public class C_Register {
                 boolean result;
                 try {
                     result = data.getBoolean("success");
-                    EventBus.getDefault().post(new OnResultRegister(result, OnResultRegister.Type.registered));
+                    if (result) {
+                        EventBus.getDefault().post(new OnResultRegister(result, OnResultRegister.Type.phone));
+                    } else {
+                        OnResultRegister event = new OnResultRegister(result, OnResultRegister.Type.phone);
+                        event.text = data.getString("info");
+                        EventBus.getDefault().post(event);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    result = false;
-                    OnResultRegister event = new OnResultRegister(result, OnResultRegister.Type.registered);
                 }
             }
         });
@@ -75,7 +79,6 @@ public class C_Register {
     }
 
     public static void getVerifyCode(String phone) {
-        Server.getSocket().connect();
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("phone", phone);
         JSONObject json = new JSONObject(data);
@@ -92,6 +95,11 @@ public class C_Register {
     public static class OnResultRegister {
         boolean result;
         String text;
+        public enum Type{
+            code,
+            register,
+            phone
+        }
         Type type;
         public OnResultRegister(boolean result, Type type){
             this.result = result;
@@ -120,12 +128,6 @@ public class C_Register {
 
         public void setType(Type type) {
             this.type = type;
-        }
-
-        public enum Type {
-            code,
-            register,
-            registered
         }
     }
 }

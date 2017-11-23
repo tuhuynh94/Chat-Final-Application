@@ -132,5 +132,11 @@ public class ClientModel {
         return (ConversationModel) this.m_list_conversations.stream()
                 .filter(i -> i.getConversation_id() == conversation_id);
     }
+
+    public static class OnLastMess{
+        public OnLastMess(){
+
+        }
+    }
 }
 

@@ -14,6 +14,8 @@ import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.Set;
+
 public class RegisterActivity extends UltisActivity {
     EditText pw;
     Button register;
@@ -59,6 +61,7 @@ public class RegisterActivity extends UltisActivity {
         if(result.getType() == C_Register.OnResultRegister.Type.register){
             if(result.isResult()){
                 Server.getSocket().close();
+                C_Register.OnDestroy();
                 Intent i  = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(i);
             }

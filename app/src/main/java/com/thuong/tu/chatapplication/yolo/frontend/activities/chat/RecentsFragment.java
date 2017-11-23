@@ -11,14 +11,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.entities.ListRecentsAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
 public class RecentsFragment extends Fragment {
     private static RecentsFragment fragment;
+    private static ListView list;
+    private static  ListRecentsAdapter adapter;
+    ArrayList<ConversationModel> conversations;
 
     public RecentsFragment() {
         // Required empty public constructor
@@ -42,9 +49,9 @@ public class RecentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__recents, container, false);
-        ListView list = (ListView) view.findViewById(R.id.list_recents);
-        ArrayList<ConversationModel> conversations = Server.owner.getListConversation();
-        ListRecentsAdapter adapter = new ListRecentsAdapter(getActivity(), R.layout.recents_layout, conversations);
+        list = (ListView) view.findViewById(R.id.list_recents);
+        conversations = Server.owner.getListConversation();
+        adapter = new ListRecentsAdapter(getActivity(), R.layout.recents_layout, conversations);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -68,4 +75,21 @@ public class RecentsFragment extends Fragment {
         super.onDetach();
     }
     //endregion
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+    @Subscribe
+    public  void OnMess(C_Message.OnMess onMess){
+        adapter.notifyDataSetChanged();
+    }
 }

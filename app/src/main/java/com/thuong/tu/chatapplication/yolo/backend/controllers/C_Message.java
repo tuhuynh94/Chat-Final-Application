@@ -4,11 +4,13 @@ import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.yolo.backend.API.Messages;
 import com.thuong.tu.chatapplication.yolo.backend.entities.MessageModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.utils.Converter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.HashMap;
 
 public class C_Message {
@@ -21,12 +23,24 @@ public class C_Message {
                     String creator = data.getString("creator");
                     String content = data.getString("content");
                     String conversation_id = data.getString("conversation_id");
+                    String date = data.getString("created_at");
+                    String type = data.getString("type");
                     if(!creator.equals(Server.owner.get_Phone())){
                         MessageModel mes = new MessageModel();
                         mes.set_is_creator(false);
                         mes.set_message(content);
                         mes.set_conversation_id(conversation_id);
+                        mes.set_create_at(Converter.stringToDateTime(date));
                         Server.owner.add_Message(conversation_id, mes);
+                        EventBus.getDefault().post(new OnMess());
+                    }
+                    else{
+//                        MessageModel mes = new MessageModel();
+//                        mes.set_is_creator(true);
+//                        mes.set_message(content);
+//                        mes.set_conversation_id(conversation_id);
+//                        mes.set_create_at(Converter.stringToDateTime(date));
+//                        Server.owner.add_Message(conversation_id, mes);
                         EventBus.getDefault().post(new OnMess());
                     }
                 } catch (JSONException e) {
@@ -51,7 +65,6 @@ public class C_Message {
 
     public static void addMessage(String content, String conversation_id) {
         MessageModel ms = Messages.addMessage(content, conversation_id);
-        EventBus.getDefault().post(new OnMess());
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("conversation_id", conversation_id);
         data.put("msg", content);

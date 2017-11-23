@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.login.LoginActivity;
@@ -41,6 +42,8 @@ public class MainActivity extends UltisActivity implements Observer {
             @Override
             public void onClick(View v) {
                 v.startAnimation(buttonClick);
+                Server.getSocket().connect();
+                C_Register.onCreate();
                 Intent i = new Intent(MainActivity.this, PhoneNumberActivity.class);
                 startActivity(i);
             }
