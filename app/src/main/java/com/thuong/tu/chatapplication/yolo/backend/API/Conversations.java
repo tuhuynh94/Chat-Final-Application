@@ -28,13 +28,13 @@ public class Conversations {
         return conversationModel;
     }
 
-    public static void getSingleConversation(String conversation_id) {
+    public static ConversationModel getSingleConversation(String conversation_id) {
         builder = new Uri.Builder();
         builder.appendQueryParameter("conversation_id", conversation_id);
         String url = Constant.M_HOST + Constant.M_CONVERSATION_SINGLE;
         String result = uService.execute(builder, url);
         ConversationModel conversationModel = loadConversation_R(result);
-//        return conversationModel;
+        return conversationModel;
     }
     private static ConversationModel loadConversation_R(String execute) {
         ConversationModel conversation = new ConversationModel();
@@ -60,7 +60,7 @@ public class Conversations {
         return conversation;
     }
 
-    public static void kickMember(String conversation_id) {
+    public static void removeMember(String conversation_id) {
         builder = new Uri.Builder();
         builder.appendQueryParameter("conversation_id", conversation_id);
         builder.appendQueryParameter("name", Server.owner.get_ConversationByID(conversation_id).getMember());

@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.yolo.backend.API.Conversations;
+import com.thuong.tu.chatapplication.yolo.backend.API.Messages;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 
@@ -32,7 +33,7 @@ public class C_Conversation {
                         //get new conversations by PHP
                         Conversations.getSingleConversation(conversation_id);
                     }
-
+                    //duoc ng khác add vào conversation
                     EventBus.getDefault().post(new C_Conversation
                             .OnResultConversation(sys_msg, OnResultConversation.Type.add_conversation));
                 } catch (JSONException e) {
@@ -42,7 +43,7 @@ public class C_Conversation {
                 }
             }
         });
-        Server.getSocket().on("confirm_add_new_mem", new Emitter.Listener() {
+        Server.getSocket().on("r_add_new_mem", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 data = (JSONObject) args[0];
@@ -53,13 +54,11 @@ public class C_Conversation {
                     String user_add = data.getString("user_add");
                     String user_join = data.getString("user_join");
                     String conversation_id = data.getString("conversation_id");
-
-                    ConversationModel conversation = Server.owner.get_ConversationByID(conversation_id);
-                    Server.owner.add_AllConversation(conversation_id);
                     //send to PHP add a conversation
-                    Conversations.getSingleConversation(conversation_id);
+                    ConversationModel conversation = Conversations.getSingleConversation(conversation_id);
+                    Server.owner.add_AllConversation(conversation_id);
                     //load msg in that conversation
-//                    Messages.getMsgInConversastion(conversation_id);
+                    Messages.getMsgInConversation(conversation_id);
 
                     if (user_add.equals(Server.owner.get_username())) {
                         sys_msg = "You added " + user_join + " to your conversation.";
@@ -68,6 +67,7 @@ public class C_Conversation {
                     } else {
                         sys_msg = user_add + " added " + user_join + " to your conversation.";
                     }
+
                     EventBus.getDefault().post(new C_Conversation
                             .OnResultConversation(sys_msg, C_Conversation.OnResultConversation.Type.add_member));
 
@@ -78,9 +78,34 @@ public class C_Conversation {
                 }
             }
         });
+        Server.getSocket().on("r_leave_conversation", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                data = (JSONObject) args[0];
+                String sys_msg = "";
+
+                try {
+                    boolean check = data.getBoolean("check");
+                    if (check) {
+                        String username = data.getString("username") + "";
+                        sys_msg = "You had left";
+                    } else {
+                        String kicked = data.getString("user_kicked");
+                        sys_msg = kicked + " had left";
+                    }
+                    EventBus.getDefault()
+                            .post(new OnResultConversation(sys_msg, OnResultConversation.Type.kick_member));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    EventBus.getDefault()
+                            .post(new OnResultConversation(sys_msg, OnResultConversation.Type.kick_member));
+                }
+
+            }
+        });
     }
     public static void onDestroy() {
-        Server.getSocket().off("confirm_add_new_mem");
+        Server.getSocket().off("r_add_new_mem");
         Server.getSocket().off("r_add_conversation");
     }
     public static void sendUpdateConversation() {
@@ -90,9 +115,8 @@ public class C_Conversation {
         Server.getSocket().emit("request_load_conversation", json);
     }
     /**
-     * @param name
+     * @param name conversation's name
      * @param mem  id all phone number of member | split by ',' | contain owner
-     * @return
      */
     public static void createConversation(String name, String mem) {
         //TODO -- DONE send to PHP
@@ -107,6 +131,7 @@ public class C_Conversation {
         Server.getSocket().emit("add_new_conversation", new JSONObject(p));
     }
 
+    //check
     public static void addNewMember(String conversation_id, String phone, String username) {
         ConversationModel conversation = Server.owner.get_ConversationByID(conversation_id);
         // add to current conversation
@@ -122,20 +147,42 @@ public class C_Conversation {
         Server.getSocket().emit("add_new_mem", json);
     }
 
+    //check
     public static void kickMember(String conversation_id, String phone) {
-        ConversationModel a = Server.owner.get_ConversationByID(conversation_id);
+        removeMember(conversation_id, phone);
+        Conversations.removeMember(conversation_id);
 
-        String[] arr = a.getMember().split(",");
-        for (String item : arr) {
-            if (item.trim().equals(phone)) {
-                item = "";
+        //TODO--DONE send to sever -- update node server
+        HashMap<String, String> p = new HashMap<>();
+        p.put("conversation_id", conversation_id);
+        p.put("phone", phone);
+        p.put("username", phone);
+        Server.getSocket().emit("kick_member", new JSONObject(p));
+    }
+
+    //check
+    public static void leave(String conversation_id) {
+        removeMember(conversation_id, Server.owner.get_Phone());
+        Conversations.removeMember(conversation_id);
+
+        //TODO--DONE send to sever -- update node server
+        HashMap<String, String> p = new HashMap<>();
+        p.put("conversation_id", conversation_id);
+        p.put("phone", Server.owner.get_Phone());
+        p.put("username", Server.owner.get_Phone());
+        Server.getSocket().emit("leave_conversation", new JSONObject(p));
+    }
+
+    private static void removeMember(String conversation_id, String phone) {
+        ConversationModel a = Server.owner.get_ConversationByID(conversation_id);
+        String[] array = a.getMember().split(",");
+        StringBuilder k = new StringBuilder("");
+        for (int i = 0; i < array.length; i++) {
+            if (!array[i].equals(phone)) {
+                k.append(array[i] + ",");
             }
         }
-
-        a.setMember(arr.toString());
-        Conversations.kickMember(conversation_id);
-
-        //TODO send to sever -- update node server
+        a.setMember(k.toString());
     }
 
     public static class OnResultConversation {
@@ -166,6 +213,8 @@ public class C_Conversation {
         public enum Type {
             add_conversation, //add into new conversation
             add_member,
+            kick_member,
+            leave_conversation
         }
     }
 }
