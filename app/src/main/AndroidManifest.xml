@@ -6,9 +6,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_app_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_app"
+        android:roundIcon="@mipmap/ic_app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".yolo.frontend.activities.MainActivity">
@@ -22,10 +22,25 @@
         <activity android:name=".yolo.frontend.activities.login.CodeVerificationActivity" />
         <activity android:name=".yolo.frontend.activities.login.PhoneNumberActivity" />
         <!-- <activity android:name=".yolo.frontend.activities.login.RegisterActivity"></activity> -->
-        <activity android:name=".yolo.frontend.activities.chat.MainChatActivity" android:label=""/>
+        <activity
+            android:name=".yolo.frontend.activities.chat.MainChatActivity"
+            android:label="CHAT"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity android:name=".yolo.frontend.activities.chat.ChatActivity" />
         <activity android:name=".yolo.frontend.UltisActivity" />
         <activity android:name=".yolo.frontend.activities.login.RegisterActivity" />
+        <activity
+            android:name=".yolo.frontend.activities.MainChatActivityTemp"
+            android:label="@string/title_activity_main_chat_temp"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
