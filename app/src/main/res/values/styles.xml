@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/primaryLightColor</item>
     </style>
 
+
     <!--Input field style-->
     <style name="input_field">
         <item name="android:textColorHint">@android:color/white</item>

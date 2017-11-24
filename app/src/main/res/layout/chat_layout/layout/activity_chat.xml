@@ -6,14 +6,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:background="#FF8E80">
-
-        <Button
-            android:id="@+id/option"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/ic_more_horiz_black_24dp" />
 
         <TextView
             android:id="@+id/txt_name"
@@ -39,11 +33,13 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:stackFromBottom="true"
+        android:layout_weight="8"
         android:transcriptMode="alwaysScroll" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <EditText

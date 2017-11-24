@@ -62,7 +62,6 @@ public class ChatActivity extends UltisActivity {
     private void initElements() {
         back = (Button) findViewById(R.id.back);
         send = (Button) findViewById(R.id.send);
-        option = (Button) findViewById(R.id.option);
         input_message = (EditText) findViewById(R.id.input_mess);
         name = (TextView) findViewById(R.id.txt_name);
     }
