@@ -40,8 +40,8 @@ public class Server {
         data.put("phone", Server.owner.get_Phone());
         data.put("username", Server.owner.get_username());
         data.put("birthday", Server.owner.get_Birthday().toString());
-        JSONObject json = new JSONObject(data);
-        getSocket().emit("connect_to_server", json);
+        data.put("conversation_id", Server.owner.get_AllConversation());
+        getSocket().emit("login", new JSONObject(data));
 
         loadInfo();//send message to node to init data of this user
         listEvent();//list of message need to list in node

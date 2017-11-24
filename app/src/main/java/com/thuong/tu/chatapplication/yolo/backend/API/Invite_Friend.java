@@ -29,16 +29,19 @@ public class Invite_Friend {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < jsonArray.length(); i++) {
-            InvitationModel invitation = new InvitationModel();
-            try {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                invitation.setFromPhone(jsonObject.getString("from_phone"));
-                invitation.setFromUser(jsonObject.getString("from_user"));
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if (jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                InvitationModel invitation = new InvitationModel();
+                try {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    invitation.setFromPhone(jsonObject.getString("from_phone"));
+                    invitation.setFromUser(jsonObject.getString("from_user"));
+                    invitation.set_status(jsonObject.getString("status"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Server.owner.set_Invite_friends(invitation);
             }
-            Server.owner.set_Invite_friends(invitation);
         }
     }
 }

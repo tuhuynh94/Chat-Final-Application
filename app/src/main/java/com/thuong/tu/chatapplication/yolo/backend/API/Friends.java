@@ -22,7 +22,8 @@ public class Friends {
         builder.appendQueryParameter("other_phone", from);
         String url = Constant.M_HOST + Constant.M_FRIEND_ADD;
         String result = uService.execute(builder, url);
-        return loadFriend_R(result);
+        FriendModel friendModel = loadFriend_R(result);
+        return friendModel;
     }
 
     private static FriendModel loadFriend_R(String execute) {
@@ -39,7 +40,6 @@ public class Friends {
                 friend.setBirthday(Converter.stringToDate(jsonObject.getString("birthday")));
                 friend.setAdd_at(Converter.stringToDateTime(jsonObject.getString("add_at")));
                 friend.setFriend_phone(jsonObject.getString("friend_phone"));
-                friend.setFriend_username(jsonObject.getString("username"));
                 friend.set_email(jsonObject.getString("email"));
             } catch (JSONException e) {
                 e.printStackTrace();

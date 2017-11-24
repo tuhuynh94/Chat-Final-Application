@@ -5,6 +5,17 @@ public class InvitationModel {
     private String m_fromUser;
     private String m_fromPhone;
 
+    private String m_status;
+
+    public String get_status() {
+        return m_status;
+    }
+
+    public void set_status(String m_status) {
+        this.m_status = m_status;
+    }
+
+
     //Getter
     public String getFromPhone() {
         return m_fromPhone;
