@@ -2,6 +2,7 @@ package com.thuong.tu.chatapplication.yolo.backend.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 public class ConversationModel implements Serializable{
@@ -12,6 +13,15 @@ public class ConversationModel implements Serializable{
     private String m_conversation_name;
     private String m_member; //cách nhau bởi;
     private MessageModel m_last_message;
+    private List<ClientModel> inforOfMember;
+
+    public List<ClientModel> getInforOfMember() {
+        return inforOfMember;
+    }
+
+    public void setInforOfMember(List<ClientModel> inforOfMember) {
+        this.inforOfMember = inforOfMember;
+    }
 
     //Getter
     public String getConversation_id() {

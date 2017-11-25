@@ -119,11 +119,11 @@ public class C_Conversation {
      * @param mem  id all phone number of member | split by ',' | contain owner
      */
     public static void createConversation(String name, String mem) {
-        //TODO -- DONE send to PHP
+        //send to PHP
         ConversationModel conversation = Conversations.createConversation(name, mem);
         Server.owner.add_AllConversation(conversation.getConversation_id());
 
-        //TODO -- DONE send to sever -- update node server
+        //send to sever -- update node server
         HashMap<String, String> p = new HashMap<>();
         p.put("conversation_id", conversation.getConversation_id());
         p.put("conversation_name", conversation.getConversation_name());
@@ -138,7 +138,7 @@ public class C_Conversation {
         conversation.addNewMem(phone);
         //send to PHP
         Conversations.addNewMember(conversation_id, phone);
-        //TODO send to sever -- update node server
+        //send to sever -- update node server
         HashMap<String, String> data = new HashMap<>();
         data.put("conversation_id", conversation_id);
         data.put("other_phone", phone);
@@ -152,7 +152,7 @@ public class C_Conversation {
         removeMember(conversation_id, phone);
         Conversations.removeMember(conversation_id);
 
-        //TODO--DONE send to sever -- update node server
+        //send to sever -- update node server
         HashMap<String, String> p = new HashMap<>();
         p.put("conversation_id", conversation_id);
         p.put("phone", phone);
@@ -165,7 +165,7 @@ public class C_Conversation {
         removeMember(conversation_id, Server.owner.get_Phone());
         Conversations.removeMember(conversation_id);
 
-        //TODO--DONE send to sever -- update node server
+        //send to sever -- update node server
         HashMap<String, String> p = new HashMap<>();
         p.put("conversation_id", conversation_id);
         p.put("phone", Server.owner.get_Phone());

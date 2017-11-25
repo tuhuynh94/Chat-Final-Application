@@ -32,8 +32,6 @@ public class C_Friend {
                     invitation.setFromPhone(from);
                     invitation.setFromUser(from_user);
                     Server.owner.set_Invite_friends(invitation);
-
-                    //TODO event have invitation
                     EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.add_friend));
 
                 } catch (JSONException e) {
@@ -54,12 +52,10 @@ public class C_Friend {
                     if (is_accept) {
                         FriendModel friend = Friends.addFriend(from);
                         n_add_friend(friend);
-                        //TODO event accept friend
                         EventBus.getDefault()
                                 .post(new OnResultFriend(OnResultFriend.Type.accept_add_friend));
 
                     } else {
-                        //TODO  event denny friend
                         EventBus.getDefault()
                                 .post(new OnResultFriend(OnResultFriend.Type.deny_add_friend));
                     }
@@ -78,7 +74,6 @@ public class C_Friend {
                     String friend_phone = data.getString("friend_phone");
                     String friend_name = data.getString("friend_name");
                     un_friend(friend_phone, "false");
-                    //TODO event un friend
                     EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.un_friend));
                 } catch (JSONException e) {
                     e.printStackTrace();

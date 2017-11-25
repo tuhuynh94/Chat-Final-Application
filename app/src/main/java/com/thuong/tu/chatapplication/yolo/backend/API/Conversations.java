@@ -107,7 +107,9 @@ public class Conversations {
                     conversation.setCreator(jsonObject.getString("creator"));
                     conversation.setCreated_at(Converter.stringToDateTime(jsonObject.getString("created_at")));
                     conversation.setUpdated_at(Converter.stringToDateTime(jsonObject.getString("updated_at")));
-                    conversation.setMember(jsonObject.getString("member"));
+                    String mems = jsonObject.getString("member");
+                    conversation.setMember(mems);
+                    conversation.setInforOfMember(User.loadUserInConversation(mems));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

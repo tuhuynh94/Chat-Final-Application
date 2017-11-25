@@ -47,6 +47,10 @@ public class Server {
         listEvent();//list of message need to list in node
     }
 
+    public static void beforDisconnet() {
+        getSocket().emit("before_disconnect");
+    }
+
     private static void listEvent() {
         C_Register.onCreate();
         C_Friend.onCreate();
