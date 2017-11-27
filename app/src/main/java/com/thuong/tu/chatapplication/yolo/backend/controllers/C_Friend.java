@@ -18,7 +18,6 @@ import java.util.HashMap;
 
 public class C_Friend {
     private static Uri.Builder builder = null;
-
     public static void onCreate() {
         Server.getSocket().on("invite_friend", new Emitter.Listener() {
             @Override
@@ -32,11 +31,11 @@ public class C_Friend {
                     invitation.setFromPhone(from);
                     invitation.setFromUser(from_user);
                     Server.owner.set_Invite_friends(invitation);
-                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.add_friend));
+                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.ADD_FRIEND));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.add_friend));
+                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.ADD_FRIEND));
                 }
             }
         });
@@ -53,11 +52,11 @@ public class C_Friend {
                         FriendModel friend = Friends.addFriend(from);
                         n_add_friend(friend);
                         EventBus.getDefault()
-                                .post(new OnResultFriend(OnResultFriend.Type.accept_add_friend));
+                                .post(new OnResultFriend(OnResultFriend.Type.ACCEPT_ADD_FRIEND));
 
                     } else {
                         EventBus.getDefault()
-                                .post(new OnResultFriend(OnResultFriend.Type.deny_add_friend));
+                                .post(new OnResultFriend(OnResultFriend.Type.DENY_ADD_FRIEND));
                     }
 
                 } catch (JSONException e) {
@@ -74,10 +73,27 @@ public class C_Friend {
                     String friend_phone = data.getString("friend_phone");
                     String friend_name = data.getString("friend_name");
                     un_friend(friend_phone, "false");
-                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.un_friend));
+                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.UN_FRIEND));
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.un_friend));
+                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.UN_FRIEND));
+                }
+            }
+        });
+        Server.getSocket().on("broadcast_all_friend", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                String sys_msg = "";
+                try {
+                    String type = data.getString("type");
+                    if (type.equals("online")) {
+                        String user = data.getString("user");
+                        sys_msg = user + " is online";
+                        EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.BROADCAST_ALL_FRIEND));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -168,10 +184,11 @@ public class C_Friend {
         }
 
         public enum Type {
-            add_friend,
-            accept_add_friend,
-            deny_add_friend,
-            un_friend,
+            ADD_FRIEND,
+            ACCEPT_ADD_FRIEND,
+            DENY_ADD_FRIEND,
+            UN_FRIEND,
+            BROADCAST_ALL_FRIEND,
         }
     }
 }
