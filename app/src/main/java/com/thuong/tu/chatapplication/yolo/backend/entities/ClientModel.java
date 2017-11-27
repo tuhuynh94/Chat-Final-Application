@@ -1,10 +1,11 @@
 package com.thuong.tu.chatapplication.yolo.backend.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class ClientModel {
+public class ClientModel implements Serializable{
 
     private String m_phone;
     private String m_username;
