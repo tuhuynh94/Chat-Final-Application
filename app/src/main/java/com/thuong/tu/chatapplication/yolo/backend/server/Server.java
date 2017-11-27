@@ -1,5 +1,6 @@
 package com.thuong.tu.chatapplication.yolo.backend.server;
 
+import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
@@ -9,6 +10,8 @@ import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.utils.Constant;
 
+import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.annotations.Contract;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
@@ -19,17 +22,49 @@ public class Server {
     public static ClientModel owner = new ClientModel();
     private static Socket mSocket;
         {
+            IO.Options options = new IO.Options();
+//            options.forceNew = true;
+//            options.reconnection = true;
+//            options.reconnectionDelayMax = 3;
+//            options.reconnectionDelay = 1;
             try {
                 mSocket = IO.socket(Constant.M_HOST + ":" + Constant.M_SERVER_PORT);
             } catch (URISyntaxException e) {}
         }
 
+    @Contract(pure = true)
     public static Server getInstance() {
         return ourInstance;
     }
 
+    @Contract(pure = true)
     public static Socket getSocket(){
         return mSocket;
+    }
+
+    public static void onCreate() {
+        getSocket().on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                //server disconnect
+                EventBus.getDefault()
+                        .post(new OnResultServer(OnResultServer.Type.DISCONNECT));
+            }
+        });
+        getSocket().on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                EventBus.getDefault()
+                        .post(new OnResultServer(OnResultServer.Type.CONNECT_ERROR));
+            }
+        });
+        getSocket().on(Socket.EVENT_RECONNECTING, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                EventBus.getDefault()
+                        .post(new OnResultServer(OnResultServer.Type.RECONNECTING));
+            }
+        });
     }
 
     public static void connectNode() {
@@ -61,5 +96,27 @@ public class Server {
     private static void loadInfo() {
         C_Friend.sendUpdateFriend();
         C_Conversation.sendUpdateConversation();
+    }
+
+    public static class OnResultServer {
+        Type type;
+
+        public OnResultServer(Type type) {
+            this.type = type;
+        }
+
+        public Type getType() {
+            return type;
+        }
+
+        public void setType(Type type) {
+            this.type = type;
+        }
+
+        public enum Type {
+            DISCONNECT,
+            RECONNECTING,
+            CONNECT_ERROR
+        }
     }
 }
