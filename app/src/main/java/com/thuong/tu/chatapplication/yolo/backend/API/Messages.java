@@ -65,7 +65,7 @@ public class Messages {
 
     public static void loadMessage() {
         builder = new Uri.Builder();
-        builder.appendQueryParameter("conversations", Server.owner.get_AllConversation() + ",");
+        builder.appendQueryParameter("conversations", Server.owner.get_AllConversation());
         String url = Constant.M_HOST + Constant.M_MESSAGE;
         String result = uService.execute(builder, url);
         loadMessage(result);

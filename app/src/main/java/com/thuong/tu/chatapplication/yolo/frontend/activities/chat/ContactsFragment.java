@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 public class ContactsFragment extends Fragment {
     private static ContactsFragment fragment;
+    ArrayList<FriendModel> friends;
+    ListView list;
+
 
     public ContactsFragment() {
         // Required empty public constructor
@@ -41,8 +44,8 @@ public class ContactsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
-        ListView list = (ListView) view.findViewById(R.id.list_contacts);
-        ArrayList<FriendModel> friends = Server.owner.get_listFriends();
+        list = (ListView) view.findViewById(R.id.list_contacts);
+        friends = Server.owner.get_listFriends();
         ListContactAdapter adapter = new ListContactAdapter(getActivity(), R.layout.contact_layout, friends);
         list.setAdapter(adapter);
         return view;

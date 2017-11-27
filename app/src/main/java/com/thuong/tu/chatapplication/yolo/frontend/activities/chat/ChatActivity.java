@@ -8,8 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.MessageModel;
@@ -19,6 +21,7 @@ import com.thuong.tu.chatapplication.yolo.frontend.entities.ListMessageAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -82,5 +85,16 @@ public class ChatActivity extends UltisActivity {
     public  void OnMess(C_Message.OnMess onMess){
         messages = Server.owner.get_AllMessageByConversationID(conversationModel.getConversation_id());
         adapter.notifyDataSetChanged();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void OnInviteFriend(C_Friend.OnResultFriend onResultFriend){
+        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.ADD_FRIEND){
+            Toast.makeText(getApplicationContext(), "Accept", Toast.LENGTH_SHORT).show();
+        }
+        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.DENY_ADD_FRIEND){
+            Toast.makeText(getApplicationContext(), "Deny", Toast.LENGTH_SHORT).show();
+        }
     }
 }
