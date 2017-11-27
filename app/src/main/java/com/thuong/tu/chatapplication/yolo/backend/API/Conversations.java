@@ -2,6 +2,7 @@ package com.thuong.tu.chatapplication.yolo.backend.API;
 
 import android.net.Uri;
 
+import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.utils.Constant;
@@ -11,6 +12,9 @@ import com.thuong.tu.chatapplication.yolo.utils.uService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class Conversations {
 
@@ -109,7 +113,10 @@ public class Conversations {
                     conversation.setUpdated_at(Converter.stringToDateTime(jsonObject.getString("updated_at")));
                     String mems = jsonObject.getString("member");
                     conversation.setMember(mems);
-                    conversation.setInforOfMember(User.loadUserInConversation(mems));
+                    List<ClientModel> users = User.loadUserInConversation(mems);
+                    HashMap<String, ClientModel> map = new HashMap<>();
+                    users.forEach(u -> map.put(u.get_Phone(), u));
+                    conversation.setInforOfMember(map);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -1,5 +1,6 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.chat;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,7 @@ import android.view.View;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.friends.AddFriendActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.utils.PagerAdapter;
 
 public class MainChatActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -85,7 +87,9 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.add_friend) {
+            Intent i = new Intent(MainChatActivity.this, AddFriendActivity.class);
+            startActivity(i);
             return true;
         }
 
