@@ -74,8 +74,11 @@ public class Server {
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("phone", Server.owner.get_Phone());
         data.put("username", Server.owner.get_username());
+        data.put("email", Server.owner.get_Email());
         data.put("birthday", Server.owner.get_Birthday().toString());
         data.put("conversation_id", Server.owner.get_AllConversation());
+        data.put("gender", Server.owner.get_gender() ? "1" : "0");
+        data.put("image_source", Server.owner.get_imageSource());
         getSocket().emit("login", new JSONObject(data));
 
         loadInfo();//send message to node to init data of this user

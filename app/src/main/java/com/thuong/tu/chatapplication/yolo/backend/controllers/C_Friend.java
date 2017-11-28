@@ -49,7 +49,6 @@ public class C_Friend {
                     String from = data.getString("from");
                     String from_user = data.getString("from_username");
                     Date birthday = Converter.stringToDate(data.getString("birthday"));
-
                     String sys_msg = "";
                     if (is_accept) {
                         FriendModel friend = Friends.addFriend(from);
@@ -126,7 +125,6 @@ public class C_Friend {
 
             }
         });
-
     }
     //notify to node inform accept add friend -- add new friend to socket friends list
 

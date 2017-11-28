@@ -14,12 +14,19 @@ public class ClientModel implements Serializable{
     private String m_allConversation = "";//split by ;
     private String m_imageSource = "";
     private String m_status;
-
+    private boolean m_gender; //0:Female - 1:Male
     private ArrayList<FriendModel> m_list_friends = new ArrayList<>();
     private ArrayList<ConversationModel> m_list_conversations = new ArrayList<>();
     private ArrayList<InvitationModel> m_invite_friends = new ArrayList<>();
-
     private HashMap<String, ArrayList<MessageModel>> m_hash_messages = new HashMap<>();
+
+    public boolean get_gender() {
+        return m_gender;
+    }
+
+    public void set_gender(boolean m_gender) {
+        this.m_gender = m_gender;
+    }
 
     public String get_imageSource() {
         return m_imageSource;

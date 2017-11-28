@@ -9,6 +9,24 @@ public class FriendModel {
     private Date m_add_at;
     private String m_friend_phone;
     private String m_email;
+    private String m_image_source;
+    private boolean m_gender; //0:Female -- 1:Male
+
+    public String get_image_source() {
+        return m_image_source;
+    }
+
+    public void set_image_source(String m_image_source) {
+        this.m_image_source = m_image_source;
+    }
+
+    public boolean is_gender() {
+        return m_gender;
+    }
+
+    public void set_gender(boolean m_gender) {
+        this.m_gender = m_gender;
+    }
 
     //getter
     public String getFriend_phone() {

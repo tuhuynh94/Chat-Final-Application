@@ -41,6 +41,8 @@ public class Friends {
                 friend.setAdd_at(Converter.stringToDateTime(jsonObject.getString("add_at")));
                 friend.setFriend_phone(jsonObject.getString("friend_phone"));
                 friend.set_email(jsonObject.getString("email"));
+                friend.set_image_source(jsonObject.getString("image_source"));
+                friend.set_gender(jsonObject.getString("gender").equals("1"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -79,6 +81,8 @@ public class Friends {
                 friend.setFriend_phone(jsonObject.getString("friend_phone"));
                 friend.setFriend_username(jsonObject.getString("username"));
                 friend.set_email(jsonObject.getString("email"));
+                friend.set_image_source(jsonObject.getString("image_source"));
+                friend.set_gender(jsonObject.getString("gender").equals("1"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
