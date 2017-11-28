@@ -2,19 +2,27 @@ package com.thuong.tu.chatapplication.yolo.frontend.activities.chat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.API.Conversations;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
+import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
+import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.FriendModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.entities.ListContactAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactsFragment extends Fragment {
     private static ContactsFragment fragment;
@@ -48,6 +56,30 @@ public class ContactsFragment extends Fragment {
         friends = Server.owner.get_listFriends();
         ListContactAdapter adapter = new ListContactAdapter(getActivity(), R.layout.contact_layout, friends);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                List<ConversationModel> conversations = Server.owner.getListConversation();
+                FriendModel friend = friends.get(position);
+                boolean check = false;
+                for (ConversationModel conversation : conversations) {
+                    if(conversation.getInforOfMember().get(friend.getFriend_phone()) != null){
+                        check = true;
+                        Intent intent = new Intent(getContext(), ChatActivity.class);
+                        intent.putExtra("conversation", conversation);
+                        startActivity(intent);
+                        break;
+                    }
+                }
+                if(!check){
+                    C_Conversation.createConversation(friend.get_username(), friend.getFriend_phone());
+                    ConversationModel conversationModel = new ConversationModel();
+                    Intent intent = new Intent(getContext(), ChatActivity.class);
+                    intent.putExtra("conversation", conversationModel);
+                    startActivity(intent);
+                }
+            }
+        });
         return view;
     }
 

@@ -40,7 +40,8 @@
         <activity
             android:name=".yolo.frontend.activities.MainChatActivityTemp"
             android:label="@string/title_activity_main_chat_temp"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".yolo.frontend.activities.friends.AddFriendActivity"></activity>
     </application>
 
 </manifest>
