@@ -54,7 +54,7 @@ public class C_Friend {
                     if (is_accept) {
                         FriendModel friend = Friends.addFriend(from);
                         sys_msg = from_user + " accepted your invitation.";
-                        n_add_friend(friend);
+                        //TODO UPDATE friend UI
                         EventBus.getDefault()
                                 .post(new OnResultFriend(sys_msg, OnResultFriend.Type.ACCEPT_ADD_FRIEND));
 
@@ -129,17 +129,19 @@ public class C_Friend {
 
     }
     //notify to node inform accept add friend -- add new friend to socket friends list
-    private static void n_add_friend(FriendModel _friend) {
-        HashMap<String, String> data = new HashMap<String, String>();
-        data.put("other_phone", _friend.getFriend_phone());
-        data.put("email", _friend.get_email());
-        data.put("birthday", _friend.get_birthday().toString());
-        data.put("username", _friend.get_username());
-        data.put("add_at", _friend.get_add_at().toString());
 
-        JSONObject json = new JSONObject(data);
-        Server.getSocket().emit("update_add_friend", json);
-    }
+    /**
+     private static void n_add_friend(FriendModel _friend) {
+     HashMap<String, String> data = new HashMap<String, String>();
+     data.put("other_phone", _friend.getFriend_phone());
+     data.put("email", _friend.get_email());
+     data.put("birthday", _friend.get_birthday().toString());
+     data.put("username", _friend.get_username());
+     data.put("add_at", _friend.get_add_at().toString());
+
+     JSONObject json = new JSONObject(data);
+     Server.getSocket().emit("update_add_friend", json);
+     }*/
     public static void OnDestroy() {
         Server.getSocket().off("invite_friend");
         Server.getSocket().off("return_response_invite_friend");
