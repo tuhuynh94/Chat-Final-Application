@@ -123,15 +123,20 @@ public class ClientModel implements Serializable{
     }
 
     public MessageModel get_SingleMessage(String conversation_id, String message_id) {
-        return (MessageModel) this.m_hash_messages.get(conversation_id).stream()
-                .filter(i -> i.get_message_id().equals(message_id));
+        return this.m_hash_messages.get(conversation_id).stream()
+                .filter(i -> i.get_message_id().equals(message_id)).findFirst().get();
     }
     /**
      * get obj conversation in list conversations by conversation id
      */
     public ConversationModel get_ConversationByID(String conversation_id) {
-        return (ConversationModel) this.m_list_conversations.stream()
-                .filter(i -> i.getConversation_id() == conversation_id);
+        return this.m_list_conversations.stream()
+                .filter(i -> i.getConversation_id() == conversation_id).findFirst().get();
+    }
+
+    public InvitationModel getSingleInvitaion(String from) {
+        return this.m_invite_friends.stream()
+                .filter(i -> i.getFromPhone().equals(from)).findFirst().get();
     }
 
     public static class OnLastMess{
