@@ -23,19 +23,20 @@ public class C_Friend {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
+                String sys_msg = "";
                 try {
                     String from = data.getString("from");
                     String from_user = data.getString("from_username");
-
+                    sys_msg = from_user + " want to make friend with you";
                     InvitationModel invitation = new InvitationModel();
                     invitation.setFromPhone(from);
                     invitation.setFromUser(from_user);
                     Server.owner.set_Invite_friends(invitation);
-                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.ADD_FRIEND));
+                    EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.ADD_FRIEND));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.ADD_FRIEND));
+                    EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.ADD_FRIEND));
                 }
             }
         });
@@ -48,15 +49,19 @@ public class C_Friend {
                     String from = data.getString("from");
                     String from_user = data.getString("from_username");
                     Date birthday = Converter.stringToDate(data.getString("birthday"));
+
+                    String sys_msg = "";
                     if (is_accept) {
                         FriendModel friend = Friends.addFriend(from);
-                        n_add_friend(friend);
+                        sys_msg = from_user + " accepted your invitation.";
+                        //TODO UPDATE friend UI
                         EventBus.getDefault()
-                                .post(new OnResultFriend(OnResultFriend.Type.ACCEPT_ADD_FRIEND));
+                                .post(new OnResultFriend(sys_msg, OnResultFriend.Type.ACCEPT_ADD_FRIEND));
 
                     } else {
+                        sys_msg = from_user + " denied your invitation.";
                         EventBus.getDefault()
-                                .post(new OnResultFriend(OnResultFriend.Type.DENY_ADD_FRIEND));
+                                .post(new OnResultFriend(sys_msg, OnResultFriend.Type.DENY_ADD_FRIEND));
                     }
 
                 } catch (JSONException e) {
@@ -73,10 +78,10 @@ public class C_Friend {
                     String friend_phone = data.getString("friend_phone");
                     String friend_name = data.getString("friend_name");
                     un_friend(friend_phone, "false");
-                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.UN_FRIEND));
+                    EventBus.getDefault().post(new OnResultFriend("", OnResultFriend.Type.UN_FRIEND));
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.UN_FRIEND));
+                    EventBus.getDefault().post(new OnResultFriend("", OnResultFriend.Type.UN_FRIEND));
                 }
             }
         });
@@ -87,33 +92,61 @@ public class C_Friend {
                 String sys_msg = "";
                 try {
                     String type = data.getString("type");
+                    String user = data.getString("user");
                     if (type.equals("online")) {
-                        String user = data.getString("user");
                         sys_msg = user + " is online";
-                        EventBus.getDefault().post(new OnResultFriend(OnResultFriend.Type.BROADCAST_ALL_FRIEND));
+                        EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.BROADCAST_FRIENDS_ONLINE));
+                    }
+                    if (type.equals("offline")) {
+                        sys_msg = user + " is online";
+                        EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.BROADCAST_FRIENDS_OFFNLINE));
+                    }
+                    if (type.equals("update_info")) {
+                        // update infor of that friend
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+        //sau khi da gui len server del invitation
+        Server.getSocket().on("answered_invitation", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String from = data.getString("from");
+                    InvitationModel invitation = Server.owner.getSingleInvitaion(from);
+                    Server.owner.get_Invite_friends().remove(invitation);
+                    //TODO update friend + invitation UI
+                    EventBus.getDefault().post(new OnResultFriend("", OnResultFriend.Type.ANSWERED_INVITATION));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
     }
     //notify to node inform accept add friend -- add new friend to socket friends list
-    private static void n_add_friend(FriendModel _friend) {
-        HashMap<String, String> data = new HashMap<String, String>();
-        data.put("other_phone", _friend.getFriend_phone());
-        data.put("email", _friend.get_email());
-        data.put("birthday", _friend.get_birthday().toString());
-        data.put("username", _friend.get_username());
-        data.put("add_at", _friend.get_add_at().toString());
 
-        JSONObject json = new JSONObject(data);
-        Server.getSocket().emit("update_add_friend", json);
-    }
+    /**
+     private static void n_add_friend(FriendModel _friend) {
+     HashMap<String, String> data = new HashMap<String, String>();
+     data.put("other_phone", _friend.getFriend_phone());
+     data.put("email", _friend.get_email());
+     data.put("birthday", _friend.get_birthday().toString());
+     data.put("username", _friend.get_username());
+     data.put("add_at", _friend.get_add_at().toString());
+
+     JSONObject json = new JSONObject(data);
+     Server.getSocket().emit("update_add_friend", json);
+     }*/
     public static void OnDestroy() {
         Server.getSocket().off("invite_friend");
         Server.getSocket().off("return_response_invite_friend");
         Server.getSocket().off("un_friend");
+        Server.getSocket().off("broadcast_all_friend");
     }
     /**
      * send mes to server to load all friend
@@ -169,16 +202,24 @@ public class C_Friend {
     }
 
     public static class OnResultFriend {
+        String msg;
         Type type;
 
-        public OnResultFriend(Type type) {
+        public OnResultFriend(String msg, Type type) {
             this.type = type;
+            this.msg = msg;
         }
 
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
         public Type getType() {
             return type;
         }
-
         public void setType(Type type) {
             this.type = type;
         }
@@ -188,7 +229,9 @@ public class C_Friend {
             ACCEPT_ADD_FRIEND,
             DENY_ADD_FRIEND,
             UN_FRIEND,
-            BROADCAST_ALL_FRIEND,
+            BROADCAST_FRIENDS_ONLINE,
+            BROADCAST_FRIENDS_OFFNLINE,
+            ANSWERED_INVITATION
         }
     }
 }
