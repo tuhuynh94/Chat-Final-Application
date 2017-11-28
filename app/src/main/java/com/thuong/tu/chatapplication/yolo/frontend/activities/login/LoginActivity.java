@@ -1,5 +1,8 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.login;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +14,7 @@ import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.API.Login;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.chat.MainChatActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,6 +28,7 @@ public class LoginActivity extends UltisActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         initElement();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,5 +66,11 @@ public class LoginActivity extends UltisActivity {
         else{
             Log.d("login", loginResult.getText());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

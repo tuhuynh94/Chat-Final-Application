@@ -37,6 +37,7 @@ public class ChatActivity extends UltisActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         ListView list = (ListView) findViewById(R.id.list_messages);
         Intent intent = getIntent();
         conversationModel = (ConversationModel) intent.getSerializableExtra("conversation");
@@ -96,5 +97,10 @@ public class ChatActivity extends UltisActivity {
         if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.DENY_ADD_FRIEND){
             Toast.makeText(getApplicationContext(), "Deny", Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

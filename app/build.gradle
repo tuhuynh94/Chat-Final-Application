@@ -32,6 +32,7 @@ android {
                     'src/main/res/layout/chat_layout',
                     'src/main/res/layout/login',
                     'src/main/res/layout/register',
+                    'src/main/res/layout/user',
                     'src/main/res/layout',
                     'src/main/res'
             ]

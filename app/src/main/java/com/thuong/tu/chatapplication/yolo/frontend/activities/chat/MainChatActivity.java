@@ -1,5 +1,7 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.chat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -16,11 +18,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.friends.AddFriendActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.login.PhoneNumberActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.utils.PagerAdapter;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class MainChatActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ViewPager viewPager;
@@ -30,6 +39,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chat_temp);
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         createNavigation();
         initPager();
     }
@@ -68,7 +78,23 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainChatActivity.this);
+            builder.setTitle("Are you want to quit application?");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finishAffinity();
+                    System.exit(0);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.create();
+            builder.show();
         }
     }
 
@@ -102,22 +128,23 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_edit_user) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onResult(C_Friend.OnResultFriend onResultFriend){
+        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.ACCEPT_ADD_FRIEND){
+            Toast.makeText(getApplicationContext(), "accept", Toast.LENGTH_SHORT).show();
+        }
+        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.DENY_ADD_FRIEND){
+            Toast.makeText(getApplicationContext(), "deny", Toast.LENGTH_SHORT).show();
+        }
     }
 }
