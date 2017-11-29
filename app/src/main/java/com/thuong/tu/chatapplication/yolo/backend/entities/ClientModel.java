@@ -142,8 +142,14 @@ public class ClientModel implements Serializable{
     }
 
     public InvitationModel getSingleInvitaion(String from) {
-        return this.m_invite_friends.stream()
-                .filter(i -> i.getFromPhone().equals(from)).findFirst().get();
+        for (InvitationModel invitation : this.get_Invite_friends()) {
+            if (invitation.getFromPhone().equals(from)) {
+                return invitation;
+            }
+        }
+        return null;
+//        return this.m_invite_friends.stream()
+//                .filter(i -> i.getFromPhone().equals(from)).findFirst().get();
     }
 
     public static class OnLastMess{
