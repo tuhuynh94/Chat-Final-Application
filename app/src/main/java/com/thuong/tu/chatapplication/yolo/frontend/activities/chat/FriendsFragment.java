@@ -17,12 +17,17 @@ import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.entities.ListContactAdapter;
 import com.thuong.tu.chatapplication.yolo.frontend.entities.ListInviteFriendAdapter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 
 public class FriendsFragment extends Fragment {
     private static FriendsFragment fragment;
     ListView list;
     ArrayList<InvitationModel> invatations;
+    ListInviteFriendAdapter adapter;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -48,7 +53,7 @@ public class FriendsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
         list = (ListView) view.findViewById(R.id.list);
         invatations = Server.owner.get_Invite_friends();
-        ListInviteFriendAdapter adapter = new ListInviteFriendAdapter(getActivity(), R.layout.invite_friend_layout, invatations);
+        adapter = new ListInviteFriendAdapter(getActivity(), R.layout.invite_friend_layout, invatations);
         list.setAdapter(adapter);
         return view;
     }
@@ -63,4 +68,25 @@ public class FriendsFragment extends Fragment {
         super.onDetach();
     }
     //endregion
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onResultFriends(C_Friend.OnResultFriend onResultFriend){
+        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.ANSWERED_INVITATION){
+            invatations = Server.owner.get_Invite_friends();
+            adapter.notifyDataSetChanged();
+        }
+    }
 }

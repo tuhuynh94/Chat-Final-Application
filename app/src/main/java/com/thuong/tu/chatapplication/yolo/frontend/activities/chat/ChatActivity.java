@@ -2,8 +2,11 @@ package com.thuong.tu.chatapplication.yolo.frontend.activities.chat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,9 +28,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
-public class ChatActivity extends UltisActivity {
+public class ChatActivity extends AppCompatActivity {
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
     ArrayList<MessageModel> messages;
-    Button back,send, option;
+    Button back,send, info;
     EditText input_message;
     TextView name;
     ConversationModel conversationModel;
@@ -37,6 +41,8 @@ public class ChatActivity extends UltisActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         ListView list = (ListView) findViewById(R.id.list_messages);
         Intent intent = getIntent();
@@ -58,16 +64,27 @@ public class ChatActivity extends UltisActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.setAnimation(buttonClick);
                 C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());
             }
         });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setAnimation(buttonClick);
+                ChatActivity.super.onBackPressed();
+                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+            }
+        });
+
     }
 
     private void initElements() {
         back = (Button) findViewById(R.id.back);
         send = (Button) findViewById(R.id.send);
         input_message = (EditText) findViewById(R.id.input_mess);
-        name = (TextView) findViewById(R.id.txt_name);
+        name = (TextView) findViewById(R.id.name);
+        info = (Button) findViewById(R.id.info);
     }
 
     @Override

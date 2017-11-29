@@ -14,10 +14,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.thuong.tu.chatapplication.R;
@@ -28,6 +31,7 @@ import com.thuong.tu.chatapplication.yolo.frontend.activities.friends.AddFriendA
 import com.thuong.tu.chatapplication.yolo.frontend.activities.login.PhoneNumberActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.utils.PagerAdapter;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -130,12 +134,35 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
 
         if (id == R.id.nav_edit_user) {
             // Handle the camera action
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = this.getLayoutInflater();
+            View diaglogView = inflater.inflate(R.layout.update_user, null);
+            builder.setView(diaglogView);
 
+            Button save = (Button) diaglogView.findViewById(R.id.save);
+            Button date = (Button) diaglogView.findViewById(R.id.birthday);
+            EditText email,phone;
+            email = (EditText) diaglogView.findViewById(R.id.email);
+            phone = (EditText) diaglogView.findViewById(R.id.phone);
+
+            builder.create().show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
