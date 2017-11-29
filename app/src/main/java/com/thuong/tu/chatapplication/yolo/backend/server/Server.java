@@ -122,4 +122,10 @@ public class Server {
             CONNECT_ERROR
         }
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        beforDisconnet();
+    }
 }

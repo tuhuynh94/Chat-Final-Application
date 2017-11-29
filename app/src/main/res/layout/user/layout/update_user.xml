@@ -2,8 +2,8 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/layout_border_round"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="2dp">
 
 
     <LinearLayout
@@ -59,7 +59,7 @@
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:background="@drawable/input_mess"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -91,12 +91,12 @@
                 android:id="@+id/birthday"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
+                android:background="@drawable/input_mess"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/dropdown"
-                android:paddingLeft="10dp"
-                android:text="June, 07 1994"
-                android:textAlignment="textStart" />
+                android:textSize="13dp"
+                android:text="SELECT DATE"
+                android:textAlignment="center" />
         </LinearLayout>
 
         <LinearLayout
@@ -117,6 +117,7 @@
                 style="@style/Widget.AppCompat.DropDownItem.Spinner"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:entries="@array/gender" />
         </LinearLayout>
@@ -135,7 +136,7 @@
     <EditText
         android:id="@+id/phone"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/input_mess"
@@ -146,8 +147,8 @@
 
     <Button
         android:id="@+id/save"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
+        android:layout_width="120dp"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:background="@drawable/button_app"

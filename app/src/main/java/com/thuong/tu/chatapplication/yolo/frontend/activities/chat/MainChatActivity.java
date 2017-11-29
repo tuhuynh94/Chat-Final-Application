@@ -1,8 +1,11 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.chat;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -20,20 +23,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
+import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.friends.AddFriendActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.login.PhoneNumberActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.utils.PagerAdapter;
+import com.thuong.tu.chatapplication.yolo.utils.FileController;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainChatActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ViewPager viewPager;
@@ -48,7 +61,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         initPager();
     }
 
-    private  void createNavigation(){
+    private void createNavigation() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -61,6 +74,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
     private void initPager() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -76,6 +90,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         tabLayout.getTabAt(0).setIcon(R.drawable.chat);
         tabLayout.getTabAt(1).setIcon(R.drawable.user);
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -141,9 +156,36 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
 
             Button save = (Button) diaglogView.findViewById(R.id.save);
             Button date = (Button) diaglogView.findViewById(R.id.birthday);
-            EditText email,phone;
+            de.hdodenhof.circleimageview.CircleImageView avatar;
+            EditText email, phone, username;
             email = (EditText) diaglogView.findViewById(R.id.email);
             phone = (EditText) diaglogView.findViewById(R.id.phone);
+            username = (EditText) diaglogView.findViewById(R.id.username);
+            avatar = (CircleImageView) diaglogView.findViewById(R.id.avatar);
+
+            username.setText(Server.owner.get_username() == null ? "" : Server.owner.get_username());
+            email.setText(Server.owner.get_Email() == null ? "" : Server.owner.get_Email());
+            phone.setText(Server.owner.get_Phone() == null ? "" : Server.owner.get_Phone());
+            DatePickerDialog.OnDateSetListener datePicker = datePicker(date);
+            Calendar myCalendar = Calendar.getInstance();
+            date.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new DatePickerDialog(MainChatActivity.this, datePicker, myCalendar
+                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                }
+            });
+
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_temp);
+                    byte[] bytes = FileController.getByteArrayFromBitmap(bitmap);
+
+                    Server.getSocket().emit("image", bytes);
+                }
+            });
 
             builder.create().show();
         }
@@ -153,7 +195,31 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-    @Override
+    private DatePickerDialog.OnDateSetListener datePicker(Button button) {
+        Calendar myCalendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(button, myCalendar);
+            }
+
+        };
+        return date;
+    }
+
+    private void updateLabel(Button button, Calendar myCalendar) {
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        button.setText(sdf.format(myCalendar.getTime()));
+    }
+
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
@@ -166,11 +232,11 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onResult(C_Friend.OnResultFriend onResultFriend){
-        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.ACCEPT_ADD_FRIEND){
+    public void onResult(C_Friend.OnResultFriend onResultFriend) {
+        if (onResultFriend.getType() == C_Friend.OnResultFriend.Type.ACCEPT_ADD_FRIEND) {
             Toast.makeText(getApplicationContext(), "accept", Toast.LENGTH_SHORT).show();
         }
-        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.DENY_ADD_FRIEND){
+        if (onResultFriend.getType() == C_Friend.OnResultFriend.Type.DENY_ADD_FRIEND) {
             Toast.makeText(getApplicationContext(), "deny", Toast.LENGTH_SHORT).show();
         }
     }

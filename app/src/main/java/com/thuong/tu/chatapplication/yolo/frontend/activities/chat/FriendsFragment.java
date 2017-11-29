@@ -84,9 +84,21 @@ public class FriendsFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onResultFriends(C_Friend.OnResultFriend onResultFriend){
-        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.ANSWERED_INVITATION){
-            invatations = Server.owner.get_Invite_friends();
-            adapter.notifyDataSetChanged();
+        switch (onResultFriend.getType()){
+            case UN_FRIEND:break;
+            case ADD_FRIEND:
+                invatations = Server.owner.get_Invite_friends();
+                adapter.notifyDataSetChanged();
+                break;
+            case ACCEPT_ADD_FRIEND:break;
+            case DENY_ADD_FRIEND:break;
+            case ANSWERED_INVITATION:
+                invatations = Server.owner.get_Invite_friends();
+                adapter.notifyDataSetChanged();
+                break;
+            case BROADCAST_FRIENDS_ONLINE:break;
+            case BROADCAST_FRIENDS_OFFNLINE:break;
         }
+
     }
 }
