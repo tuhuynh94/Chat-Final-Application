@@ -1,6 +1,8 @@
 package com.thuong.tu.chatapplication.yolo.backend.controllers;
 
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.yolo.backend.API.Friends;
@@ -31,6 +33,7 @@ public class C_Friend {
                     InvitationModel invitation = new InvitationModel();
                     invitation.setFromPhone(from);
                     invitation.setFromUser(from_user);
+
                     Server.owner.set_Invite_friends(invitation);
                     EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.ADD_FRIEND));
 
@@ -70,6 +73,7 @@ public class C_Friend {
             }
         });
         Server.getSocket().on("un_friend", new Emitter.Listener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
@@ -84,6 +88,7 @@ public class C_Friend {
                 }
             }
         });
+
         Server.getSocket().on("broadcast_all_friend", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -100,15 +105,45 @@ public class C_Friend {
                         sys_msg = user + " is online";
                         EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.BROADCAST_FRIENDS_OFFNLINE));
                     }
-                    if (type.equals("update_info")) {
-                        // update infor of that friend
+                    if (type.equals("update_info_friend")) {
+                        JSONObject tmp = data.getJSONObject("content");
+                        String phone = tmp.getString("phone");
+                        String username = tmp.getString("username");
+
+                        FriendModel friendModel = Server.owner.getSingleFriend(phone);
+                        friendModel.setFriend_username(username);
+                        friendModel.set_image_source(tmp.getString("image_source"));
+                        friendModel.set_gender(tmp.getString("gender").equals("1"));
+                        friendModel.setBirthday(Converter
+                                .stringToDate(tmp.getString("birthday")));
+                        friendModel.set_email(tmp.getString("email"));
+                        EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.UPDATE_USER_INFO));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
-        //sau khi da gui len server del invitation
+        Server.getSocket().on("broadcast_all_invitation", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                JSONObject tmp = null;
+                String sys_msg = "";
+                try {
+                    tmp = data.getJSONObject("content");
+                    String phone = tmp.getString("phone");
+                    String username = tmp.getString("username");
+                    // update thong tin ket ban
+                    InvitationModel invitationModel = Server.owner.getSingleInvitaion(phone);
+                    invitationModel.setFromUser(username);
+                    EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.UPDATE_USER_INFO));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
         Server.getSocket().on("answered_invitation", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -189,6 +224,7 @@ public class C_Friend {
      * @param other_phone
      * @param flat default true - true:send request un friend | false: receive notify un friend
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void un_friend(String other_phone, String flat) {
         HashMap<String, String> data = new HashMap<>();
         data.put("other_phone", other_phone);
@@ -229,7 +265,7 @@ public class C_Friend {
             UN_FRIEND,
             BROADCAST_FRIENDS_ONLINE,
             BROADCAST_FRIENDS_OFFNLINE,
-            ANSWERED_INVITATION
+            UPDATE_USER_INFO, ANSWERED_INVITATION
         }
     }
 }

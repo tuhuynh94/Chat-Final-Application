@@ -3,6 +3,7 @@ package com.thuong.tu.chatapplication.yolo.backend.API;
 import android.net.Uri;
 
 import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
+import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.utils.Constant;
 import com.thuong.tu.chatapplication.yolo.utils.Converter;
 import com.thuong.tu.chatapplication.yolo.utils.uService;
@@ -19,6 +20,20 @@ public class User {
     private static JSONObject jsonObject = null;
     private static JSONArray jsonArray = null;
 
+    public static void OnChangeUserInfo(String pass) {
+        builder = new Uri.Builder();
+        builder.appendQueryParameter("username", Server.owner.get_username());
+        builder.appendQueryParameter("email", Server.owner.get_Email());
+        builder.appendQueryParameter("pass", pass);
+        builder.appendQueryParameter("birthday", Server.owner.get_Birthday().toString());
+        builder.appendQueryParameter("gender", Server.owner.get_gender() ? "1" : "0");
+        builder.appendQueryParameter("phone", Server.owner.get_Phone());
+        builder.appendQueryParameter("image_source", Server.owner.get_imageSource());
+
+        String url = Constant.M_HOST + Constant.M_UPDATE_USER;
+        String a = uService.execute(builder, url);
+
+    }
     public static List<ClientModel> loadUserInConversation(String member) {
         builder = new Uri.Builder();
         String[] arr = member.split(",");
@@ -31,7 +46,6 @@ public class User {
         tmp += "'0'";
         builder.appendQueryParameter("members", tmp);
         String url = Constant.M_HOST + Constant.M_USERS;
-        String a = uService.execute(builder, url);
         String result = uService.execute(builder, url);
         List<ClientModel> users = loadUsers_R(result);
         return users;
@@ -62,4 +76,6 @@ public class User {
         }
         return tmp;
     }
+
+
 }

@@ -118,10 +118,7 @@ public class ClientModel implements Serializable{
     }
 
     private void set_last_message(String conversation_id, MessageModel messageModel) {
-        ConversationModel conversation = this.getListConversation().stream()
-                .filter(i -> i.getConversation_id()
-                        .equals(conversation_id)).findFirst().get();
-
+        ConversationModel conversation = this.get_ConversationByID(conversation_id);
         conversation.set_last_message(messageModel);
     }
 
@@ -130,15 +127,20 @@ public class ClientModel implements Serializable{
     }
 
     public MessageModel get_SingleMessage(String conversation_id, String message_id) {
-        return this.m_hash_messages.get(conversation_id).stream()
-                .filter(i -> i.get_message_id().equals(message_id)).findFirst().get();
+        ArrayList<MessageModel> lst_msg = this.m_hash_messages.get(conversation_id);
+        for (MessageModel msg : lst_msg) {
+            if (msg.get_message_id().equals(message_id)) return msg;
+        }
+        return null;
     }
     /**
      * get obj conversation in list conversations by conversation id
      */
     public ConversationModel get_ConversationByID(String conversation_id) {
-        return this.m_list_conversations.stream()
-                .filter(i -> i.getConversation_id() == conversation_id).findFirst().get();
+        for (ConversationModel conv : this.getListConversation()) {
+            if (conv.getConversation_id().equals(conversation_id)) return conv;
+        }
+        return null;
     }
 
     public InvitationModel getSingleInvitaion(String from) {
@@ -150,6 +152,14 @@ public class ClientModel implements Serializable{
         return null;
 //        return this.m_invite_friends.stream()
 //                .filter(i -> i.getFromPhone().equals(from)).findFirst().get();
+    }
+
+    public FriendModel getSingleFriend(String phone) {
+        for (FriendModel friend : this.get_listFriends()) {
+            if (friend.getFriend_phone().equals(phone))
+                return friend;
+        }
+        return null;
     }
 
     public static class OnLastMess{

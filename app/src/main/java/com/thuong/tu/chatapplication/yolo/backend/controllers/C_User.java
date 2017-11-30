@@ -4,11 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.github.nkzawa.emitter.Emitter;
+import com.thuong.tu.chatapplication.yolo.backend.API.User;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
+import java.util.HashMap;
 
 public class C_User {
 
@@ -30,6 +34,25 @@ public class C_User {
         });
     }
 
+    public static void OnChangeUserInfo(boolean gender, String password, String username, Date birthday, String email) {
+        Server.owner.set_Email(email);
+        Server.owner.set_Birthday(birthday);
+        Server.owner.set_gender(gender);
+        Server.owner.set_Username(username);
+        User.OnChangeUserInfo(password);
+
+        HashMap<String, String> p = new HashMap<>();
+        p.put("username", username);
+        p.put("gender", gender ? "1" : "0");
+        p.put("password", password);
+        p.put("birthday", birthday.toString());
+        p.put("email", email);
+        p.put("phone", Server.owner.get_Phone());
+
+        Server.getSocket().emit("update_user", new JSONObject(p));
+
+    }
+
     public static class OnResultUser {
         String msg;
         Bitmap bitmap;
@@ -44,6 +67,10 @@ public class C_User {
             return msg;
         }
 
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
         public Bitmap getBitmap() {
             return bitmap;
         }
@@ -52,9 +79,6 @@ public class C_User {
             this.bitmap = bitmap;
         }
 
-        public void setMsg(String msg) {
-            this.msg = msg;
-        }
         public Type getType() {
             return type;
         }

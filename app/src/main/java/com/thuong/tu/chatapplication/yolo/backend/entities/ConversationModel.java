@@ -3,7 +3,6 @@ package com.thuong.tu.chatapplication.yolo.backend.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class ConversationModel implements Serializable{
@@ -17,7 +16,7 @@ public class ConversationModel implements Serializable{
     private  HashMap<String, ClientModel> inforOfMember;
 
     public HashMap<String, ClientModel> getInforOfMember() {
-        return inforOfMember;
+        return this.inforOfMember;
     }
 
     public void setInforOfMember( HashMap<String, ClientModel> inforOfMember) {

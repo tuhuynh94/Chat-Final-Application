@@ -5,8 +5,10 @@ import android.net.Uri;
 import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.yolo.backend.API.Conversations;
 import com.thuong.tu.chatapplication.yolo.backend.API.Messages;
+import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.utils.Converter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -103,6 +105,37 @@ public class C_Conversation {
 
             }
         });
+        Server.getSocket().on("broadcast_all_conversation", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                JSONObject tmp = null;
+                String sys_msg = "";
+                try {
+                    tmp = data.getJSONObject("content");
+                    String phone = tmp.getString("phone");
+                    String username = tmp.getString("username");
+                    String conver_id = tmp.getString("conversation_id");
+                    // update thong tin ket ban
+
+                    ConversationModel con = Server.owner.get_ConversationByID(conver_id);
+                    ClientModel client = con.getInforOfMember().get(phone);
+                    client.set_Username(username);
+                    client.set_ImageSource(tmp.getString("image_source"));
+                    client.set_gender(tmp.getString("gender").equals("1"));
+                    client.set_Birthday(Converter
+                            .stringToDate(tmp.getString("birthday")));
+                    client.set_Email(tmp.getString("email"));
+                    con.getInforOfMember().remove(phone);
+                    con.getInforOfMember().put(phone, client);
+
+                    EventBus.getDefault().post(new C_Friend.OnResultFriend(sys_msg, C_Friend.OnResultFriend.Type.UPDATE_USER_INFO));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
     public static void onDestroy() {
         Server.getSocket().off("r_add_new_mem");
@@ -130,7 +163,6 @@ public class C_Conversation {
         p.put("members", conversation.getMember());
         Server.getSocket().emit("add_new_conversation", new JSONObject(p));
     }
-
     //check
     public static void addNewMember(String conversation_id, String phone, String username) {
         ConversationModel conversation = Server.owner.get_ConversationByID(conversation_id);
@@ -146,7 +178,6 @@ public class C_Conversation {
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("add_new_mem", json);
     }
-
     //check
     public static void kickMember(String conversation_id, String phone) {
         removeMember(conversation_id, phone);
@@ -159,7 +190,6 @@ public class C_Conversation {
         p.put("username", phone);
         Server.getSocket().emit("kick_member", new JSONObject(p));
     }
-
     //check
     public static void leave(String conversation_id) {
         removeMember(conversation_id, Server.owner.get_Phone());

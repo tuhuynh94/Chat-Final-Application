@@ -115,7 +115,9 @@ public class Conversations {
                     conversation.setMember(mems);
                     List<ClientModel> users = User.loadUserInConversation(mems);
                     HashMap<String, ClientModel> map = new HashMap<>();
-                    users.forEach(u -> map.put(u.get_Phone(), u));
+                    for (ClientModel c : users) {
+                        map.put(c.get_Phone(), c);
+                    }
                     conversation.setInforOfMember(map);
                 } catch (JSONException e) {
                     e.printStackTrace();
