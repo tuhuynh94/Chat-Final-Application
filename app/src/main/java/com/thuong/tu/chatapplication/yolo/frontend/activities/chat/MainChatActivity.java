@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_User;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity;
@@ -140,7 +141,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
 
         return super.onOptionsItemSelected(item);
     }
-
+    de.hdodenhof.circleimageview.CircleImageView avatar_edit_user;
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -156,12 +157,11 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
 
             Button save = (Button) diaglogView.findViewById(R.id.save);
             Button date = (Button) diaglogView.findViewById(R.id.birthday);
-            de.hdodenhof.circleimageview.CircleImageView avatar;
             EditText email, phone, username;
             email = (EditText) diaglogView.findViewById(R.id.email);
             phone = (EditText) diaglogView.findViewById(R.id.phone);
             username = (EditText) diaglogView.findViewById(R.id.username);
-            avatar = (CircleImageView) diaglogView.findViewById(R.id.avatar);
+            avatar_edit_user = (CircleImageView) diaglogView.findViewById(R.id.avatar);
 
             username.setText(Server.owner.get_username() == null ? "" : Server.owner.get_username());
             email.setText(Server.owner.get_Email() == null ? "" : Server.owner.get_Email());
@@ -177,13 +177,13 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
                 }
             });
 
-            avatar.setOnClickListener(new View.OnClickListener() {
+            avatar_edit_user.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_temp);
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
                     byte[] bytes = FileController.getByteArrayFromBitmap(bitmap);
 
-                    Server.getSocket().emit("image", bytes);
+                    Server.getSocket().emit("change_avatar", bytes);
                 }
             });
 
@@ -214,7 +214,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
     }
 
     private void updateLabel(Button button, Calendar myCalendar) {
-        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        String myFormat = "MMM dd, yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         button.setText(sdf.format(myCalendar.getTime()));
@@ -238,6 +238,12 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         }
         if (onResultFriend.getType() == C_Friend.OnResultFriend.Type.DENY_ADD_FRIEND) {
             Toast.makeText(getApplicationContext(), "deny", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Subscribe
+    public  void onResultUser(C_User.OnResultUser onResultUser){
+        if(onResultUser.getType() == C_User.OnResultUser.Type.CHANGE_AVATAR){
+            avatar_edit_user.setImageBitmap(onResultUser.getBitmap());
         }
     }
 }
