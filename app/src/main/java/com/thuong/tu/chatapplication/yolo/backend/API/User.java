@@ -29,6 +29,7 @@ public class User {
         builder.appendQueryParameter("gender", Server.owner.get_gender() ? "1" : "0");
         builder.appendQueryParameter("phone", Server.owner.get_Phone());
         builder.appendQueryParameter("image_source", Server.owner.get_imageSource());
+        builder.appendQueryParameter("conversation_id", Server.owner.get_AllConversation() + "0");
 
         String url = Constant.M_HOST + Constant.M_UPDATE_USER;
         String a = uService.execute(builder, url);
