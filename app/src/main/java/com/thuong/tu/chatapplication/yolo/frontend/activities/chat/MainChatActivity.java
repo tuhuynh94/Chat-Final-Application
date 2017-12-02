@@ -27,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_User;
@@ -74,6 +75,10 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headlayout = navigationView.getHeaderView(0);
+        CircleImageView avatar_mine = (CircleImageView) headlayout.findViewById(R.id.avatar_mine);
+        Picasso.with(this).load(Server.owner.get_imageSource()).into(avatar_mine);
+
     }
 
     private void initPager() {
@@ -166,6 +171,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
             username.setText(Server.owner.get_username() == null ? "" : Server.owner.get_username());
             email.setText(Server.owner.get_Email() == null ? "" : Server.owner.get_Email());
             phone.setText(Server.owner.get_Phone() == null ? "" : Server.owner.get_Phone());
+            Picasso.with(this).load(Server.owner.get_imageSource()).into(avatar_edit_user);
             DatePickerDialog.OnDateSetListener datePicker = datePicker(date);
             Calendar myCalendar = Calendar.getInstance();
             date.setOnClickListener(new View.OnClickListener() {

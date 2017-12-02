@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.entities.FriendModel;
 
@@ -39,6 +40,7 @@ public class ListContactAdapter extends ArrayAdapter<FriendModel>{
         Holder holder = initHolder(convertView);
         holder.name.setText(friend.get_username());
         holder.status.setText("Online");
+        Picasso.with(getContext()).load(friend.get_image_source()).into(holder.avatar);
         return convertView;
     }
 

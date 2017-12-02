@@ -18,7 +18,7 @@
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_weight="0.1"
-            android:src="@drawable/avatar_temp" />
+            android:src="@drawable/abc" />
 
         <LinearLayout
             android:layout_width="match_parent"
