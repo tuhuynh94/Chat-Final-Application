@@ -25,7 +25,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ListRecentsAdapter extends ArrayAdapter<ConversationModel>{
+public class ListRecentsAdapter extends ArrayAdapter<ConversationModel> {
     Activity context;
     int resource;
     ArrayList<ConversationModel> conversationModels;
@@ -40,18 +40,18 @@ public class ListRecentsAdapter extends ArrayAdapter<ConversationModel>{
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        ConversationModel conversation = conversationModels.get(position);
         LayoutInflater inflater = context.getLayoutInflater();
         convertView = inflater.inflate(resource, null);
-        ConversationModel conversation = conversationModels.get(position);
         Holder holder = initHolder(convertView);
         holder.name.setText(conversation.getConversation_name());
-        if(conversation.get_last_message() != null){
+        if (conversation.get_last_message() != null) {
             holder.content.setText(conversation.get_last_message().get_message());
         }
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
-        for(Map.Entry<String, ClientModel> entry : conversation.getInforOfMember().entrySet()){
+        for (Map.Entry<String, ClientModel> entry : conversation.getInforOfMember().entrySet()) {
             ClientModel client = entry.getValue();
-            if(!client.get_Phone().equals(Server.owner.get_Phone())){
+            if (!client.get_Phone().equals(Server.owner.get_Phone()) && !client.get_imageSource().isEmpty()) {
                 Picasso.with(getContext()).load(client.get_imageSource()).into(holder.avatar);
             }
         }
@@ -66,10 +66,11 @@ public class ListRecentsAdapter extends ArrayAdapter<ConversationModel>{
         return holder;
     }
 
-    public class Holder{
+    public class Holder {
         CircleImageView avatar;
         TextView name, content;
-        public Holder(CircleImageView avatar, TextView name, TextView status){
+
+        public Holder(CircleImageView avatar, TextView name, TextView status) {
             this.avatar = avatar;
             this.name = name;
             this.content = status;

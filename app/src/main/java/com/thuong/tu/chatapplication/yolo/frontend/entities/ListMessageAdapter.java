@@ -49,7 +49,9 @@ public class ListMessageAdapter extends ArrayAdapter<MessageModel> {
             }
             Holder holder = init(convertView);
             holder.text.setText(message.get_message());
-            Picasso.with(getContext()).load(image_url).into(holder.avatar);
+            if(!image_url.isEmpty()){
+                Picasso.with(getContext()).load(image_url).into(holder.avatar);
+            }
         }
         return convertView;
     }

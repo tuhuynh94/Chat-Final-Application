@@ -40,7 +40,9 @@ public class ListContactAdapter extends ArrayAdapter<FriendModel>{
         Holder holder = initHolder(convertView);
         holder.name.setText(friend.get_username());
         holder.status.setText("Online");
-        Picasso.with(getContext()).load(friend.get_image_source()).into(holder.avatar);
+        if(!friend.get_image_source().isEmpty()){
+            Picasso.with(getContext()).load(friend.get_image_source()).into(holder.avatar);
+        }
         return convertView;
     }
 
