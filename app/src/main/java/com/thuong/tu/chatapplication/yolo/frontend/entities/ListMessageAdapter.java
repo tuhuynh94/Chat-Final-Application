@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import com.github.library.bubbleview.BubbleTextView;
 import com.squareup.picasso.Picasso;
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.MessageModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 
@@ -37,7 +38,7 @@ public class ListMessageAdapter extends ArrayAdapter<MessageModel> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (messages.size() != 0) {
             MessageModel message = messages.get(position);
-            String image_url;
+            String image_url = null;
             if (message.get_is_creator()) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 convertView = inflater.inflate(R.layout.messages_send_template, null);
@@ -45,11 +46,14 @@ public class ListMessageAdapter extends ArrayAdapter<MessageModel> {
             } else {
                 LayoutInflater inflater = context.getLayoutInflater();
                 convertView = inflater.inflate(R.layout.messages_receive_template, null);
-                image_url = Server.owner.get_ConversationByID(message.get_conversation_id()).getInforOfMember().get(message.get_creator()).get_imageSource();
+                ClientModel client = Server.owner.get_ConversationByID(message.get_conversation_id()).getInforOfMember().get(message.get_creator());
+                if(client != null){
+                    image_url = Server.owner.get_ConversationByID(message.get_conversation_id()).getInforOfMember().get(message.get_creator()).get_imageSource();
+                }
             }
             Holder holder = init(convertView);
             holder.text.setText(message.get_message());
-            if(!image_url.isEmpty()){
+            if(image_url != null && !image_url.isEmpty()){
                 Picasso.with(getContext()).load(image_url).into(holder.avatar);
             }
         }
