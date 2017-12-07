@@ -33,7 +33,6 @@ public class C_User {
             }
         });
     }
-
     public static void OnChangeUserInfo(boolean gender, String password, String username, Date birthday, String email) {
         Server.owner.set_Email(email);
         Server.owner.set_Birthday(birthday);

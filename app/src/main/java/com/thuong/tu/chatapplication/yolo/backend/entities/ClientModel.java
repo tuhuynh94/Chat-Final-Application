@@ -97,7 +97,7 @@ public class ClientModel implements Serializable{
     }
 
     public void add_AllConversation(String m_allConversation) {
-        this.m_allConversation += this.m_allConversation != null ? "," : "" + m_allConversation;
+        this.m_allConversation += m_allConversation + ",";
     }
     public ArrayList<ConversationModel> getListConversation() {
         return this.m_list_conversations;
@@ -160,6 +160,9 @@ public class ClientModel implements Serializable{
                 return friend;
         }
         return null;
+    }
+
+    public void update_conversation_user() {
     }
 
     public static class OnLastMess{

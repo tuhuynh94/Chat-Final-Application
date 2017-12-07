@@ -2,7 +2,7 @@ package com.thuong.tu.chatapplication.yolo.utils;
 
 public class Constant {
 
-    public static final String M_HOST = "http://192.168.0.116";
+    public static final String M_HOST = "http://192.168.0.112";
     public static final String M_SERVER_PORT = "3000";
 
     //region link PHP
@@ -27,6 +27,6 @@ public class Constant {
     public static final String M_INVITE_FRIEND = "/chat/invite_friend.php";
     public static final String M_USERS = "/chat/users.php";
     public static final String M_UPDATE_USER = "/chat/user_update.php";
-
+    public static final String M_UPDATE_USER_WITHOUT_PASS = "/chat/user_update_without_pass.php";
     //endregion link PHP
 }

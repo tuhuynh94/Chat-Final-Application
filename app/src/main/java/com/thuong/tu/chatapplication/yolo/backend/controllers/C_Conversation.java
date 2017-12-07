@@ -5,6 +5,7 @@ import android.net.Uri;
 import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.yolo.backend.API.Conversations;
 import com.thuong.tu.chatapplication.yolo.backend.API.Messages;
+import com.thuong.tu.chatapplication.yolo.backend.API.User;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
@@ -34,6 +35,8 @@ public class C_Conversation {
                     if (!Server.owner.get_username().equals(owner)) {
                         //get new conversations by PHP
                         Conversations.getSingleConversation(conversation_id);
+                        Server.owner.add_AllConversation(conversation_id);
+                        User.OnChangeUserInfoWithoutPass();
                     }
                     //duoc ng khác add vào conversation
                     EventBus.getDefault().post(new C_Conversation
@@ -155,6 +158,7 @@ public class C_Conversation {
         //send to PHP
         ConversationModel conversation = Conversations.createConversation(name, mem);
         Server.owner.add_AllConversation(conversation.getConversation_id());
+        User.OnChangeUserInfoWithoutPass();
 
         //send to sever -- update node server
         HashMap<String, String> p = new HashMap<>();
