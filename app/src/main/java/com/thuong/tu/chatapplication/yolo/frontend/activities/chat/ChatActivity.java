@@ -14,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
+import com.thuong.tu.chatapplication.yolo.backend.entities.FriendModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.MessageModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
@@ -27,6 +29,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
@@ -47,11 +50,10 @@ public class ChatActivity extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.list_messages);
         Intent intent = getIntent();
         conversationModel = (ConversationModel) intent.getSerializableExtra("conversation");
-        if(conversationModel != null){
-            messages = Server.owner.get_AllMessageByConversationID(conversationModel.getConversation_id());
-        }
-        else{
-            messages = new ArrayList<>();
+        messages = new ArrayList<>();
+        ArrayList<MessageModel> temp = Server.owner.get_AllMessageByConversationID(conversationModel.getConversation_id());
+        if(temp != null){
+            messages = temp;
         }
         adapter = new ListMessageAdapter(this, R.layout.messages_receive_template, messages);
         list.setAdapter(adapter);
@@ -65,7 +67,17 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 v.setAnimation(buttonClick);
-                C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());
+                if(conversationModel.getConversation_id() != null && !conversationModel.getConversation_id().isEmpty()){
+                    C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());
+                }
+                else{
+                    Intent i = getIntent();
+                    FriendModel friend = (FriendModel) i.getSerializableExtra("friend");
+                    C_Conversation.createConversation(friend.get_username(), Server.owner.get_Phone() + "," + friend.getFriend_phone() + ",");
+                    List<ConversationModel> conversationModels = Server.owner.getListConversation();
+                    conversationModel = conversationModels.get(conversationModels.size() - 1);
+                    C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());
+                }
             }
         });
         back.setOnClickListener(new View.OnClickListener() {

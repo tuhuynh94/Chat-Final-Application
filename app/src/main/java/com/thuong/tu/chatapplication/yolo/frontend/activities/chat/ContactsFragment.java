@@ -63,7 +63,7 @@ public class ContactsFragment extends Fragment {
                 FriendModel friend = friends.get(position);
                 boolean check = false;
                 for (ConversationModel conversation : conversations) {
-                    if(conversation.getInforOfMember().get(friend.getFriend_phone()) != null){
+                    if(conversation.getInforOfMember().get(friend.getFriend_phone()) != null && conversation.getInforOfMember().size() == 1){
                         check = true;
                         Intent intent = new Intent(getContext(), ChatActivity.class);
                         intent.putExtra("conversation", conversation);
@@ -72,10 +72,14 @@ public class ContactsFragment extends Fragment {
                     }
                 }
                 if(!check){
-                    C_Conversation.createConversation(friend.get_username(), friend.getFriend_phone());
+//                    C_Conversation.createConversation(friend.get_username(), Server.owner.get_Phone() + "," + friend.getFriend_phone() + ",");
+//                    List<ConversationModel> conversationModels = Server.owner.getListConversation();
+//                    ConversationModel conversationModel = conversationModels.get(conversationModels.size() - 1);
                     ConversationModel conversationModel = new ConversationModel();
+                    conversationModel.setConversation_name(friend.get_username());
                     Intent intent = new Intent(getContext(), ChatActivity.class);
                     intent.putExtra("conversation", conversationModel);
+                    intent.putExtra("friend", friend);
                     startActivity(intent);
                 }
             }

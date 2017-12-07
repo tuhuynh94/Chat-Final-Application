@@ -53,4 +53,10 @@ public class MainActivity extends UltisActivity implements Observer {
     @Override
     public void update(Observable observable,Object data) {
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Server.beforDisconnet();
+    }
 }

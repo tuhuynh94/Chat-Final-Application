@@ -27,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_User;
@@ -74,6 +75,11 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headlayout = navigationView.getHeaderView(0);
+        CircleImageView avatar_mine = (CircleImageView) headlayout.findViewById(R.id.avatar_mine);
+        if(!Server.owner.get_imageSource().isEmpty()){
+            Picasso.with(this).load(Server.owner.get_imageSource()).into(avatar_mine);
+        }
     }
 
     private void initPager() {
@@ -166,6 +172,9 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
             username.setText(Server.owner.get_username() == null ? "" : Server.owner.get_username());
             email.setText(Server.owner.get_Email() == null ? "" : Server.owner.get_Email());
             phone.setText(Server.owner.get_Phone() == null ? "" : Server.owner.get_Phone());
+            if(!Server.owner.get_imageSource().isEmpty()){
+                Picasso.with(this).load(Server.owner.get_imageSource()).into(avatar_edit_user);
+            }
             DatePickerDialog.OnDateSetListener datePicker = datePicker(date);
             Calendar myCalendar = Calendar.getInstance();
             date.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +244,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
     public void onResult(C_Friend.OnResultFriend onResultFriend) {
         if (onResultFriend.getType() == C_Friend.OnResultFriend.Type.ACCEPT_ADD_FRIEND) {
             Toast.makeText(getApplicationContext(), "accept", Toast.LENGTH_SHORT).show();
-        }
+    }
         if (onResultFriend.getType() == C_Friend.OnResultFriend.Type.DENY_ADD_FRIEND) {
             Toast.makeText(getApplicationContext(), "deny", Toast.LENGTH_SHORT).show();
         }
@@ -245,5 +254,10 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         if(onResultUser.getType() == C_User.OnResultUser.Type.CHANGE_AVATAR){
             avatar_edit_user.setImageBitmap(onResultUser.getBitmap());
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Server.beforDisconnet();
     }
 }

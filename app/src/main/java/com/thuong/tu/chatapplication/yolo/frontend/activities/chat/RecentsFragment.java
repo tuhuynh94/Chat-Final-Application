@@ -68,25 +68,25 @@ public class RecentsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        EventBus.getDefault().unregister(this);
     }
     //endregion
 
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
     }
     @Subscribe
     public  void OnMess(C_Message.OnMess onMess){

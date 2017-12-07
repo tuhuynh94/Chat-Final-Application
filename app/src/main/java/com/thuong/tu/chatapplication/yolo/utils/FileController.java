@@ -9,9 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-/**
- * Created by gardo on 29/11/2017.
- */
 
 public class FileController {
 

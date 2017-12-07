@@ -55,5 +55,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.github.lguipeng:BubbleView:1.0.1'
     compile 'org.jetbrains:annotations:15.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
 }

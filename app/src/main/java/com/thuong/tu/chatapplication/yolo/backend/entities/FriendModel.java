@@ -1,8 +1,9 @@
 package com.thuong.tu.chatapplication.yolo.backend.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class FriendModel {
+public class FriendModel implements Serializable {
 
     private String m_friend_username;
     private Date m_birthday;
