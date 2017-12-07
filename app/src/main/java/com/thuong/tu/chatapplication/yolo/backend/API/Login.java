@@ -36,7 +36,6 @@ public class Login {
                 Server.owner.set_Status(jsonObject.getString("status"));
                 Server.owner.set_gender(jsonObject.getString("gender").equals("1"));
                 PHPServer.LoadInfo();
-                Server.connectNode();
                 result = true;
                 EventBus.getDefault().post(event);
             }

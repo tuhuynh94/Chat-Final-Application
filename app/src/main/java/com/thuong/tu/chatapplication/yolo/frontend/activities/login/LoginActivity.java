@@ -59,7 +59,7 @@ public class LoginActivity extends UltisActivity {
     @Subscribe
     public void OnSuccessLogin(Login.OnLoginResult loginResult){
         if(loginResult.getCheck()){
-            Server.getSocket().connect();
+            Server.connectNode();
             Intent i = new Intent(LoginActivity.this, MainChatActivity.class);
             startActivity(i);
         }
