@@ -4,4 +4,6 @@
   <color name="primaryLightColor">#FAC6CC</color>
   <color name="primaryDarkColor">#FAC6CC</color>
   <color name="primaryTextColor">#FAC6CC</color>
+  <color name="online">#4DED4A</color>
+  <color name="offline">#A8A3A3</color>
 </resources>

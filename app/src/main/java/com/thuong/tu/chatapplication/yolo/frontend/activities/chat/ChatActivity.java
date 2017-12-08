@@ -73,7 +73,7 @@ public class ChatActivity extends AppCompatActivity {
                 else{
                     Intent i = getIntent();
                     FriendModel friend = (FriendModel) i.getSerializableExtra("friend");
-                    C_Conversation.createConversation(friend.get_username(), Server.owner.get_Phone() + "," + friend.getFriend_phone() + ",");
+                    C_Conversation.createConversation(Server.owner.get_username(), Server.owner.get_Phone() + "," + friend.getFriend_phone() + ",");
                     List<ConversationModel> conversationModels = Server.owner.getListConversation();
                     conversationModel = conversationModels.get(conversationModels.size() - 1);
                     C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());

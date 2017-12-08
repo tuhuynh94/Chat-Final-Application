@@ -34,7 +34,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".yolo.frontend.activities.chat.ChatActivity" />
+        <activity android:name=".yolo.frontend.activities.chat.ChatActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".yolo.frontend.UltisActivity" />
         <activity android:name=".yolo.frontend.activities.login.RegisterActivity" />
         <activity

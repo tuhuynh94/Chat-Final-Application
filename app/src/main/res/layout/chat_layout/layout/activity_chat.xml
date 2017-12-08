@@ -7,7 +7,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -17,6 +17,8 @@
             android:background="#e38690"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
             <RelativeLayout
+                android:gravity="center"
+                android:paddingBottom="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <Button
@@ -60,11 +62,12 @@
         android:layout_weight="8"
         android:transcriptMode="alwaysScroll" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:fitsSystemWindows="true">
 
         <EditText
             android:id="@+id/input_mess"
@@ -85,7 +88,9 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/icon_send" />
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

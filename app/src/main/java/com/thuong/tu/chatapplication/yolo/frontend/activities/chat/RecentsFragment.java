@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
@@ -91,5 +92,12 @@ public class RecentsFragment extends Fragment {
     @Subscribe
     public  void OnMess(C_Message.OnMess onMess){
         adapter.notifyDataSetChanged();
+    }
+    @Subscribe
+    public void OnConversation(C_Conversation.OnResultConversation onResultConversation){
+        if(onResultConversation.getType() == C_Conversation.OnResultConversation.Type.add_conversation){
+            conversations = Server.owner.getListConversation();
+            adapter.notifyDataSetChanged();
+        }
     }
 }
