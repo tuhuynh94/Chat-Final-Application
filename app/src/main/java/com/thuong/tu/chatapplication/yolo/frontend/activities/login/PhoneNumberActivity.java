@@ -1,12 +1,14 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.login;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,10 +22,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import static com.thuong.tu.chatapplication.yolo.frontend.utils.ProcessDialogHelper.createProcessDialog;
+
 public class PhoneNumberActivity extends UltisActivity {
     EditText number_phone;
     Button next;
     Context  context;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +39,14 @@ public class PhoneNumberActivity extends UltisActivity {
         next = (Button) findViewById(R.id.btn_next);
         number_phone = (EditText) findViewById(R.id.edit_phone_number);
         context = PhoneNumberActivity.this;
+        progressDialog = createProcessDialog(context, "Sending phone number...");
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.setAnimation(buttonClick);
                 if (!number_phone.getText().equals("")) {
+                    progressDialog.show();
+                    next.setEnabled(false);
                     String phone = number_phone.getText().toString();
                     if(phone.charAt(0) == '0'){
                         phone = phone.substring(1);
@@ -65,10 +75,14 @@ public class PhoneNumberActivity extends UltisActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void OnResult(C_Register.OnResultRegister result){
         if(result.isResult()){
+            progressDialog.dismiss();
+            next.setEnabled(true);
             Intent i = new Intent(PhoneNumberActivity.this, CodeVerificationActivity.class);
             startActivity(i);
         }
         else{
+            progressDialog.dismiss();
+            next.setEnabled(true);
             toastMessage(result.getText());
         }
     }

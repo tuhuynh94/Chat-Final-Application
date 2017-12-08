@@ -55,6 +55,13 @@ public class MainActivity extends UltisActivity implements Observer {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        C_Register.OnDestroy();
+        Server.getSocket().close();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         Server.beforDisconnet();

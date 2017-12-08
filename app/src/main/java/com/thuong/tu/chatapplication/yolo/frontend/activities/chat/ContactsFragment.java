@@ -14,11 +14,16 @@ import android.widget.ListView;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.API.Conversations;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.FriendModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.entities.ListContactAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,6 +33,7 @@ public class ContactsFragment extends Fragment {
     private static ContactsFragment fragment;
     ArrayList<FriendModel> friends;
     ListView list;
+    ListContactAdapter adapter;
 
 
     public ContactsFragment() {
@@ -54,7 +60,7 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
         list = (ListView) view.findViewById(R.id.list_contacts);
         friends = Server.owner.get_listFriends();
-        ListContactAdapter adapter = new ListContactAdapter(getActivity(), R.layout.contact_layout, friends);
+        adapter = new ListContactAdapter(getActivity(), R.layout.contact_layout, friends);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,4 +105,38 @@ public class ContactsFragment extends Fragment {
     }
     //endregion
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onResultFriends(C_Friend.OnResultFriend onResultFriend) {
+        switch (onResultFriend.getType()) {
+            case UN_FRIEND:
+                break;
+            case ADD_FRIEND:
+                break;
+            case ACCEPT_ADD_FRIEND:
+                friends = Server.owner.get_listFriends();
+                adapter.notifyDataSetChanged();
+                break;
+            case DENY_ADD_FRIEND:
+                break;
+            case ANSWERED_INVITATION:
+                break;
+            case BROADCAST_FRIENDS_ONLINE:
+                break;
+            case BROADCAST_FRIENDS_OFFNLINE:
+                break;
+        }
+    }
 }
