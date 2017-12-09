@@ -69,7 +69,7 @@ public class ContactsFragment extends Fragment {
                 FriendModel friend = friends.get(position);
                 boolean check = false;
                 for (ConversationModel conversation : conversations) {
-                    if(conversation.getInforOfMember().get(friend.getFriend_phone()) != null && conversation.getInforOfMember().size() == 1){
+                    if(conversation.getInforOfMember().get(friend.getFriend_phone()) != null && conversation.getInforOfMember().size() == 2){
                         check = true;
                         Intent intent = new Intent(getContext(), ChatActivity.class);
                         intent.putExtra("conversation", conversation);

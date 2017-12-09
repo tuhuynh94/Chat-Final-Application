@@ -60,6 +60,22 @@ public class ListMessageAdapter extends ArrayAdapter<MessageModel> {
         return convertView;
     }
 
+    @Override
+    public int getCount() {
+        return messages.size();
+    }
+
+    @Nullable
+    @Override
+    public MessageModel getItem(int position) {
+        return messages.get(position);
+    }
+
+    @Override
+    public int getPosition(@Nullable MessageModel item) {
+        return messages.indexOf(item);
+    }
+
     public static class Holder {
         de.hdodenhof.circleimageview.CircleImageView avatar;
         com.github.library.bubbleview.BubbleTextView text;

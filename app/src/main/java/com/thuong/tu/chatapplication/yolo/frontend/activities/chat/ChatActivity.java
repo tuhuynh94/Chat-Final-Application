@@ -34,11 +34,12 @@ import java.util.List;
 public class ChatActivity extends AppCompatActivity {
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
     ArrayList<MessageModel> messages;
-    Button back,send, info;
+    Button back, send, info;
     EditText input_message;
     TextView name;
     ConversationModel conversationModel;
     ListMessageAdapter adapter;
+    ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +48,13 @@ public class ChatActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-        ListView list = (ListView) findViewById(R.id.list_messages);
+        list = (ListView) findViewById(R.id.list_messages);
         Intent intent = getIntent();
         conversationModel = (ConversationModel) intent.getSerializableExtra("conversation");
         messages = new ArrayList<>();
         ArrayList<MessageModel> temp = Server.owner.get_AllMessageByConversationID(conversationModel.getConversation_id());
-        if(temp != null){
-            messages = temp;
+        if (temp != null) {
+            messages.addAll(temp);
         }
         adapter = new ListMessageAdapter(this, R.layout.messages_receive_template, messages);
         list.setAdapter(adapter);
@@ -67,16 +68,12 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 v.setAnimation(buttonClick);
-                if(conversationModel.getConversation_id() != null && !conversationModel.getConversation_id().isEmpty()){
+                if (conversationModel.getConversation_id() != null && !conversationModel.getConversation_id().isEmpty()) {
                     C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());
-                }
-                else{
+                } else {
                     Intent i = getIntent();
                     FriendModel friend = (FriendModel) i.getSerializableExtra("friend");
                     C_Conversation.createConversation(Server.owner.get_username(), Server.owner.get_Phone() + "," + friend.getFriend_phone() + ",");
-                    List<ConversationModel> conversationModels = Server.owner.getListConversation();
-                    conversationModel = conversationModels.get(conversationModels.size() - 1);
-                    C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());
                 }
             }
         });
@@ -111,22 +108,28 @@ public class ChatActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
     }
 
-    @Subscribe
-    public  void OnMess(C_Message.OnMess onMess){
-        messages = Server.owner.get_AllMessageByConversationID(conversationModel.getConversation_id());
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void OnConversation(C_Conversation.OnResultConversation onResultConversation) {
+        if (onResultConversation.getType() == C_Conversation.OnResultConversation.Type.add_conversation) {
+            List<ConversationModel> conversationModels = Server.owner.getListConversation();
+            conversationModel = conversationModels.get(conversationModels.size() - 1);
+            C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void OnMess(C_Message.OnMess onMess) {
+        messages.clear();
+        input_message.setText("");
+        ArrayList<MessageModel> temp = Server.owner.get_AllMessageByConversationID(conversationModel.getConversation_id());
+        if (temp != null) {
+            messages.addAll(temp);
+        }
         adapter.notifyDataSetChanged();
+        list.smoothScrollToPosition(list.getHeight());
+        list.setSelection(messages.size() - 1);
     }
 
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void OnInviteFriend(C_Friend.OnResultFriend onResultFriend){
-        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.ADD_FRIEND){
-            Toast.makeText(getApplicationContext(), "Accept", Toast.LENGTH_SHORT).show();
-        }
-        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.DENY_ADD_FRIEND){
-            Toast.makeText(getApplicationContext(), "Deny", Toast.LENGTH_SHORT).show();
-        }
-    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

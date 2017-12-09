@@ -58,6 +58,22 @@ public class ListRecentsAdapter extends ArrayAdapter<ConversationModel> {
         return convertView;
     }
 
+    @Override
+    public int getCount() {
+        return conversationModels.size();
+    }
+
+    @Nullable
+    @Override
+    public ConversationModel getItem(int position) {
+        return conversationModels.get(position);
+    }
+
+    @Override
+    public int getPosition(@Nullable ConversationModel item) {
+        return conversationModels.indexOf(item);
+    }
+
     private Holder initHolder(View convertView) {
         CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatar);
         TextView name = (TextView) convertView.findViewById(R.id.name);

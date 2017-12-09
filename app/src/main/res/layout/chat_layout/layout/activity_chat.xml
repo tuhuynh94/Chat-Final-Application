@@ -59,14 +59,15 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:stackFromBottom="true"
-        android:layout_weight="8"
-        android:transcriptMode="alwaysScroll" />
+        android:layout_weight="8" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_weight="1"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:fitsSystemWindows="true">
 
         <EditText

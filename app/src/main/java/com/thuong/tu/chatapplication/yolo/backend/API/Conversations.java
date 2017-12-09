@@ -56,6 +56,13 @@ public class Conversations {
                 conversation.setCreated_at(Converter.stringToDateTime(jsonObject.getString("created_at")));
                 conversation.setUpdated_at(Converter.stringToDateTime(jsonObject.getString("updated_at")));
                 conversation.setMember(jsonObject.getString("member"));
+                String mems = jsonObject.getString("member");
+                List<ClientModel> users = User.loadUserInConversation(mems);
+                HashMap<String, ClientModel> map = new HashMap<>();
+                for (ClientModel c : users) {
+                    map.put(c.get_Phone(), c);
+                }
+                conversation.setInforOfMember(map);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

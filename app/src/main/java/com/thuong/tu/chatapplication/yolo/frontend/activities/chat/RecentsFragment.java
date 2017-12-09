@@ -19,6 +19,7 @@ import com.thuong.tu.chatapplication.yolo.frontend.entities.ListRecentsAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -82,22 +83,22 @@ public class RecentsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onPause() {
         super.onPause();
     }
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public  void OnMess(C_Message.OnMess onMess){
         adapter.notifyDataSetChanged();
     }
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void OnConversation(C_Conversation.OnResultConversation onResultConversation){
         if(onResultConversation.getType() == C_Conversation.OnResultConversation.Type.add_conversation){
-            conversations = Server.owner.getListConversation();
             adapter.notifyDataSetChanged();
+            list.smoothScrollToPosition(0);
+            list.setSelection(0);
         }
     }
 }
