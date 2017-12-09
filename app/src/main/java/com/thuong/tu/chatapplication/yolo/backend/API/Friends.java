@@ -27,14 +27,13 @@ public class Friends {
     }
 
     private static FriendModel loadFriend_R(String execute) {
-        FriendModel friend = null;
+        FriendModel friend = new FriendModel();
         try {
             jsonArray = new JSONArray(execute);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         for (int i = 0; i < jsonArray.length(); i++) {
-            friend = new FriendModel();
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 friend.setBirthday(Converter.stringToDate(jsonObject.getString("birthday")));
@@ -43,6 +42,7 @@ public class Friends {
                 friend.set_email(jsonObject.getString("email"));
                 friend.set_image_source(jsonObject.getString("image_source"));
                 friend.set_gender(jsonObject.getString("gender").equals("1"));
+                friend.setFriend_username(jsonObject.getString("username"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

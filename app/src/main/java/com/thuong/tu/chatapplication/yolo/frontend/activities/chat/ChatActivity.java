@@ -4,26 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
-import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.FriendModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.MessageModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
-import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.entities.ListMessageAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
-    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
     ArrayList<MessageModel> messages;
     Button back, send, info;
     EditText input_message;
@@ -43,6 +37,7 @@ public class ChatActivity extends AppCompatActivity {
     ConversationModel conversationModel;
     ListMessageAdapter adapter;
     ListView list;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +58,8 @@ public class ChatActivity extends AppCompatActivity {
         list.setAdapter(adapter);
         initElements();
         ConversationModel conversation_temp = Server.owner.get_ConversationByID(conversationModel.getConversation_id());
-        if(conversation_temp.getInforOfMember().size() > 2){
+
+        if (conversation_temp != null && conversation_temp.getInforOfMember().size() > 2) {
             name.setText(conversationModel.getConversation_name());
         }
         else{

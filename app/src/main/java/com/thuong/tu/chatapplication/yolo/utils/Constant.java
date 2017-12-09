@@ -2,7 +2,7 @@ package com.thuong.tu.chatapplication.yolo.utils;
 
 public class Constant {
 
-    public static final String M_HOST = "http://192.168.1.90";
+    public static final String M_HOST = "http://192.168.100.9";
     public static final String M_SERVER_PORT = "3000";
 
     //region link PHP

@@ -55,7 +55,8 @@ public class C_Friend {
                     String sys_msg = "";
                     if (is_accept) {
                         FriendModel friend = Friends.addFriend(from);
-                        sys_msg = from_user + " accepted your invitation.";
+                        String username = friend.get_username();
+                        sys_msg = username + " accepted your invitation.";
                         //TODO UPDATE friend UI
                         EventBus.getDefault()
                                 .post(new OnResultFriend(sys_msg, OnResultFriend.Type.ACCEPT_ADD_FRIEND));
@@ -88,7 +89,6 @@ public class C_Friend {
                 }
             }
         });
-
         Server.getSocket().on("broadcast_all_friend", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -150,10 +150,24 @@ public class C_Friend {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String from = data.getString("from");
+                    JSONObject fr = data.getJSONObject("friend");
+
                     InvitationModel invitation = Server.owner.getSingleInvitaion(from);
                     Server.owner.get_Invite_friends().remove(invitation);
+
+                    FriendModel friend = new FriendModel();
+                    friend.set_email(fr.getString("email"));
+                    friend.setBirthday(Converter.stringToDate(fr.getString("birthday")));
+                    friend.setAdd_at(Converter.stringToDateTime(fr.getString("add_at")));
+                    friend.setFriend_phone(fr.getString("friend_phone"));
+                    friend.set_email(fr.getString("email"));
+                    friend.set_image_source(fr.getString("image_source"));
+                    friend.set_gender(fr.getInt("gender") == 1);
+
+                    Server.owner.get_listFriends().add(friend);
+
                     //TODO update friend + invitation UI
-                    EventBus.getDefault().post(new OnResultFriend("", OnResultFriend.Type.ANSWERED_INVITATION));
+//                    EventBus.getDefault().post(new OnResultFriend("", OnResultFriend.Type.ANSWERED_INVITATION));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -208,13 +222,13 @@ public class C_Friend {
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("other_phone", other_phone);
         data.put("is_accept", is_accept ? "true" : "false");
-        if (is_accept) {
-            FriendModel friend = Friends.addFriend(other_phone);
-            data.put("email", friend.get_email());
-            data.put("birthday", friend.get_birthday().toString());
-            data.put("username", friend.get_username());
-            data.put("add_at", friend.get_add_at().toString());
-        }
+//        if (is_accept) {
+//            FriendModel friend = Friends.addFriend(other_phone);
+//            data.put("email", friend.get_email());
+//            data.put("birthday", friend.get_birthday().toString());
+//            data.put("username", friend.get_username());
+//            data.put("add_at", friend.get_add_at().toString());
+//        }
 
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("response_add_friend", json);
