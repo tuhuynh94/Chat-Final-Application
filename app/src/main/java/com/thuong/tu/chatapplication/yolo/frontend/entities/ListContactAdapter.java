@@ -46,6 +46,22 @@ public class ListContactAdapter extends ArrayAdapter<FriendModel>{
         return convertView;
     }
 
+    @Override
+    public int getCount() {
+        return friends.size();
+    }
+
+    @Nullable
+    @Override
+    public FriendModel getItem(int position) {
+        return friends.get(position);
+    }
+
+    @Override
+    public int getPosition(@Nullable FriendModel item) {
+        return friends.indexOf(item);
+    }
+
     private Holder initHolder(View convertView) {
         CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatar);
         TextView name = (TextView) convertView.findViewById(R.id.name);

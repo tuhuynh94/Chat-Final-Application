@@ -118,7 +118,7 @@ public class ContactsFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResultFriends(C_Friend.OnResultFriend onResultFriend) {
         switch (onResultFriend.getType()) {
             case UN_FRIEND:
@@ -126,8 +126,9 @@ public class ContactsFragment extends Fragment {
             case ADD_FRIEND:
                 break;
             case ACCEPT_ADD_FRIEND:
-                friends = Server.owner.get_listFriends();
                 adapter.notifyDataSetChanged();
+                list.smoothScrollToPosition(0);
+                list.setSelection(0);
                 break;
             case DENY_ADD_FRIEND:
                 break;

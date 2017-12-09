@@ -63,6 +63,22 @@ public class ListInviteFriendAdapter extends ArrayAdapter<InvitationModel> {
         }));
     }
 
+    @Override
+    public int getCount() {
+        return invitations.size();
+    }
+
+    @Nullable
+    @Override
+    public InvitationModel getItem(int position) {
+        return invitations.get(position);
+    }
+
+    @Override
+    public int getPosition(@Nullable InvitationModel item) {
+        return invitations.indexOf(item);
+    }
+
     private Holder initHolder(View convertView) {
         CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatar);
         TextView name = (TextView) convertView.findViewById(R.id.name);

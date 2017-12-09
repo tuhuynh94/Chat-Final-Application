@@ -57,20 +57,8 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ListMessageAdapter(this, R.layout.messages_receive_template, messages);
         list.setAdapter(adapter);
         initElements();
-        ConversationModel conversation_temp = Server.owner.get_ConversationByID(conversationModel.getConversation_id());
 
-        if (conversation_temp != null && conversation_temp.getInforOfMember().size() > 2) {
-            name.setText(conversationModel.getConversation_name());
-        }
-        else{
-            for (Map.Entry<String, ClientModel> entry : conversation_temp.getInforOfMember().entrySet()) {
-                ClientModel client = entry.getValue();
-                if(!client.get_Phone().equals(Server.owner.get_Phone())){
-                    name.setText(client.get_username());
-                    break;
-                }
-            }
-        }
+        name.setText(conversationModel.getConversation_name());
         assignButton();
     }
 
