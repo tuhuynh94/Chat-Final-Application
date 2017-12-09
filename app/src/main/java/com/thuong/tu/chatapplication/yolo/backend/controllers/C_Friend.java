@@ -21,6 +21,24 @@ import java.util.HashMap;
 public class C_Friend {
     private static Uri.Builder builder = null;
     public static void onCreate() {
+        //TODO add status online or offline
+        Server.getSocket().on("update_status_list_friend", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String[] phones = data.getString("phones").split(",");
+                    for (String phone : phones) {
+                        FriendModel fr = Server.owner.get_SingleFriend(phone);
+                        if (fr != null) {
+                            fr.set_status(true);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         Server.getSocket().on("invite_friend", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -89,6 +107,7 @@ public class C_Friend {
                 }
             }
         });
+        //TODO broadcast to all friend
         Server.getSocket().on("broadcast_all_friend", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -96,18 +115,24 @@ public class C_Friend {
                 String sys_msg = "";
                 try {
                     String type = data.getString("type");
-                    String user = data.getString("user");
+                    String _phone = data.getString("phone");
+
                     if (type.equals("online")) {
-                        sys_msg = user + " is online";
+                        FriendModel friend = Server.owner.get_SingleFriend(_phone);
+                        sys_msg = friend.get_username() + " is online";
+                        friend.set_status(true);
                         EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.BROADCAST_FRIENDS_ONLINE));
                     }
                     if (type.equals("offline")) {
-                        sys_msg = user + " is online";
+                        FriendModel friend = Server.owner.get_SingleFriend(_phone);
+                        sys_msg = friend.get_username() + " is online";
+                        friend.set_status(false);
                         EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.BROADCAST_FRIENDS_OFFNLINE));
                     }
+
                     if (type.equals("update_info_friend")) {
                         JSONObject tmp = data.getJSONObject("content");
-                        String phone = tmp.getString("phone");
+                        String phone = tmp.getString("phone_number");
                         String username = tmp.getString("username");
 
                         FriendModel friendModel = Server.owner.getSingleFriend(phone);
@@ -158,7 +183,7 @@ public class C_Friend {
                     FriendModel friend = new FriendModel();
                     friend.set_email(fr.getString("email"));
                     friend.setBirthday(Converter.stringToDate(fr.getString("birthday")));
-                    friend.setAdd_at(Converter.stringToDateTime(fr.getString("add_at")));
+                    friend.setAdd_at(Converter.stringToDate(fr.getString("add_at")));
                     friend.setFriend_phone(fr.getString("friend_phone"));
                     friend.set_email(fr.getString("email"));
                     friend.set_image_source(fr.getString("image_source"));
@@ -167,7 +192,7 @@ public class C_Friend {
                     Server.owner.get_listFriends().add(friend);
 
                     //TODO update friend + invitation UI
-//                    EventBus.getDefault().post(new OnResultFriend("", OnResultFriend.Type.ANSWERED_INVITATION));
+                    EventBus.getDefault().post(new OnResultFriend("", OnResultFriend.Type.ANSWERED_INVITATION));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

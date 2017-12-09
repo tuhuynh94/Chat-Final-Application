@@ -46,7 +46,7 @@ public class C_User {
         p.put("password", password);
         p.put("birthday", birthday.toString());
         p.put("email", email);
-        p.put("phone", Server.owner.get_Phone());
+        p.put("phone_number", Server.owner.get_Phone());
 
         Server.getSocket().emit("update_user", new JSONObject(p));
 

@@ -162,7 +162,13 @@ public class ClientModel implements Serializable{
         return null;
     }
 
-    public void update_conversation_user() {
+    public FriendModel get_SingleFriend(String phone) {
+        for (FriendModel fr : this.get_listFriends()) {
+            if (fr.getFriend_phone().equals(phone)) {
+                return fr;
+            }
+        }
+        return null;
     }
 
     public static class OnLastMess{

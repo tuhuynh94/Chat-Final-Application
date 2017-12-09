@@ -12,7 +12,15 @@ public class FriendModel implements Serializable {
     private String m_email;
     private String m_image_source;
     private boolean m_gender; //0:Female -- 1:Male
+    private boolean m_status = false;//0:of -- 1: onl
 
+    public boolean get_status() {
+        return m_status;
+    }
+
+    public void set_status(boolean m_status) {
+        this.m_status = m_status;
+    }
     public String get_image_source() {
         return m_image_source;
     }
