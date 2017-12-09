@@ -13,10 +13,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
+import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.FriendModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.MessageModel;
@@ -30,6 +32,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
@@ -59,7 +62,19 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ListMessageAdapter(this, R.layout.messages_receive_template, messages);
         list.setAdapter(adapter);
         initElements();
-        name.setText(conversationModel.getConversation_name());
+        ConversationModel conversation_temp = Server.owner.get_ConversationByID(conversationModel.getConversation_id());
+        if(conversation_temp.getInforOfMember().size() > 2){
+            name.setText(conversationModel.getConversation_name());
+        }
+        else{
+            for (Map.Entry<String, ClientModel> entry : conversation_temp.getInforOfMember().entrySet()) {
+                ClientModel client = entry.getValue();
+                if(!client.get_Phone().equals(Server.owner.get_Phone())){
+                    name.setText(client.get_username());
+                    break;
+                }
+            }
+        }
         assignButton();
     }
 

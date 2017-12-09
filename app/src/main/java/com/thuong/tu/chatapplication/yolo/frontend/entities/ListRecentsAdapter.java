@@ -44,17 +44,31 @@ public class ListRecentsAdapter extends ArrayAdapter<ConversationModel> {
         LayoutInflater inflater = context.getLayoutInflater();
         convertView = inflater.inflate(resource, null);
         Holder holder = initHolder(convertView);
-        holder.name.setText(conversation.getConversation_name());
+        if(conversation.getInforOfMember().size() > 2){
+            holder.name.setText(conversation.getConversation_name());
+            for (Map.Entry<String, ClientModel> entry : conversation.getInforOfMember().entrySet()) {
+                ClientModel client = entry.getValue();
+                if (!client.get_Phone().equals(Server.owner.get_Phone()) && !client.get_imageSource().isEmpty()) {
+                    Picasso.with(getContext()).load(client.get_imageSource()).into(holder.avatar);
+                }
+            }
+        }
+        else{
+            for (Map.Entry<String, ClientModel> entry : conversation.getInforOfMember().entrySet()) {
+                ClientModel client = entry.getValue();
+                if (!client.get_Phone().equals(Server.owner.get_Phone()) && !client.get_imageSource().isEmpty()) {
+                    Picasso.with(getContext()).load(client.get_imageSource()).into(holder.avatar);
+                }
+                if(!client.get_Phone().equals(Server.owner.get_Phone())){
+                    holder.name.setText(client.get_username());
+                    break;
+                }
+            }
+        }
         if (conversation.get_last_message() != null) {
             holder.content.setText(conversation.get_last_message().get_message());
         }
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
-        for (Map.Entry<String, ClientModel> entry : conversation.getInforOfMember().entrySet()) {
-            ClientModel client = entry.getValue();
-            if (!client.get_Phone().equals(Server.owner.get_Phone()) && !client.get_imageSource().isEmpty()) {
-                Picasso.with(getContext()).load(client.get_imageSource()).into(holder.avatar);
-            }
-        }
         return convertView;
     }
 
