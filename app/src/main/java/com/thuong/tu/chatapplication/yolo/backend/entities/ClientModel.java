@@ -20,6 +20,12 @@ public class ClientModel implements Serializable{
     private ArrayList<InvitationModel> m_invite_friends = new ArrayList<>();
     private HashMap<String, ArrayList<MessageModel>> m_hash_messages = new HashMap<>();
 
+    public HashMap<String, FriendModel> get_hash_list_friends() {
+        return m_hash_list_friends;
+    }
+
+    private HashMap<String, FriendModel> m_hash_list_friends = new HashMap<>();
+
     public boolean get_gender() {
         return m_gender;
     }

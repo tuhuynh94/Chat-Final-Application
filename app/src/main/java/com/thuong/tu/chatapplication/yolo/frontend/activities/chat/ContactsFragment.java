@@ -135,8 +135,10 @@ public class ContactsFragment extends Fragment {
             case ANSWERED_INVITATION:
                 break;
             case BROADCAST_FRIENDS_ONLINE:
+                adapter.notifyDataSetChanged();
                 break;
             case BROADCAST_FRIENDS_OFFNLINE:
+                adapter.notifyDataSetChanged();
                 break;
         }
     }

@@ -29,6 +29,7 @@ public class ListRecentsAdapter extends ArrayAdapter<ConversationModel> {
     Activity context;
     int resource;
     ArrayList<ConversationModel> conversationModels;
+    boolean check_status_group = false;
 
     public ListRecentsAdapter(@NonNull Activity context, @LayoutRes int resource, ArrayList<ConversationModel> conversationModels) {
         super(context, resource, conversationModels);
@@ -51,6 +52,17 @@ public class ListRecentsAdapter extends ArrayAdapter<ConversationModel> {
                 if (!client.get_Phone().equals(Server.owner.get_Phone()) && !client.get_imageSource().isEmpty()) {
                     Picasso.with(getContext()).load(client.get_imageSource()).into(holder.avatar);
                 }
+                if(!client.get_Phone().equals(Server.owner.get_Phone())){
+                    FriendModel friend = Server.owner.get_hash_list_friends().get(client.get_Phone());
+                   if(friend != null){
+                       if(friend.get_status()){
+                           holder.avatar.setBorderColor(getContext().getResources().getColor(R.color.online));
+                       }
+                       else{
+                           holder.avatar.setBorderColor(getContext().getResources().getColor(R.color.offline));
+                       }
+                   }
+                }
             }
         }
         else{
@@ -61,6 +73,15 @@ public class ListRecentsAdapter extends ArrayAdapter<ConversationModel> {
                 }
                 if(!client.get_Phone().equals(Server.owner.get_Phone())){
                     holder.name.setText(client.get_username());
+                    FriendModel friend = Server.owner.get_hash_list_friends().get(client.get_Phone());
+                    if(friend != null){
+                        if(friend.get_status()){
+                            holder.avatar.setBorderColor(getContext().getResources().getColor(R.color.online));
+                        }
+                        else{
+                            holder.avatar.setBorderColor(getContext().getResources().getColor(R.color.offline));
+                        }
+                    }
                     break;
                 }
             }

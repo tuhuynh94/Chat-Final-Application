@@ -47,6 +47,7 @@ public class Friends {
                 e.printStackTrace();
             }
             Server.owner.get_listFriends().add(friend);
+            Server.owner.get_hash_list_friends().put(friend.getFriend_phone(), friend);
         }
         return friend;
     }
@@ -87,6 +88,7 @@ public class Friends {
                 e.printStackTrace();
             }
             Server.owner.get_listFriends().add(friend);
+            Server.owner.get_hash_list_friends().put(friend.getFriend_phone(), friend);
         }
     }
 }

@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
@@ -99,6 +100,17 @@ public class RecentsFragment extends Fragment {
             adapter.notifyDataSetChanged();
             list.smoothScrollToPosition(0);
             list.setSelection(0);
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void OnResultFriends(C_Friend.OnResultFriend onResultFriend){
+        switch (onResultFriend.getType()){
+            case BROADCAST_FRIENDS_ONLINE:
+                list.invalidateViews();
+                break;
+            case BROADCAST_FRIENDS_OFFNLINE:
+                list.invalidateViews();
+                break;
         }
     }
 }

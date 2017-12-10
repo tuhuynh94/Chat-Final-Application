@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ListContactAdapter extends ArrayAdapter<FriendModel>{
+public class ListContactAdapter extends ArrayAdapter<FriendModel> {
     Activity context;
     int resource;
     ArrayList<FriendModel> friends;
@@ -39,9 +39,15 @@ public class ListContactAdapter extends ArrayAdapter<FriendModel>{
         FriendModel friend = friends.get(position);
         Holder holder = initHolder(convertView);
         holder.name.setText(friend.get_username());
-        holder.status.setText("Online");
-        if(!friend.get_image_source().isEmpty()){
+        if (!friend.get_image_source().isEmpty()) {
             Picasso.with(getContext()).load(friend.get_image_source()).into(holder.avatar);
+        }
+        if (friend.get_status()) {
+            holder.avatar.setBorderColor(getContext().getResources().getColor(R.color.online));
+            holder.status.setText("Online");
+        } else {
+            holder.avatar.setBorderColor(getContext().getResources().getColor(R.color.offline));
+            holder.status.setText("Offline");
         }
         return convertView;
     }
@@ -70,10 +76,11 @@ public class ListContactAdapter extends ArrayAdapter<FriendModel>{
         return holder;
     }
 
-    public class Holder{
+    public class Holder {
         CircleImageView avatar;
         TextView name, status;
-        public Holder(de.hdodenhof.circleimageview.CircleImageView avatar, TextView name, TextView status){
+
+        public Holder(de.hdodenhof.circleimageview.CircleImageView avatar, TextView name, TextView status) {
             this.avatar = avatar;
             this.name = name;
             this.status = status;
