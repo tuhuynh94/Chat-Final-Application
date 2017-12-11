@@ -121,8 +121,12 @@ public class C_Friend {
                         FriendModel friend = Server.owner.get_SingleFriend(_phone);
                         sys_msg = friend.get_username() + " is online";
                         friend.set_status(true);
+                        HashMap<String, String> p = new HashMap<>();
+                        p.put("phone", _phone);
+                        Server.getSocket().emit("update_user_online", new JSONObject(p));
                         EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.BROADCAST_FRIENDS_ONLINE));
                     }
+
                     if (type.equals("offline")) {
                         FriendModel friend = Server.owner.get_SingleFriend(_phone);
                         sys_msg = friend.get_username() + " is online";
