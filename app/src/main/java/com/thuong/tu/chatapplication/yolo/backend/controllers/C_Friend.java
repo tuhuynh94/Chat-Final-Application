@@ -170,7 +170,6 @@ public class C_Friend {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
         Server.getSocket().on("answered_invitation", new Emitter.Listener() {

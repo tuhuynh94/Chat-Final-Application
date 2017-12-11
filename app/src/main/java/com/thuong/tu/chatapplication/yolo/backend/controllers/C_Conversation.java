@@ -105,7 +105,6 @@ public class C_Conversation {
                     EventBus.getDefault()
                             .post(new OnResultConversation(sys_msg, OnResultConversation.Type.kick_member));
                 }
-
             }
         });
         Server.getSocket().on("broadcast_all_conversation", new Emitter.Listener() {
@@ -136,7 +135,6 @@ public class C_Conversation {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }
