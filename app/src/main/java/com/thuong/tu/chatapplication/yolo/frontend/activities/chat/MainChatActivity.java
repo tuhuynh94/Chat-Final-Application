@@ -183,7 +183,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
             email.setText(Server.owner.get_Email().equals(null) ? "" : Server.owner.get_Email());
             phone.setText(Server.owner.get_Phone().equals(null) ? "" : Server.owner.get_Phone());
 
-            image_source = (Server.owner.get_imageSource() != null && !image_source.isEmpty()) ? Server.owner.get_imageSource() : "";
+            image_source = (Server.owner.get_imageSource() != null && !Server.owner.get_imageSource().isEmpty()) ? Server.owner.get_imageSource() : "";
             if (!image_source.isEmpty()) {
                 Picasso.with(this).load(image_source).into(avatar_edit_user);
             }

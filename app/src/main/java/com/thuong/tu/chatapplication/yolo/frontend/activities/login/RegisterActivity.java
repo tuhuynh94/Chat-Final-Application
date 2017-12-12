@@ -23,7 +23,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import static com.thuong.tu.chatapplication.yolo.frontend.utils.ProcessDialogHelper.createProcessDialog;
 
 public class RegisterActivity extends UltisActivity {
-    EditText pw;
+    EditText pw, confirm_pw;
     Button register;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.7F);
     ProgressDialog progressDialog;
@@ -42,11 +42,16 @@ public class RegisterActivity extends UltisActivity {
             @Override
             public void onClick(View v) {
                 v.setAnimation(buttonClick);
-                if (!pw.getText().toString().equals("")) {
-                    progressDialog.show();
-                    register.setEnabled(false);
-                    String password = pw.getText().toString();
-                    C_Register.sendPass(password);
+                if(pw.getText().toString().equals(confirm_pw.getText().toString())){
+                    if (!pw.getText().toString().equals("")) {
+                        progressDialog.show();
+                        register.setEnabled(false);
+                        String password = pw.getText().toString();
+                        C_Register.sendPass(password);
+                    }
+                }
+                else{
+                    Toast.makeText(RegisterActivity.this, "Confirm password must be same with password", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -54,6 +59,7 @@ public class RegisterActivity extends UltisActivity {
 
     private void initElement() {
         pw = (EditText) findViewById(R.id.edit_password);
+        confirm_pw = (EditText) findViewById(R.id.edit_confirm_password);
         register = (Button) findViewById(R.id.btn_sign_in);
     }
 
