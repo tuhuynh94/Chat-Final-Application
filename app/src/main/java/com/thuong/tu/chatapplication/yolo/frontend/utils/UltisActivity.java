@@ -1,4 +1,4 @@
-package com.thuong.tu.chatapplication.yolo.frontend;
+package com.thuong.tu.chatapplication.yolo.frontend.utils;
 
 import android.content.res.AssetManager;
 import android.graphics.Typeface;

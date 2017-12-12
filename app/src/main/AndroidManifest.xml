@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_main_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".yolo.frontend.activities.MainActivity">
+        <activity android:name=".yolo.frontend.activities.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,10 +35,10 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".yolo.frontend.activities.chat.ChatActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".yolo.frontend.UltisActivity" />
+        <activity android:name=".yolo.frontend.utils.UltisActivity" />
         <activity android:name=".yolo.frontend.activities.login.RegisterActivity" />
         <activity
-            android:name=".yolo.frontend.activities.MainChatActivityTemp"
+            android:name=".yolo.frontend.activities.activities.MainChatActivityTemp"
             android:label="@string/title_activity_main_chat_temp"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".yolo.frontend.activities.friends.AddFriendActivity"></activity>

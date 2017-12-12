@@ -6,10 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -19,33 +19,37 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TabHost;
+import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thuong.tu.chatapplication.R;
+import com.thuong.tu.chatapplication.yolo.backend.API.User;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_User;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
-import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
-import com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.friends.AddFriendActivity;
-import com.thuong.tu.chatapplication.yolo.frontend.activities.login.PhoneNumberActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.utils.PagerAdapter;
+import com.thuong.tu.chatapplication.yolo.utils.Constant;
 import com.thuong.tu.chatapplication.yolo.utils.FileController;
+import com.thuong.tu.chatapplication.yolo.utils.GalleryManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -53,7 +57,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainChatActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ViewPager viewPager;
     TabLayout tabLayout;
-
+    private final int REQUEST_TAKE_PHOTO = 104;
+    private final int REQUEST_CHOOSE_PHOTO = 401;
+    Calendar myCalendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,6 +155,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
     }
 
     de.hdodenhof.circleimageview.CircleImageView avatar_edit_user;
+    String image_source;
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -166,16 +173,19 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
             Button save = (Button) diaglogView.findViewById(R.id.save);
             Button date = (Button) diaglogView.findViewById(R.id.birthday);
             EditText email, phone, username;
+            Spinner gender = (Spinner) diaglogView.findViewById(R.id.gender);
             email = (EditText) diaglogView.findViewById(R.id.email);
             phone = (EditText) diaglogView.findViewById(R.id.phone);
             username = (EditText) diaglogView.findViewById(R.id.username);
             avatar_edit_user = (CircleImageView) diaglogView.findViewById(R.id.avatar);
 
-            username.setText(Server.owner.get_username() == null ? "" : Server.owner.get_username());
-            email.setText(Server.owner.get_Email() == null ? "" : Server.owner.get_Email());
-            phone.setText(Server.owner.get_Phone() == null ? "" : Server.owner.get_Phone());
-            if (!Server.owner.get_imageSource().isEmpty()) {
-                Picasso.with(this).load(Server.owner.get_imageSource()).into(avatar_edit_user);
+            username.setText(Server.owner.get_username().equals(null) ? "" : Server.owner.get_username());
+            email.setText(Server.owner.get_Email().equals(null) ? "" : Server.owner.get_Email());
+            phone.setText(Server.owner.get_Phone().equals(null) ? "" : Server.owner.get_Phone());
+
+            image_source = (Server.owner.get_imageSource() != null && !image_source.isEmpty()) ? Server.owner.get_imageSource() : "";
+            if (!image_source.isEmpty()) {
+                Picasso.with(this).load(image_source).into(avatar_edit_user);
             }
             DatePickerDialog.OnDateSetListener datePicker = datePicker(date);
             Calendar myCalendar = Calendar.getInstance();
@@ -191,10 +201,20 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
             avatar_edit_user.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.abc);
-                    byte[] bytes = FileController.getByteArrayFromBitmap(bitmap);
+                    GalleryManager.choosePicture(MainChatActivity.this, REQUEST_CHOOSE_PHOTO);
+                }
+            });
 
-                    Server.getSocket().emit("change_avatar", bytes);
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String username_update = username.getText().toString();
+                    String email_update = email.getText().toString();
+                    String phone_update = phone.getText().toString();
+                    boolean gender_update = gender.getSelectedItem().toString().equals("MALE") ?  true : false;
+                    Date birthday = myCalendar.getTime();
+                    String image_source_update = image_source;
+                    C_User.OnChangeUserInfo(gender_update, phone_update, username_update, birthday, email_update);
                 }
             });
 
@@ -205,9 +225,8 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
     private DatePickerDialog.OnDateSetListener datePicker(Button button) {
-        Calendar myCalendar = Calendar.getInstance();
+        myCalendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -252,10 +271,11 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResultUser(C_User.OnResultUser onResultUser) {
         if (onResultUser.getType() == C_User.OnResultUser.Type.CHANGE_AVATAR) {
             avatar_edit_user.setImageBitmap(onResultUser.getBitmap());
+            image_source = onResultUser.getPath();
         }
     }
 
@@ -263,5 +283,26 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
     protected void onDestroy() {
         super.onDestroy();
         Server.beforDisconnet();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK){
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            byte[] bytes = FileController.getByteArrayFromBitmap(bitmap);
+            Server.getSocket().emit("change_avatar", bytes);
+        }
+        else if (requestCode == REQUEST_CHOOSE_PHOTO && resultCode == RESULT_OK){
+            try{
+                Uri imageURI = data.getData();
+                InputStream is = getContentResolver().openInputStream(imageURI);
+                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                byte[] bytes = FileController.getByteArrayFromBitmap(bitmap);
+                Server.getSocket().emit("change_avatar", bytes);
+            }
+            catch (FileNotFoundException e){
+                e.printStackTrace();
+            }
+        }
     }
 }

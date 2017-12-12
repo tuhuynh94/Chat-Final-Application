@@ -14,14 +14,12 @@ import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.API.Login;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
-import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
-import com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.utils.UltisActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.activities.MainActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.chat.MainChatActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.io.Serializable;
 
 import static com.thuong.tu.chatapplication.yolo.frontend.utils.ProcessDialogHelper.createProcessDialog;
 

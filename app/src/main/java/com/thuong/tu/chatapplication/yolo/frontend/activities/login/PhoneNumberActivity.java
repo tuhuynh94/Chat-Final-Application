@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
@@ -15,8 +14,8 @@ import android.widget.Toast;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
-import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
-import com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.utils.UltisActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.activities.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -1,17 +1,15 @@
-package com.thuong.tu.chatapplication.yolo.frontend.activities;
+package com.thuong.tu.chatapplication.yolo.frontend.activities.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 
-import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Register;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
-import com.thuong.tu.chatapplication.yolo.frontend.UltisActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.utils.UltisActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.login.LoginActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.login.PhoneNumberActivity;
 

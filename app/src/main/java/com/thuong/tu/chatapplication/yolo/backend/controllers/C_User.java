@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.yolo.backend.API.User;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.utils.Constant;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -23,9 +24,11 @@ public class C_User {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     byte[] bytes = (byte[]) data.get("image");
+                    String path = data.getString("image_path");
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     OnResultUser onResultUser = new OnResultUser("", OnResultUser.Type.CHANGE_AVATAR);
                     onResultUser.setBitmap(bitmap);
+                    onResultUser.setPath(Constant.M_HOST + "image_user/" + path);
                     EventBus.getDefault().post(onResultUser);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -54,6 +57,7 @@ public class C_User {
 
     public static class OnResultUser {
         String msg;
+        String path;
         Bitmap bitmap;
         Type type;
 
@@ -83,6 +87,15 @@ public class C_User {
         }
         public void setType(Type type) {
             this.type = type;
+        }
+
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
         }
 
         public enum Type {

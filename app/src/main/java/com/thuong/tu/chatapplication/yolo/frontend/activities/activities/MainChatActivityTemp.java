@@ -1,4 +1,4 @@
-package com.thuong.tu.chatapplication.yolo.frontend.activities;
+package com.thuong.tu.chatapplication.yolo.frontend.activities.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

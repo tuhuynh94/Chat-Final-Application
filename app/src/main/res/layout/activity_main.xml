@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_app"
-    tools:context="com.thuong.tu.chatapplication.yolo.frontend.activities.MainActivity">
+    tools:context="com.thuong.tu.chatapplication.yolo.frontend.activities.activities.MainActivity">
 
     <Button
         android:id="@+id/btn_sign_in"
