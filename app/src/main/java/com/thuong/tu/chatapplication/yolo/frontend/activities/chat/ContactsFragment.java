@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ public class ContactsFragment extends Fragment {
     ArrayList<FriendModel> friends;
     ListView list;
     ListContactAdapter adapter;
+    FloatingActionButton add_group;
 
 
     public ContactsFragment() {
@@ -86,8 +88,17 @@ public class ContactsFragment extends Fragment {
                     Intent intent = new Intent(getContext(), ChatActivity.class);
                     intent.putExtra("conversation", conversationModel);
                     intent.putExtra("friend", friend);
+                    intent.putExtra("type",  true);
                     startActivity(intent);
                 }
+            }
+        });
+        add_group = (FloatingActionButton) view.findViewById(R.id.add_group);
+        add_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), GroupAddActivity.class);
+                startActivity(intent);
             }
         });
         return view;

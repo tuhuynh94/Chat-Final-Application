@@ -200,7 +200,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
                     GalleryManager.choosePicture(MainChatActivity.this, REQUEST_CHOOSE_PHOTO);
                 }
             });
-
+            AlertDialog dialog = builder.create();
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -211,10 +211,11 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
                     Date birthday = myCalendar.getTime();
                     String image_source_update = image_source;
                     C_User.updateUser(gender_update, phone_update, username_update, birthday, email_update, image_source_update);
+                    dialog.cancel();
                 }
             });
 
-            builder.create().show();
+           dialog.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

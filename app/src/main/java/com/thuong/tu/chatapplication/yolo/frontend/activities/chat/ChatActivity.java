@@ -71,8 +71,15 @@ public class ChatActivity extends AppCompatActivity {
                     C_Message.addMessage(input_message.getText().toString(), conversationModel.getConversation_id());
                 } else {
                     Intent i = getIntent();
-                    FriendModel friend = (FriendModel) i.getSerializableExtra("friend");
-                    C_Conversation.createConversation(Server.owner.get_username(), Server.owner.get_Phone() + "," + friend.getFriend_phone() + ",");
+                    boolean check = i.getBooleanExtra("type", false);
+                    if(check){
+                        FriendModel friend = (FriendModel) i.getSerializableExtra("friend");
+                        C_Conversation.createConversation(Server.owner.get_username(), Server.owner.get_Phone() + "," + friend.getFriend_phone() + ",");
+                    }
+                    else {
+                        String mems = i.getStringExtra("mems");
+                        C_Conversation.createConversation(conversationModel.getConversation_name(), mems);
+                    }
                 }
             }
         });

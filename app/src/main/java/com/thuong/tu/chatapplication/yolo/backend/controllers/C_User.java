@@ -29,7 +29,7 @@ public class C_User {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     OnResultUser onResultUser = new OnResultUser("", OnResultUser.Type.CHANGE_AVATAR);
                     onResultUser.setBitmap(bitmap);
-                    onResultUser.setPath(Constant.M_HOST + "image_user/" + path);
+                    onResultUser.setPath(Constant.M_HOST + "/chat/image_user/" + path);
                     EventBus.getDefault().post(onResultUser);
                 } catch (JSONException e) {
                     e.printStackTrace();
