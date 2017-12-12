@@ -36,7 +36,7 @@ public class C_Conversation {
                         //get new conversations by PHP
                         Conversations.getSingleConversation(conversation_id);
                         Server.owner.add_AllConversation(conversation_id);
-                        User.OnChangeUserInfoWithoutPass();
+                        User.update_TbUser();
                     }
                     //duoc ng khác add vào conversation
                     EventBus.getDefault().post(new C_Conversation
@@ -107,7 +107,7 @@ public class C_Conversation {
                 }
             }
         });
-        Server.getSocket().on("broadcast_all_conversation", new Emitter.Listener() {
+        Server.getSocket().on("update_info_in_conversation", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
@@ -115,21 +115,21 @@ public class C_Conversation {
                 String sys_msg = "";
                 try {
                     tmp = data.getJSONObject("content");
-                    String phone = tmp.getString("phone");
+                    String phone = tmp.getString("phone_number");
                     String username = tmp.getString("username");
                     String conver_id = tmp.getString("conversation_id");
-                    // update thong tin ket ban
+                    // update thong tin trong conversation
 
-                    ConversationModel con = Server.owner.get_ConversationByID(conver_id);
-                    ClientModel client = con.getInforOfMember().get(phone);
+                    ConversationModel conversation = Server.owner.get_ConversationByID(conver_id);
+                    ClientModel client = conversation.getInforOfMember().get(phone);
                     client.set_Username(username);
                     client.set_ImageSource(tmp.getString("image_source"));
                     client.set_gender(tmp.getString("gender").equals("1"));
                     client.set_Birthday(Converter
                             .stringToDate(tmp.getString("birthday")));
                     client.set_Email(tmp.getString("email"));
-                    con.getInforOfMember().remove(phone);
-                    con.getInforOfMember().put(phone, client);
+                    conversation.getInforOfMember().remove(phone);
+                    conversation.getInforOfMember().put(phone, client);
 
                     EventBus.getDefault().post(new C_Friend.OnResultFriend(sys_msg, C_Friend.OnResultFriend.Type.UPDATE_USER_INFO));
                 } catch (JSONException e) {
@@ -156,7 +156,7 @@ public class C_Conversation {
         //send to PHP
         ConversationModel conversation = Conversations.createConversation(name, mem);
         Server.owner.add_AllConversation(conversation.getConversation_id());
-        User.OnChangeUserInfoWithoutPass();
+        User.update_TbUser();
 
         //send to sever -- update node server
         HashMap<String, String> p = new HashMap<>();

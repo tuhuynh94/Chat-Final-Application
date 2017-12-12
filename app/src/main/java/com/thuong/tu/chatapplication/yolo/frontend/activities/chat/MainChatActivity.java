@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +16,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,19 +25,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TabHost;
-import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.thuong.tu.chatapplication.R;
-import com.thuong.tu.chatapplication.yolo.backend.API.User;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_User;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.frontend.activities.friends.AddFriendActivity;
 import com.thuong.tu.chatapplication.yolo.frontend.utils.PagerAdapter;
-import com.thuong.tu.chatapplication.yolo.utils.Constant;
 import com.thuong.tu.chatapplication.yolo.utils.FileController;
 import com.thuong.tu.chatapplication.yolo.utils.GalleryManager;
 
@@ -55,11 +51,14 @@ import java.util.Locale;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainChatActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    ViewPager viewPager;
-    TabLayout tabLayout;
     private final int REQUEST_TAKE_PHOTO = 104;
     private final int REQUEST_CHOOSE_PHOTO = 401;
+    ViewPager viewPager;
+    TabLayout tabLayout;
     Calendar myCalendar = Calendar.getInstance();
+    de.hdodenhof.circleimageview.CircleImageView avatar_edit_user;
+    String image_source;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,8 +93,8 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
 
         FragmentManager manager = getSupportFragmentManager();
         PagerAdapter adapter = new PagerAdapter(manager);
-        adapter.addFragment(RecentsFragment.getInstance(), "");
-        adapter.addFragment(MainFriendsFragment.getInstance(), "");
+        PagerAdapter.addFragment(RecentsFragment.getInstance(), "");
+        PagerAdapter.addFragment(MainFriendsFragment.getInstance(), "");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 //        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -154,9 +153,6 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         return super.onOptionsItemSelected(item);
     }
 
-    de.hdodenhof.circleimageview.CircleImageView avatar_edit_user;
-    String image_source;
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -211,10 +207,10 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
                     String username_update = username.getText().toString();
                     String email_update = email.getText().toString();
                     String phone_update = phone.getText().toString();
-                    boolean gender_update = gender.getSelectedItem().toString().equals("MALE") ?  true : false;
+                    boolean gender_update = gender.getSelectedItem().toString().equals("MALE");
                     Date birthday = myCalendar.getTime();
                     String image_source_update = image_source;
-                    C_User.OnChangeUserInfo(gender_update, phone_update, username_update, birthday, email_update);
+                    C_User.updateUser(gender_update, phone_update, username_update, birthday, email_update, image_source_update);
                 }
             });
 

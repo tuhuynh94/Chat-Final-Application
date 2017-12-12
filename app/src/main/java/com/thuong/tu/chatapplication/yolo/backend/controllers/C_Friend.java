@@ -134,7 +134,7 @@ public class C_Friend {
                         EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.BROADCAST_FRIENDS_OFFNLINE));
                     }
 
-                    if (type.equals("update_info_friend")) {
+                    if (type.equals("update_info_in_friend")) {
                         JSONObject tmp = data.getJSONObject("content");
                         String phone = tmp.getString("phone_number");
                         String username = tmp.getString("username");
@@ -148,6 +148,7 @@ public class C_Friend {
                         friendModel.set_email(tmp.getString("email"));
                         EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.UPDATE_USER_INFO));
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -161,7 +162,7 @@ public class C_Friend {
                 String sys_msg = "";
                 try {
                     tmp = data.getJSONObject("content");
-                    String phone = tmp.getString("phone");
+                    String phone = tmp.getString("phone_number");
                     String username = tmp.getString("username");
                     // update thong tin ket ban
                     InvitationModel invitationModel = Server.owner.getSingleInvitaion(phone);

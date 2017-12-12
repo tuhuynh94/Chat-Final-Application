@@ -20,7 +20,8 @@ public class User {
     private static JSONObject jsonObject = null;
     private static JSONArray jsonArray = null;
 
-    public static void OnChangeUserInfoWithoutPass() {
+    // update conversation in user, not broadcast
+    public static void update_TbUser() {
         builder = new Uri.Builder();
         builder.appendQueryParameter("username", Server.owner.get_username());
         builder.appendQueryParameter("email", Server.owner.get_Email());
@@ -35,18 +36,19 @@ public class User {
     }
 
     /*with password*/
-    public static void OnChangeUserInfo(String pass) {
+    public static void updateUserAndOther() {
         builder = new Uri.Builder();
         builder.appendQueryParameter("username", Server.owner.get_username());
         builder.appendQueryParameter("email", Server.owner.get_Email());
-        builder.appendQueryParameter("pass", pass);
+//        builder.appendQueryParameter("pass", pass);
         builder.appendQueryParameter("birthday", Server.owner.get_Birthday().toString());
         builder.appendQueryParameter("gender", Server.owner.get_gender() ? "1" : "0");
-        builder.appendQueryParameter("phone", Server.owner.get_Phone());
+        builder.appendQueryParameter("phone_number", Server.owner.get_Phone());
         builder.appendQueryParameter("image_source", Server.owner.get_imageSource());
 
         String url = Constant.M_HOST + Constant.M_UPDATE_USER;
         String a = uService.execute(builder, url);
+        String b = a;
     }
     public static List<ClientModel> loadUserInConversation(String member) {
         builder = new Uri.Builder();

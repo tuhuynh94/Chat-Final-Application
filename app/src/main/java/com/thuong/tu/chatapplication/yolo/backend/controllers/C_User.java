@@ -7,6 +7,7 @@ import com.github.nkzawa.emitter.Emitter;
 import com.thuong.tu.chatapplication.yolo.backend.API.User;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
 import com.thuong.tu.chatapplication.yolo.utils.Constant;
+import com.thuong.tu.chatapplication.yolo.utils.Converter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -36,23 +37,25 @@ public class C_User {
             }
         });
     }
-    public static void OnChangeUserInfo(boolean gender, String password, String username, Date birthday, String email) {
+
+    public static void updateUser(boolean gender, String phone, String username, Date birthday, String email, String image_source) {
+        Date tmp = Converter.stringToDate(birthday.toString());
         Server.owner.set_Email(email);
-        Server.owner.set_Birthday(birthday);
+        Server.owner.set_Birthday(tmp);
         Server.owner.set_gender(gender);
         Server.owner.set_Username(username);
-        User.OnChangeUserInfo(password);
+        Server.owner.set_ImageSource(image_source);
+        User.updateUserAndOther();
 
         HashMap<String, String> p = new HashMap<>();
         p.put("username", username);
         p.put("gender", gender ? "1" : "0");
-        p.put("password", password);
-        p.put("birthday", birthday.toString());
+        p.put("birthday", tmp.toString());
         p.put("email", email);
         p.put("phone_number", Server.owner.get_Phone());
+        p.put("image_source", image_source);
 
         Server.getSocket().emit("update_user", new JSONObject(p));
-
     }
 
     public static class OnResultUser {
