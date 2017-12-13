@@ -100,6 +100,9 @@ public class FriendsFragment extends Fragment {
                 break;
             case BROADCAST_FRIENDS_ONLINE:break;
             case BROADCAST_FRIENDS_OFFNLINE:break;
+            case UPDATE_USER_INFO:
+                list.invalidateViews();
+                break;
         }
 
     }

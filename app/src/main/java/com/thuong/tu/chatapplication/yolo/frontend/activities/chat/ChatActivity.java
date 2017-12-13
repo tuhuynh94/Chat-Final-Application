@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Conversation;
+import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Message;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ConversationModel;
@@ -134,6 +135,16 @@ public class ChatActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         list.smoothScrollToPosition(list.getHeight());
         list.setSelection(messages.size() - 1);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void OnFriendResult(C_Friend.OnResultFriend onResultFriend){
+        if(onResultFriend.getType() == C_Friend.OnResultFriend.Type.UPDATE_USER_INFO){
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
+        }
     }
 
     @Override

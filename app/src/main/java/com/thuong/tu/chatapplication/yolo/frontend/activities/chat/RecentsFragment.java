@@ -111,6 +111,9 @@ public class RecentsFragment extends Fragment {
             case BROADCAST_FRIENDS_OFFNLINE:
                 list.invalidateViews();
                 break;
+            case UPDATE_USER_INFO:
+                list.invalidateViews();
+                break;
         }
     }
 }

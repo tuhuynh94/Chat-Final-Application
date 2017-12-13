@@ -259,20 +259,10 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onResult(C_Friend.OnResultFriend onResultFriend) {
-        if (onResultFriend.getType() == C_Friend.OnResultFriend.Type.ACCEPT_ADD_FRIEND) {
-            Toast.makeText(getApplicationContext(), "accept", Toast.LENGTH_SHORT).show();
-        }
-        if (onResultFriend.getType() == C_Friend.OnResultFriend.Type.DENY_ADD_FRIEND) {
-            Toast.makeText(getApplicationContext(), "deny", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResultUser(C_User.OnResultUser onResultUser) {
         if (onResultUser.getType() == C_User.OnResultUser.Type.CHANGE_AVATAR) {
-            avatar_edit_user.setImageBitmap(onResultUser.getBitmap());
             image_source = onResultUser.getPath();
+            Picasso.with(MainChatActivity.this).load(image_source).into(avatar_edit_user);
         }
     }
 
@@ -287,6 +277,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         if(requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK){
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             byte[] bytes = FileController.getByteArrayFromBitmap(bitmap);
+            bitmap = FileController.resize(bitmap, 100, 100);
             Server.getSocket().emit("change_avatar", bytes);
         }
         else if (requestCode == REQUEST_CHOOSE_PHOTO && resultCode == RESULT_OK){
@@ -294,6 +285,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
                 Uri imageURI = data.getData();
                 InputStream is = getContentResolver().openInputStream(imageURI);
                 Bitmap bitmap = BitmapFactory.decodeStream(is);
+                bitmap = FileController.resize(bitmap, 100, 100);
                 byte[] bytes = FileController.getByteArrayFromBitmap(bitmap);
                 Server.getSocket().emit("change_avatar", bytes);
             }

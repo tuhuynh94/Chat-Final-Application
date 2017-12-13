@@ -30,6 +30,7 @@ public class C_Message {
                         mes.set_message(content);
                         mes.set_conversation_id(conversation_id);
                         mes.set_create_at(Converter.stringToDateTime(date));
+                        mes.set_creator(creator);
                         Server.owner.add_Message(conversation_id, mes);
                         EventBus.getDefault().post(new OnMess());
                     }

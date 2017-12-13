@@ -151,6 +151,9 @@ public class ContactsFragment extends Fragment {
             case BROADCAST_FRIENDS_OFFNLINE:
                 adapter.notifyDataSetChanged();
                 break;
+            case UPDATE_USER_INFO:
+                list.invalidateViews();
+                break;
         }
     }
 }

@@ -143,8 +143,7 @@ public class C_Friend {
                         friendModel.setFriend_username(username);
                         friendModel.set_image_source(tmp.getString("image_source"));
                         friendModel.set_gender(tmp.getString("gender").equals("1"));
-                        friendModel.setBirthday(Converter
-                                .stringToDate(tmp.getString("birthday")));
+                        friendModel.setBirthday(Converter.stringToDate(tmp.getString("birthday")));
                         friendModel.set_email(tmp.getString("email"));
                         EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.UPDATE_USER_INFO));
                     }
