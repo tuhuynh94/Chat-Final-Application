@@ -2,16 +2,22 @@ package com.thuong.tu.chatapplication.yolo.frontend.entities;
 
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.squareup.picasso.Picasso;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.entities.ClientModel;
@@ -50,7 +56,7 @@ public class ListRecentsAdapter extends ArrayAdapter<ConversationModel> {
             for (Map.Entry<String, ClientModel> entry : conversation.getInforOfMember().entrySet()) {
                 ClientModel client = entry.getValue();
                 if (!client.get_Phone().equals(Server.owner.get_Phone()) && !client.get_imageSource().isEmpty()) {
-                    Picasso.with(getContext()).load(client.get_imageSource()).into(holder.avatar);
+                    Glide.with(getContext()).load(client.get_imageSource()).into(holder.avatar);
                 }
                 if(!client.get_Phone().equals(Server.owner.get_Phone())){
                     FriendModel friend = Server.owner.get_hash_list_friends().get(client.get_Phone());
@@ -68,13 +74,15 @@ public class ListRecentsAdapter extends ArrayAdapter<ConversationModel> {
         else{
             for (Map.Entry<String, ClientModel> entry : conversation.getInforOfMember().entrySet()) {
                 ClientModel client = entry.getValue();
-                if (!client.get_Phone().equals(Server.owner.get_Phone()) && !client.get_imageSource().isEmpty()) {
-                    Picasso.with(getContext()).load(client.get_imageSource()).into(holder.avatar);
+                if (!client.get_Phone().equals(Server.owner.get_Phone())) {
+                    FriendModel friend = Server.owner.getSingleFriend(client.get_Phone());
+                    GlideUrl url = new GlideUrl(friend.get_image_source());
+                    Glide.with(getContext()).asBitmap().load(url).into(holder.avatar);
                 }
                 if(!client.get_Phone().equals(Server.owner.get_Phone())){
-                    holder.name.setText(client.get_username());
                     FriendModel friend = Server.owner.get_hash_list_friends().get(client.get_Phone());
                     if(friend != null){
+                        holder.name.setText(friend.get_username());
                         if(friend.get_status()){
                             holder.avatar.setBorderColor(getContext().getResources().getColor(R.color.online));
                         }

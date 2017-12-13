@@ -1,5 +1,6 @@
 package com.thuong.tu.chatapplication.yolo.frontend.activities.friends;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 import com.thuong.tu.chatapplication.R;
 import com.thuong.tu.chatapplication.yolo.backend.controllers.C_Friend;
 import com.thuong.tu.chatapplication.yolo.backend.server.Server;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.chat.MainChatActivity;
+import com.thuong.tu.chatapplication.yolo.frontend.activities.login.LoginActivity;
 
 public class AddFriendActivity extends AppCompatActivity {
 
@@ -20,7 +23,7 @@ public class AddFriendActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friend);
-
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
         initElement();
         initButton();
     }
@@ -50,5 +53,11 @@ public class AddFriendActivity extends AppCompatActivity {
     private void initElement() {
         input = (EditText) findViewById(R.id.input_name);
         add = (Button) findViewById(R.id.add_friend);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

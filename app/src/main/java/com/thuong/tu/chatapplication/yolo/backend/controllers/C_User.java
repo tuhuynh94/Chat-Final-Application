@@ -39,7 +39,7 @@ public class C_User {
     }
 
     public static void updateUser(boolean gender, String phone, String username, Date birthday, String email, String image_source) {
-        Date tmp = Converter.stringToDate(birthday.toString());
+        Date tmp = new Date();
         Server.owner.set_Email(email);
         Server.owner.set_Birthday(tmp);
         Server.owner.set_gender(gender);
