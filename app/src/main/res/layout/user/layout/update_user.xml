@@ -25,19 +25,20 @@
             android:textColor="@android:color/black"
             android:textSize="20dp"
             android:textStyle="bold" />
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/avatar"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_centerInParent="true"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/avatar_temp" />
+                android:src="@drawable/no_avatar" />
 
-        </android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/username"

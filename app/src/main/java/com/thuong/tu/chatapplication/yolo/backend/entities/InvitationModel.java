@@ -4,8 +4,16 @@ public class InvitationModel {
 
     private String m_fromUser;
     private String m_fromPhone;
-
     private String m_status;
+    private String m_image_source;
+
+    public String get_image_source() {
+        return m_image_source;
+    }
+
+    public void set_image_source(String m_image_source) {
+        this.m_image_source = m_image_source;
+    }
 
     public String get_status() {
         return m_status;

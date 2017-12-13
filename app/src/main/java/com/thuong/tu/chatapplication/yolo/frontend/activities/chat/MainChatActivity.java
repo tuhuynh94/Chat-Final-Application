@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -40,6 +41,7 @@ import com.thuong.tu.chatapplication.yolo.utils.GalleryManager;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.w3c.dom.Text;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -57,7 +59,7 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
     TabLayout tabLayout;
     Calendar myCalendar = Calendar.getInstance();
     de.hdodenhof.circleimageview.CircleImageView avatar_edit_user;
-    String image_source;
+    String image_source = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,8 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         initPager();
     }
 
+    CircleImageView avatar_mine;
+    TextView name_mine, phone_mine;
     private void createNavigation() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,7 +85,11 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headlayout = navigationView.getHeaderView(0);
-        CircleImageView avatar_mine = (CircleImageView) headlayout.findViewById(R.id.avatar_mine);
+        avatar_mine = (CircleImageView) headlayout.findViewById(R.id.avatar_mine);
+        name_mine = (TextView) headlayout.findViewById(R.id.name_mine);
+        phone_mine = (TextView) headlayout.findViewById(R.id.phone_mine);
+        name_mine.setText("Username: " + Server.owner.get_username());
+        phone_mine.setText("Phone: " + Server.owner.get_Phone());
         if (!Server.owner.get_imageSource().isEmpty()) {
             Picasso.with(this).load(Server.owner.get_imageSource()).into(avatar_mine);
         }
@@ -263,6 +271,13 @@ public class MainChatActivity extends AppCompatActivity implements NavigationVie
         if (onResultUser.getType() == C_User.OnResultUser.Type.CHANGE_AVATAR) {
             image_source = onResultUser.getPath();
             Picasso.with(MainChatActivity.this).load(image_source).into(avatar_edit_user);
+        }
+        if(onResultUser.getType() == C_User.OnResultUser.Type.UPDATE_USER){
+            name_mine.setText("Username: " + Server.owner.get_username());
+            phone_mine.setText("Phone: " + Server.owner.get_Phone());
+            if (!Server.owner.get_imageSource().isEmpty()) {
+                Picasso.with(MainChatActivity.this).load(Server.owner.get_imageSource()).into(avatar_mine);
+            }
         }
     }
 

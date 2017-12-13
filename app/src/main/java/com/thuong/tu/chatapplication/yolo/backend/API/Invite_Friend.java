@@ -37,6 +37,7 @@ public class Invite_Friend {
                     invitation.setFromPhone(jsonObject.getString("from_phone"));
                     invitation.setFromUser(jsonObject.getString("from_user"));
                     invitation.set_status(jsonObject.getString("status"));
+                    invitation.set_image_source(jsonObject.getString("image_source"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

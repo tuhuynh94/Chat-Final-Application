@@ -43,6 +43,7 @@ public class Friends {
                 friend.set_image_source(jsonObject.getString("image_source"));
                 friend.set_gender(jsonObject.getString("gender").equals("1"));
                 friend.setFriend_username(jsonObject.getString("username"));
+                friend.set_status(true);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

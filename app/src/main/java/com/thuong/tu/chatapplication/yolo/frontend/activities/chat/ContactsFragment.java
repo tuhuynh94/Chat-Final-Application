@@ -144,6 +144,9 @@ public class ContactsFragment extends Fragment {
             case DENY_ADD_FRIEND:
                 break;
             case ANSWERED_INVITATION:
+                adapter.notifyDataSetChanged();
+                list.smoothScrollToPosition(0);
+                list.setSelection(0);
                 break;
             case BROADCAST_FRIENDS_ONLINE:
                 adapter.notifyDataSetChanged();

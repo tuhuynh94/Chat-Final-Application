@@ -47,10 +47,12 @@ public class C_Friend {
                 try {
                     String from = data.getString("from");
                     String from_user = data.getString("from_username");
+                    String image_source = data.getString("image_source");
                     sys_msg = from_user + " want to make friend with you";
                     InvitationModel invitation = new InvitationModel();
                     invitation.setFromPhone(from);
                     invitation.setFromUser(from_user);
+                    invitation.set_image_source(image_source);
 
                     Server.owner.set_Invite_friends(invitation);
                     EventBus.getDefault().post(new OnResultFriend(sys_msg, OnResultFriend.Type.ADD_FRIEND));
@@ -179,7 +181,7 @@ public class C_Friend {
                 try {
                     String from = data.getString("from");
                     JSONObject fr = data.getJSONObject("friend");
-
+                    boolean online = data.getBoolean("online");
                     InvitationModel invitation = Server.owner.getSingleInvitaion(from);
                     Server.owner.get_Invite_friends().remove(invitation);
 
@@ -188,9 +190,10 @@ public class C_Friend {
                     friend.setBirthday(Converter.stringToDate(fr.getString("birthday")));
                     friend.setAdd_at(Converter.stringToDate(fr.getString("add_at")));
                     friend.setFriend_phone(fr.getString("friend_phone"));
-                    friend.set_email(fr.getString("email"));
+                    friend.setFriend_username(fr.getString("username"));
                     friend.set_image_source(fr.getString("image_source"));
                     friend.set_gender(fr.getInt("gender") == 1);
+                    friend.set_status(online);
 
                     Server.owner.get_listFriends().add(friend);
 
@@ -237,6 +240,7 @@ public class C_Friend {
     public static void add_friend(String other_phone) {
         HashMap<String, String> data = new HashMap<String, String>();
         data.put("other_phone", other_phone);
+        data.put("image_source", Server.owner.get_imageSource());
         JSONObject json = new JSONObject(data);
         Server.getSocket().emit("request_add_friend", json);
     }

@@ -34,7 +34,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/avatar_temp"
+            android:src="@drawable/no_avatar"
             app:civ_border_width="2dp"
             app:civ_border_color="@color/offline"
             android:id="@+id/avatar" />

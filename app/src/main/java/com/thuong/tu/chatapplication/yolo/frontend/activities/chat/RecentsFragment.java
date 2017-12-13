@@ -112,7 +112,7 @@ public class RecentsFragment extends Fragment {
                 list.invalidateViews();
                 break;
             case UPDATE_USER_INFO:
-                list.invalidateViews();
+                adapter.notifyDataSetChanged();
                 break;
         }
     }

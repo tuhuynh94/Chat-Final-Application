@@ -46,7 +46,8 @@ public class C_User {
         Server.owner.set_Username(username);
         Server.owner.set_ImageSource(image_source);
         User.updateUserAndOther();
-
+        OnResultUser onResultUser = new OnResultUser("", OnResultUser.Type.UPDATE_USER);
+        EventBus.getDefault().post(onResultUser);
         HashMap<String, String> p = new HashMap<>();
         p.put("username", username);
         p.put("gender", gender ? "1" : "0");
@@ -102,7 +103,8 @@ public class C_User {
         }
 
         public enum Type {
-            CHANGE_AVATAR
+            CHANGE_AVATAR,
+            UPDATE_USER
         }
     }
 }

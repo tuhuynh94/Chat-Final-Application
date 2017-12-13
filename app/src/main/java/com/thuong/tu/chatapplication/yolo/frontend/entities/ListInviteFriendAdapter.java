@@ -44,6 +44,9 @@ public class ListInviteFriendAdapter extends ArrayAdapter<InvitationModel> {
         InvitationModel invitation = invitations.get(position);
         holder = initHolder(convertView);
         holder.name.setText(invitation.getFromUser());
+        if(invitation.get_image_source() != null && !invitation.get_image_source().isEmpty()){
+            Picasso.with(getContext()).load(invitation.get_image_source()).into(holder.avatar);
+        }
         setOnClickItem(position);
         return convertView;
     }
